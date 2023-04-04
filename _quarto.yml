@@ -1,0 +1,50 @@
+project:
+  type: book
+
+book:
+  title: "R for Economic Research"
+  description: "Essential tools for modern economic analysis"
+  author: "J. Renato Leripio"
+  date: "4/3/2023"
+  chapters:
+    - index.qmd
+    - part: 'Data science with Tidyverse'
+      chapters:
+      - ds_tidyverse.qmd
+      - ds_googlemob.qmd
+    - part: 'Basic time series tools'
+      chapters:
+      - ds_seasonality.qmd
+      - ds_nominal2real.qmd
+      - ds_hpfilter.qmd
+    - part: 'Forecasting'
+      chapters:
+      - fc_abc.qmd
+      - fc_comparison.qmd
+      - fc_simulation.qmd
+    - part: 'State-space models'
+      chapters:
+      - ss_intro.qmd
+      - ss_tv_coef.qmd
+      - ss_common.qmd
+    - part: 'Economic modelling'
+      chapters:
+      - single_equation.qmd
+      - multiple_equations.qmd
+    - references.qmd
+  search: true
+  downloads: [pdf, epub]
+  sharing: [twitter, facebook]
+  sidebar:
+    style: docked
+    background: light
+
+bibliography: references.bib
+    
+format:
+  html:
+    theme: cosmo
+  pdf:
+    documentclass: scrreprt
+
+editor: visual

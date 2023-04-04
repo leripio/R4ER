@@ -1,0 +1,23 @@
+## Introduction
+
+When making a draft of this book, I didn't intend to devote an entire chapter to state-space (SS) models until I started using it a lot in my daily work and then realized it was too important to be neglected. In addition, the subject often goes unmentioned in both data science and econometrics textbooks despite its usefulness in many applications where alternatives methods are certainly inferior.
+
+After a brief introduction, the next two sections will focus on basic applications of SS models: **1. Estimate a common underlying process when there are multiple sources of information**; **2. Estimate time-varying coefficients from regression models**; and **3. Estimate latent (unobservable) variables** For those interested in delving into the details of the subject, I strongly recommend start by reading the excellent @marss (http://www2.uaem.mx/r-mirror/web/packages/MARSS/vignettes/UserGuide.pdf) -- which will be a valuable reference for the following applications.
+
+Let's think about state-space models as a representation of an idea rather than a method. Suppose we need to measure air temperature in Rio de Janeiro city. We can't observe it directly, but we have available data collected by a sensor. This sensor performs very well on average, although it's subject to measurement errors. The main goal is to accurately estimate the real air temperature from the somewhat noisy data we get from the sensor.
+
+In the SS representation, this problem is summarised by two equations. The **observation equation** tell us the data we observe ($y_t$) is the real temperature ($x_t$) plus $v_t$ which is a Gaussian error with zero mean and variance $\sigma^2_v$. We could add terms for seasonality, exogenous regressors or dummies variables as well. For now, we'll stick to the simplest specification.
+
+$$
+\begin{align}
+y_t = Z_tx_{t} + v_t 
+\end{align}
+$$
+
+The **state process (or transition) equation** describes how the unobservable real air temperature (the hidden state, $x_t$) evolves over time. It's usually characterized by an autoregressive process -- often a random walk --, where $w_t$ is also a Gaussian error term with zero mean and variance $\sigma^2_w$.
+
+$$
+\begin{align}
+x_t = B_tx_{t-1} + w_t 
+\end{align}
+$$ Finding the hidden state trajectory requires us to solve for this linear stochastic dynamical system, which can be accomplished by several algorithms -- the most known are the Expectation Maximization (EM) and the Kalman Filter and Smoother, the latter you may already have heard of. In the next two sections, we'll see how to build and estimate such models with the MARSS package.
