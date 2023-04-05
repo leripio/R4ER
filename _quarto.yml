@@ -6,6 +6,7 @@ book:
   description: "Essential tools for modern economic analysis"
   author: "J. Renato Leripio"
   date: "4/3/2023"
+  google-analytics: "G-6T89HT07F5"
   chapters:
     - index.qmd
     - part: 'Data science with Tidyverse'
