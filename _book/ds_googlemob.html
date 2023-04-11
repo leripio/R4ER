@@ -8,7 +8,7 @@
 
 <meta name="description" content="Essential tools for modern economic analysis">
 
-<title>R for Economic Research - 2&nbsp; Additional resources</title>
+<title>R for Economic Research - 2&nbsp; Scaling-up tasks</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -143,7 +143,7 @@ gtag('config', 'G-6T89HT07F5', { 'anonymize_ip': true});
   <header id="quarto-header" class="headroom fixed-top">
   <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
     <div class="container-fluid d-flex justify-content-between">
-      <h1 class="quarto-secondary-nav-title"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Additional resources</span></h1>
+      <h1 class="quarto-secondary-nav-title"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Scaling-up tasks</span></h1>
       <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
         <i class="bi bi-chevron-right"></i>
       </button>
@@ -218,7 +218,7 @@ gtag('config', 'G-6T89HT07F5', { 'anonymize_ip': true});
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./ds_googlemob.html" class="sidebar-item-text sidebar-link active"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Additional resources</span></a>
+  <a href="./ds_googlemob.html" class="sidebar-item-text sidebar-link active"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Scaling-up tasks</span></a>
   </div>
 </li>
       </ul>
@@ -344,7 +344,7 @@ gtag('config', 'G-6T89HT07F5', { 'anonymize_ip': true});
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title d-none d-lg-block"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Additional resources</span></h1>
+<h1 class="title d-none d-lg-block"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Scaling-up tasks</span></h1>
 </div>
 
 <div>
@@ -364,14 +364,14 @@ gtag('config', 'G-6T89HT07F5', { 'anonymize_ip': true});
 </header>
 
 <p>In the introductory Chapter we saw how to import, organize and visualize data. However, little attention has been given to situations that require greater efficiency or scalability. This Chapter will take a step further in extending the previous knowledge to deal with more challenging situations.</p>
-<p>For this exercise, we will use the Google Mobility data. Google started releasing this data on a daily basis right after the COVID outbreak spread across the world by mid-February 2020. Since then this data has been widely used for different purposes: from assessing/measuring economic activity to designing public policies. In spite of being a well-organized data set, it does offer the opportunity to do real-life data wrangling and to explore good practices from importing through visualizing.<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a></p>
+<p>For this exercise, we will use the Google Mobility data. Google started releasing this data on a daily basis right after the COVID outbreak spread across the world by mid-February 2020. Since then this data has been widely used for different purposes, from assessing/measuring economic activity to designing public policies. In spite of being a well-organized data set, it does offer the opportunity to do real-life data wrangling and to explore good practices from importing through visualizing.<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a></p>
 <section id="importing-data" class="level2" data-number="2.1">
 <h2 data-number="2.1" class="anchored" data-anchor-id="importing-data"><span class="header-section-number">2.1</span> Importing data</h2>
-<p>Google offers two ways to download mobility data: you can either get a unique .csv file with all the available countries or you can get a .zip file with a separate .csv file for each country. We will stick with the latter for a simple reason: we are probably not interested in analyzing every single country and as these data sets grow larger, it’s much more efficient to import only the data for countries we are interested in.</p>
+<p>Google offers two ways to download mobility data: you can either get a unique .csv file with all the available countries or you can get a .zip file with a separate .csv file for each country. We will stick with the latter for a simple reason: we are probably not interested in analyzing every single country and as data sets grow larger, it’s much more efficient to import only the data we are interested in.</p>
 <p>We begin by downloading the .zip file to the <code>data</code> folder.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">download.file</span>(</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">url  =</span> <span class="st">'https://www.gstatic.com/covid19/mobility/Region_Mobility_Report_CSVs.zip'</span>,</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">url      =</span> <span class="st">'https://www.gstatic.com/covid19/mobility/Region_Mobility_Report_CSVs.zip'</span>,</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">destfile =</span> <span class="st">'data/Region_Mobility_Report_CSVs.zip'</span></span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
@@ -405,7 +405,7 @@ gtag('config', 'G-6T89HT07F5', { 'anonymize_ip': true});
 </div>
 </div>
 <p>To finish up, we now resort to the <code>map</code> function to extract each file name from the .zip file. At this stage, I would like to draw your attention to something very important. Remember that we are ultimately interested in binding together all the .csv files in <code>google_filenames</code>. Since Google’s files contain columns for both country and date, we could safely use <code>map_dfr</code> to automatically stack the data – it would save us a few lines of code.</p>
-<p>However, it could well be that these files did not contain identifying columns – this information being only in the file name. It happens more often than not in real-life applications. So, if we naively stacked these files we would never be able to distinguish which country or date period each piece of the resulting data frame refers to.</p>
+<p>However, it could be that these files did not contain identifying columns – this information being only in the file name. It happens more often than not in real-life applications. So, if we naively stacked these files we would never be able to distinguish which country or date period each piece of the resulting data frame refers to.</p>
 <p>Another issue that could cause us problems is if any of the elements in <code>google_filenames</code> did not exist. For example, if there wasn’t data for Germany in 2021. The <code>map</code> function would throw an error and interrupt the task, regardless all the other files were present. To prevent this problem, we can use the <code>possibly</code> function from <code>purrr</code> package, which replaces the error (or any side effect) with another output. In this case, we can replace the error by a <code>NULL</code> element in the list.</p>
 <p>Therefore, the efficient strategy in this case is:</p>
 <ol type="1">
@@ -415,7 +415,7 @@ gtag('config', 'G-6T89HT07F5', { 'anonymize_ip': true});
 </ol>
 <p>The <code>ldply</code> function is very convenient here because it carries the names of the elements in the list into the resulting data frame as a new column. In addition, it also has several other useful features such as applying a generic function to each element of the list before stacking it.</p>
 <p>In this example, the file names contain both the country code and year for each data set. Thankfully, we have a very simple pattern and we can extract the relevant information from the first seven characters of each element in our vector <code>google_filenames</code>. More complicated patterns would require the use of regular expressions.</p>
-<div class="cell" data-hash="ds_googlemob_cache/html/unnamed-chunk-4_16cfceb9000201bcd580b4a3d28a6153">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>mobility_data <span class="ot">&lt;-</span> </span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">map</span>(</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">.x =</span> google_filenames, </span>
@@ -459,8 +459,8 @@ $ workplaces_percent_change_from_baseline            &lt;dbl&gt; 6, 0, 19, 15, 1
 $ residential_percent_change_from_baseline           &lt;dbl&gt; 0, 1, -1, -1, -1, -~</code></pre>
 </div>
 </div>
-<p>We can see our data set has about 4.7 million rows and 15 columns. The most relevant information are stored in the columns ending with <code>percent_change_from_baseline</code>. These are precisely the measures of mobility for categorized places. The other columns of interest are those containing <code>region</code> and, of course, the column <code>date</code>. I recommend you to set some time aside to explore the data set. You will notice that the <code>sub_region_*</code> columns refer to regional breakdowns such as states and municipalities. They are <code>NA</code> for aggregate levels.</p>
-<p>Suppose our ultimate goal is to have a plot with the average mobility across all the categories for each country in the national-level. We know in advance that it’s very likely that a strong seasonal pattern is present. For example, mobility in workplaces should be higher on weekdays and lower on weekends. The opposite should be true for parks. Creating a 7-days rolling mean of the original time series solves the problem.</p>
+<p>We can see our data set has about 4.7 million rows and 15 columns. The most relevant information are stored in the columns ending with <code>percent_change_from_baseline</code>. These are precisely the measures of mobility for categorized places. The other columns of interest are those containing <code>region</code> and, of course, the column <code>date</code>. I recommend you to take some time exploring the data set. You will notice that the <code>sub_region_*</code> columns refer to regional breakdowns such as states and municipalities. They are <code>NA</code> for aggregate levels.</p>
+<p>Suppose our ultimate goal is to have a plot with the average mobility across all the categories for each country in the national-level. We know in advance that it’s very likely that a strong seasonal pattern is present. For example, mobility in workplaces should be higher on weekdays and lower on weekends. The opposite should be true for parks. Creating a 7-days rolling mean of the original time series should solve the problem.</p>
 <p>Finally, we need to invert the residential mobility since a higher (lower) residential mobility means a lower (higher) mobility elsewhere. So, if we are to aggregate all the mobility categories into one single measure (the average) they must point to the same direction.</p>
 <p>Hence, our task is to produce a data frame with only the relevant variables. This involves, for each country, the following sequence of actions:</p>
 <ol type="1">
@@ -470,7 +470,7 @@ $ residential_percent_change_from_baseline           &lt;dbl&gt; 0, 1, -1, -1, -
 <li>Create a column with the average mobility of categories.</li>
 <li>Remove the irrelevant variables.</li>
 </ol>
-<p>This should not be quite a challenge and we can accomplish it with a few lines of code using the right features from <code>dplyr</code> package. I consider Items 3 and 4 the most important because we are tempted to offer a cumbersome solution that can be easily avoided with the proper tools. But before jumping to the best approach. let’s figure out how an inefficient approach might look like for Item 3. Using the <code>roll_meanr</code> function from the <code>RcppRoll</code> package to compute 7-days rolling means, our first solution could be something like this:</p>
+<p>This should not be quite a challenge and we can accomplish it with a few lines of code using the right features from <code>dplyr</code> package. I consider Items 3 and 4 the most important because we are tempted to offer a cumbersome solution that can be easily avoided with the proper tools. But before jumping to the best approach, let’s figure out how an inefficient approach might look like for Item 3. Using the <code>roll_meanr</code> function from the <code>RcppRoll</code> package to compute 7-days rolling means, our first solution could be something like this:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(RcppRoll)</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>mutate_try1 <span class="ot">&lt;-</span> mobility_data <span class="sc">%&gt;%</span> </span>
@@ -634,14 +634,14 @@ $ residential_percent_change_from_baseline           &lt;dbl&gt; 0, 1, -1, -1, -
 <p><img src="ds_googlemob_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
-<p>To finish up, we must keep in mind that a function that return a plot is not very flexible and maybe we should consider the output to be the processed data instead of the plot. This would enable us to customize the plot and to perform other analysis as well. It’s not efficient either to download and prepare the data every time the function is called. The best solution in this case would require the processed data to be stored in a SQL data base, for instance.</p>
+<p>To finish up, we must keep in mind that a function that return a plot is not very flexible and maybe we should consider the output to be the processed data instead of the plot – or both. This would enable us to customize the plot and to perform other analysis as well. It’s not efficient either to download and prepare the data every time the function is called. The best solution in this case would require the processed data to be stored in a data base, for instance.</p>
 
 
 </section>
 <section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes">
 <hr>
 <ol>
-<li id="fn1"><p>As of 2022-10-15, Community Mobility Reports were no longer be updated, although all historical data remained publicly available.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn1"><p>As of 2022-10-15, Community Mobility Reports are no longer updated, although all historical data remained publicly available.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 <li id="fn2"><p>The <code>furrr</code> package makes it incredible simple to run the <code>map</code> function in parallel. See: https://furrr.futureverse.org/ for a comprehensive approach.<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 <li id="fn3"><p>See https://ggplot2-book.org/arranging-plots.html to learn how to use the special operators provided by <code>patchwork</code> to arrange the plots.<a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 </ol>

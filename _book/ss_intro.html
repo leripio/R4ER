@@ -175,7 +175,7 @@ gtag('config', 'G-6T89HT07F5', { 'anonymize_ip': true});
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./ds_googlemob.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Additional resources</span></a>
+  <a href="./ds_googlemob.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Scaling-up tasks</span></a>
   </div>
 </li>
       </ul>
@@ -312,7 +312,7 @@ gtag('config', 'G-6T89HT07F5', { 'anonymize_ip': true});
 </header>
 
 <p>When making a draft of this book, I didn’t intend to devote an entire chapter to state-space (SS) models until I started using it a lot in my daily work and then realized it was too important to be neglected. In addition, the subject often goes unmentioned in both data science and econometrics textbooks despite its usefulness in many applications where alternatives methods are certainly inferior.</p>
-<p>After a brief introduction, the next two sections will focus on basic applications of SS models: <strong>1. Estimate a common underlying process when there are multiple sources of information</strong>; <strong>2. Estimate time-varying coefficients from regression models</strong>; and <strong>3. Estimate latent (unobservable) variables</strong> For those interested in delving into the details of the subject, I strongly recommend start by reading the excellent <span class="citation" data-cites="marss">Holmes, Scheuerell, and Ward (<a href="references.html#ref-marss" role="doc-biblioref">2021</a>)</span> (http://www2.uaem.mx/r-mirror/web/packages/MARSS/vignettes/UserGuide.pdf) – which will be a valuable reference for the following applications.</p>
+<p>After a brief introduction, the next two sections will focus on basic applications of SS models: <strong>1. Estimate a common underlying process when there are multiple sources of information</strong>; <strong>2. Estimate time-varying coefficients from regression models</strong>; and <strong>3. Estimate latent (unobservable) variables</strong> For those interested in delving into the details of the subject, I strongly recommend start by reading the excellent <span class="citation" data-cites="marss">Holmes, Scheuerell, and Ward (<a href="#ref-marss" role="doc-biblioref">2021</a>)</span> (http://www2.uaem.mx/r-mirror/web/packages/MARSS/vignettes/UserGuide.pdf) – which will be a valuable reference for the following applications.</p>
 <p>Let’s think about state-space models as a representation of an idea rather than a method. Suppose we need to measure air temperature in Rio de Janeiro city. We can’t observe it directly, but we have available data collected by a sensor. This sensor performs very well on average, although it’s subject to measurement errors. The main goal is to accurately estimate the real air temperature from the somewhat noisy data we get from the sensor.</p>
 <p>In the SS representation, this problem is summarised by two equations. The <strong>observation equation</strong> tell us the data we observe (<span class="math inline">\(y_t\)</span>) is the real temperature (<span class="math inline">\(x_t\)</span>) plus <span class="math inline">\(v_t\)</span> which is a Gaussian error with zero mean and variance <span class="math inline">\(\sigma^2_v\)</span>. We could add terms for seasonality, exogenous regressors or dummies variables as well. For now, we’ll stick to the simplest specification.</p>
 <p><span class="math display">\[
@@ -328,7 +328,7 @@ x_t = B_tx_{t-1} + w_t
 \]</span> Finding the hidden state trajectory requires us to solve for this linear stochastic dynamical system, which can be accomplished by several algorithms – the most known are the Expectation Maximization (EM) and the Kalman Filter and Smoother, the latter you may already have heard of. In the next two sections, we’ll see how to build and estimate such models with the MARSS package.</p>
 
 
-<div id="refs" class="references csl-bib-body hanging-indent" role="doc-bibliography" style="display: none">
+<div id="refs" class="references csl-bib-body hanging-indent" role="doc-bibliography">
 <div id="ref-marss" class="csl-entry" role="doc-biblioentry">
 Holmes, E. E., M. D. Scheuerell, and E. J. Ward. 2021. <em>Analysis of Multivariate Time Series Using the MARSS Package, Version 3.11.4</em>. NOAA Fisheries, Northwest Fisheries Science Center.
 </div>

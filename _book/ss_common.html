@@ -238,7 +238,7 @@ gtag('config', 'G-6T89HT07F5', { 'anonymize_ip': true});
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./ds_googlemob.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Additional resources</span></a>
+  <a href="./ds_googlemob.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Scaling-up tasks</span></a>
   </div>
 </li>
       </ul>
@@ -383,12 +383,12 @@ gtag('config', 'G-6T89HT07F5', { 'anonymize_ip': true});
 
 </header>
 
-<p>Policymakers and analysts are routinely seeking to characterize short-term fluctuation in prices as either persistent or temporary. This issue is often addressed using core measures that exclude those items that are the most volatile or most subject to supply shocks from the inflation index. <span class="citation" data-cites="fed">Eli, Flora, and Danilo (<a href="references.html#ref-fed" role="doc-biblioref">2021</a>)</span> argue that core measures are imperfect measures of underlying inflation in that temporary shocks in sectors that were not filtered out from the index may be misunderstood as economy-wide shocks.</p>
+<p>Policymakers and analysts are routinely seeking to characterize short-term fluctuation in prices as either persistent or temporary. This issue is often addressed using core measures that exclude those items that are the most volatile or most subject to supply shocks from the inflation index. <span class="citation" data-cites="fed">Eli, Flora, and Danilo (<a href="#ref-fed" role="doc-biblioref">2021</a>)</span> argue that core measures are imperfect measures of underlying inflation in that temporary shocks in sectors that were not filtered out from the index may be misunderstood as economy-wide shocks.</p>
 <p>The authors propose an alternative measure to deal with this problem. In their words:</p>
 <blockquote class="blockquote">
 <p>“The basic assumption is that each component of the inflation index combines two driving forces. The first is a trend that is common across all components. The second comes from idiosyncratic components that capture one-off changes, sector-specific developments, and measurement errors.”</p>
 </blockquote>
-<p>In fact, this idea is represented by a special class of State-Space models known as Dynamic Factor Model (DFM). In short, DFM allows us to estimate common underlying trends among a relatively large set of time series (see <span class="citation" data-cites="marss">Holmes, Scheuerell, and Ward (<a href="references.html#ref-marss" role="doc-biblioref">2021</a>)</span>, chapter 10). Using <span class="citation" data-cites="fed">Eli, Flora, and Danilo (<a href="references.html#ref-fed" role="doc-biblioref">2021</a>)</span> notation, the model has the following structure:</p>
+<p>In fact, this idea is represented by a special class of State-Space models known as Dynamic Factor Model (DFM). In short, DFM allows us to estimate common underlying trends among a relatively large set of time series (see <span class="citation" data-cites="marss">Holmes, Scheuerell, and Ward (<a href="#ref-marss" role="doc-biblioref">2021</a>)</span>, chapter 10). Using <span class="citation" data-cites="fed">Eli, Flora, and Danilo (<a href="#ref-fed" role="doc-biblioref">2021</a>)</span> notation, the model has the following structure:</p>
 <p><span class="math display">\[
 \pi_{it} = \chi_{it} + \xi_{it} \\
 \]</span></p>
@@ -621,7 +621,7 @@ v_t \sim \text{MVN}(0, Q)
 </div>
 
 
-<div id="refs" class="references csl-bib-body hanging-indent" role="doc-bibliography" style="display: none">
+<div id="refs" class="references csl-bib-body hanging-indent" role="doc-bibliography">
 <div id="ref-fed" class="csl-entry" role="doc-biblioentry">
 Eli, Nir, Haberkorn Flora, and Cascaldi-Garcia Danilo. 2021. <span>“International Measures of Common Inflation.”</span>
 </div>
@@ -633,7 +633,7 @@ Holmes, E. E., M. D. Scheuerell, and E. J. Ward. 2021. <em>Analysis of Multivari
 <section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes">
 <hr>
 <ol>
-<li id="fn1"><p><span class="citation" data-cites="fed">Eli, Flora, and Danilo (<a href="references.html#ref-fed" role="doc-biblioref">2021</a>)</span> consider the innovation term as following an AR(1) process. Incorporating this assumption would require an even more complex transition equation.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn1"><p><span class="citation" data-cites="fed">Eli, Flora, and Danilo (<a href="#ref-fed" role="doc-biblioref">2021</a>)</span> consider the innovation term as following an AR(1) process. Incorporating this assumption would require an even more complex transition equation.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 </ol>
 </section>
 

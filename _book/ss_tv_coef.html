@@ -219,7 +219,7 @@ gtag('config', 'G-6T89HT07F5', { 'anonymize_ip': true});
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./ds_googlemob.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Additional resources</span></a>
+  <a href="./ds_googlemob.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Scaling-up tasks</span></a>
   </div>
 </li>
       </ul>
@@ -356,7 +356,7 @@ gtag('config', 'G-6T89HT07F5', { 'anonymize_ip': true});
 </header>
 
 <p>When estimating a time series model, we are often questioning whether the relationship of interest has changed over time – in other words, whether the coefficient <span class="math inline">\(\beta\)</span> is the same over the entire period. For example, there’s a vast literature on macroeconomics showing that inflation inertia is affected by several economic and institutional factors. We can employ a state-space model to empirically address this concern, by means of a stochastic <span class="math inline">\(\beta\)</span> coefficient in a AR(1) equation for inflation.<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a></p>
-<p>For this exercise we’ll use the CPI in Brazil excluding regulated prices such as public transport, energy and others. After importing the series from the Brazilian Central Bank API with the <code>rbcb</code> package, we’ll compute the seasonally-adjusted series on the original data with the <code>seasonal</code> package (see <span class="citation" data-cites="seasonality">(<a href="references.html#ref-seasonality" role="doc-biblioref"><strong>seasonality?</strong></a>)</span>).</p>
+<p>For this exercise we’ll use the CPI in Brazil excluding regulated prices such as public transport, energy and others. After importing the series from the Brazilian Central Bank API with the <code>rbcb</code> package, we’ll compute the seasonally-adjusted series on the original data with the <code>seasonal</code> package (see <span class="citation" data-cites="seasonality">(<a href="#ref-seasonality" role="doc-biblioref"><strong>seasonality?</strong></a>)</span>).</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rbcb)</span>
