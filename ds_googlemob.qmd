@@ -1,21 +1,21 @@
-# Additional resources
+# Scaling-up tasks
 
 In the introductory Chapter we saw how to import, organize and visualize data. However, little attention has been given to situations that require greater efficiency or scalability. This Chapter will take a step further in extending the previous knowledge to deal with more challenging situations.
 
-For this exercise, we will use the Google Mobility data. Google started releasing this data on a daily basis right after the COVID outbreak spread across the world by mid-February 2020. Since then this data has been widely used for different purposes: from assessing/measuring economic activity to designing public policies. In spite of being a well-organized data set, it does offer the opportunity to do real-life data wrangling and to explore good practices from importing through visualizing.[^ds_googlemob-1]
+For this exercise, we will use the Google Mobility data. Google started releasing this data on a daily basis right after the COVID outbreak spread across the world by mid-February 2020. Since then this data has been widely used for different purposes, from assessing/measuring economic activity to designing public policies. In spite of being a well-organized data set, it does offer the opportunity to do real-life data wrangling and to explore good practices from importing through visualizing.[^ds_googlemob-1]
 
-[^ds_googlemob-1]: As of 2022-10-15, Community Mobility Reports were no longer be updated, although all historical data remained publicly available.
+[^ds_googlemob-1]: As of 2022-10-15, Community Mobility Reports are no longer updated, although all historical data remained publicly available.
 
 ## Importing data
 
-Google offers two ways to download mobility data: you can either get a unique .csv file with all the available countries or you can get a .zip file with a separate .csv file for each country. We will stick with the latter for a simple reason: we are probably not interested in analyzing every single country and as these data sets grow larger, it's much more efficient to import only the data for countries we are interested in.
+Google offers two ways to download mobility data: you can either get a unique .csv file with all the available countries or you can get a .zip file with a separate .csv file for each country. We will stick with the latter for a simple reason: we are probably not interested in analyzing every single country and as data sets grow larger, it's much more efficient to import only the data we are interested in.
 
 We begin by downloading the .zip file to the `data` folder.
 
 ```{r}
 #| eval: false
 download.file(
-  url  = 'https://www.gstatic.com/covid19/mobility/Region_Mobility_Report_CSVs.zip',
+  url      = 'https://www.gstatic.com/covid19/mobility/Region_Mobility_Report_CSVs.zip',
   destfile = 'data/Region_Mobility_Report_CSVs.zip'
   )
 ```
@@ -53,7 +53,7 @@ google_filenames %>% head(10)
 
 To finish up, we now resort to the `map` function to extract each file name from the .zip file. At this stage, I would like to draw your attention to something very important. Remember that we are ultimately interested in binding together all the .csv files in `google_filenames`. Since Google's files contain columns for both country and date, we could safely use `map_dfr` to automatically stack the data -- it would save us a few lines of code.
 
-However, it could well be that these files did not contain identifying columns -- this information being only in the file name. It happens more often than not in real-life applications. So, if we naively stacked these files we would never be able to distinguish which country or date period each piece of the resulting data frame refers to.
+However, it could be that these files did not contain identifying columns -- this information being only in the file name. It happens more often than not in real-life applications. So, if we naively stacked these files we would never be able to distinguish which country or date period each piece of the resulting data frame refers to.
 
 Another issue that could cause us problems is if any of the elements in `google_filenames` did not exist. For example, if there wasn't data for Germany in 2021. The `map` function would throw an error and interrupt the task, regardless all the other files were present. To prevent this problem, we can use the `possibly` function from `purrr` package, which replaces the error (or any side effect) with another output. In this case, we can replace the error by a `NULL` element in the list.
 
@@ -70,7 +70,6 @@ In this example, the file names contain both the country code and year for each 
 ```{r}
 #| warning: false
 #| message: false
-#| cache: true
 mobility_data <- 
   map(
     .x = google_filenames, 
@@ -101,9 +100,9 @@ mobility_data %>%
   dplyr::glimpse()
 ```
 
-We can see our data set has about 4.7 million rows and 15 columns. The most relevant information are stored in the columns ending with `percent_change_from_baseline`. These are precisely the measures of mobility for categorized places. The other columns of interest are those containing `region` and, of course, the column `date`. I recommend you to set some time aside to explore the data set. You will notice that the `sub_region_*` columns refer to regional breakdowns such as states and municipalities. They are `NA` for aggregate levels.
+We can see our data set has about 4.7 million rows and 15 columns. The most relevant information are stored in the columns ending with `percent_change_from_baseline`. These are precisely the measures of mobility for categorized places. The other columns of interest are those containing `region` and, of course, the column `date`. I recommend you to take some time exploring the data set. You will notice that the `sub_region_*` columns refer to regional breakdowns such as states and municipalities. They are `NA` for aggregate levels.
 
-Suppose our ultimate goal is to have a plot with the average mobility across all the categories for each country in the national-level. We know in advance that it's very likely that a strong seasonal pattern is present. For example, mobility in workplaces should be higher on weekdays and lower on weekends. The opposite should be true for parks. Creating a 7-days rolling mean of the original time series solves the problem.
+Suppose our ultimate goal is to have a plot with the average mobility across all the categories for each country in the national-level. We know in advance that it's very likely that a strong seasonal pattern is present. For example, mobility in workplaces should be higher on weekdays and lower on weekends. The opposite should be true for parks. Creating a 7-days rolling mean of the original time series should solve the problem.
 
 Finally, we need to invert the residential mobility since a higher (lower) residential mobility means a lower (higher) mobility elsewhere. So, if we are to aggregate all the mobility categories into one single measure (the average) they must point to the same direction.
 
@@ -115,7 +114,7 @@ Hence, our task is to produce a data frame with only the relevant variables. Thi
 4.  Create a column with the average mobility of categories.
 5.  Remove the irrelevant variables.
 
-This should not be quite a challenge and we can accomplish it with a few lines of code using the right features from `dplyr` package. I consider Items 3 and 4 the most important because we are tempted to offer a cumbersome solution that can be easily avoided with the proper tools. But before jumping to the best approach. let's figure out how an inefficient approach might look like for Item 3. Using the `roll_meanr` function from the `RcppRoll` package to compute 7-days rolling means, our first solution could be something like this:
+This should not be quite a challenge and we can accomplish it with a few lines of code using the right features from `dplyr` package. I consider Items 3 and 4 the most important because we are tempted to offer a cumbersome solution that can be easily avoided with the proper tools. But before jumping to the best approach, let's figure out how an inefficient approach might look like for Item 3. Using the `roll_meanr` function from the `RcppRoll` package to compute 7-days rolling means, our first solution could be something like this:
 
 ```{r}
 #| eval: false
@@ -309,4 +308,4 @@ mobility_countries <- map(
 mobility_countries[[1]] / mobility_countries[[2]]
 ```
 
-To finish up, we must keep in mind that a function that return a plot is not very flexible and maybe we should consider the output to be the processed data instead of the plot. This would enable us to customize the plot and to perform other analysis as well. It's not efficient either to download and prepare the data every time the function is called. The best solution in this case would require the processed data to be stored in a SQL data base, for instance.
+To finish up, we must keep in mind that a function that return a plot is not very flexible and maybe we should consider the output to be the processed data instead of the plot -- or both. This would enable us to customize the plot and to perform other analysis as well. It's not efficient either to download and prepare the data every time the function is called. The best solution in this case would require the processed data to be stored in a data base, for instance.
