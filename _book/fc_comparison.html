@@ -8,7 +8,7 @@
 
 <meta name="description" content="Essential tools for modern economic analysis">
 
-<title>R for Economic Research - 7&nbsp; Forecasting by comparison</title>
+<title>R for Economic Research - 8&nbsp; Forecasting by comparison</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -144,7 +144,7 @@ gtag('config', 'G-6T89HT07F5', { 'anonymize_ip': true});
   <header id="quarto-header" class="headroom fixed-top">
   <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
     <div class="container-fluid d-flex justify-content-between">
-      <h1 class="quarto-secondary-nav-title"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Forecasting by comparison</span></h1>
+      <h1 class="quarto-secondary-nav-title"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Forecasting by comparison</span></h1>
       <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
         <i class="bi bi-chevron-right"></i>
       </button>
@@ -159,23 +159,8 @@ gtag('config', 'G-6T89HT07F5', { 'anonymize_ip': true});
     <div class="sidebar-title mb-0 py-0">
       <a href="./">R for Economic Research</a> 
         <div class="sidebar-tools-main">
-    <a href="" title="Download" id="sidebar-tool-dropdown-0" class="sidebar-tool dropdown-toggle px-1" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi bi-download"></i></a>
+    <a href="" title="Share" id="sidebar-tool-dropdown-0" class="sidebar-tool dropdown-toggle px-1" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi bi-share"></i></a>
     <ul class="dropdown-menu" aria-labelledby="sidebar-tool-dropdown-0">
-        <li>
-          <a class="dropdown-item sidebar-tools-main-item" href="./R-for-Economic-Research.pdf">
-            <i class="bi bi-bi-file-pdf pe-1"></i>
-          Download PDF
-          </a>
-        </li>
-        <li>
-          <a class="dropdown-item sidebar-tools-main-item" href="./R-for-Economic-Research.epub">
-            <i class="bi bi-bi-journal pe-1"></i>
-          Download ePub
-          </a>
-        </li>
-    </ul>
-    <a href="" title="Share" id="sidebar-tool-dropdown-1" class="sidebar-tool dropdown-toggle px-1" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi bi-share"></i></a>
-    <ul class="dropdown-menu" aria-labelledby="sidebar-tool-dropdown-1">
         <li>
           <a class="dropdown-item sidebar-tools-main-item" href="https://twitter.com/intent/tweet?url=|url|">
             <i class="bi bi-bi-twitter pe-1"></i>
@@ -234,17 +219,22 @@ gtag('config', 'G-6T89HT07F5', { 'anonymize_ip': true});
       <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./ds_seasonality.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Seasonal adjustment</span></a>
+  <a href="./ds_windowing.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Rolling, cumulative and lagged/leading values</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./ds_nominal2real.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Deflating nominal values to real values</span></a>
+  <a href="./ds_seasonality.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Seasonal adjustment</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./ds_hpfilter.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Hodrick-Prescott Filter</span></a>
+  <a href="./ds_nominal2real.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Deflating nominal values to real values</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ds_hpfilter.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Hodrick-Prescott Filter</span></a>
   </div>
 </li>
       </ul>
@@ -259,17 +249,17 @@ gtag('config', 'G-6T89HT07F5', { 'anonymize_ip': true});
       <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./fc_abc.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">The ABC</span></a>
+  <a href="./fc_abc.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">The ABC</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./fc_comparison.html" class="sidebar-item-text sidebar-link active"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Forecasting by comparison</span></a>
+  <a href="./fc_comparison.html" class="sidebar-item-text sidebar-link active"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Forecasting by comparison</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./fc_simulation.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Simulations</span></a>
+  <a href="./fc_simulation.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Simulations</span></a>
   </div>
 </li>
       </ul>
@@ -284,17 +274,17 @@ gtag('config', 'G-6T89HT07F5', { 'anonymize_ip': true});
       <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./ss_intro.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Introduction</span></a>
+  <a href="./ss_intro.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Introduction</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./ss_tv_coef.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Time-varying regression coefficient</span></a>
+  <a href="./ss_tv_coef.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Time-varying regression coefficient</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./ss_common.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Dynamic Factor Model</span></a>
+  <a href="./ss_common.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Dynamic Factor Model</span></a>
   </div>
 </li>
       </ul>
@@ -309,12 +299,12 @@ gtag('config', 'G-6T89HT07F5', { 'anonymize_ip': true});
       <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./single_equation.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Single equation models</span></a>
+  <a href="./single_equation.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Single equation models</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./multiple_equations.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Multiple equations model</span></a>
+  <a href="./multiple_equations.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Multiple equations model</span></a>
   </div>
 </li>
       </ul>
@@ -333,8 +323,8 @@ gtag('config', 'G-6T89HT07F5', { 'anonymize_ip': true});
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#the-early-days-of-covid-19-in-brazil" id="toc-the-early-days-of-covid-19-in-brazil" class="nav-link active" data-scroll-target="#the-early-days-of-covid-19-in-brazil"><span class="toc-section-number">7.1</span>  The early days of COVID-19 in Brazil</a></li>
-  <li><a href="#the-second-wave-in-brazil" id="toc-the-second-wave-in-brazil" class="nav-link" data-scroll-target="#the-second-wave-in-brazil"><span class="toc-section-number">7.2</span>  The second wave in Brazil</a></li>
+  <li><a href="#the-early-days-of-covid-19-in-brazil" id="toc-the-early-days-of-covid-19-in-brazil" class="nav-link active" data-scroll-target="#the-early-days-of-covid-19-in-brazil"><span class="toc-section-number">8.1</span>  The early days of COVID-19 in Brazil</a></li>
+  <li><a href="#the-second-wave-in-brazil" id="toc-the-second-wave-in-brazil" class="nav-link" data-scroll-target="#the-second-wave-in-brazil"><span class="toc-section-number">8.2</span>  The second wave in Brazil</a></li>
   </ul>
 </nav>
     </div>
@@ -343,7 +333,7 @@ gtag('config', 'G-6T89HT07F5', { 'anonymize_ip': true});
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title d-none d-lg-block"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Forecasting by comparison</span></h1>
+<h1 class="title d-none d-lg-block"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Forecasting by comparison</span></h1>
 </div>
 
 <div>
@@ -364,8 +354,8 @@ gtag('config', 'G-6T89HT07F5', { 'anonymize_ip': true});
 
 <p>Forecasting is correctly understood as a task of extrapolating historical patterns of a given process in order to infer a plausible range where future values should lie. Sometimes, however, we don’t have a historical pattern to rely on. Think of the onset of COVID-19 outbreak in 2020, for example. This event was completely new and, except for some ideas borrowed from the epidemiology literature, we didn’t know much about how the virus would spread nor did we have enough data to perform a minimally robust analysis.</p>
 <p>In this section, we’ll discuss a widely used technique to predict variables for which we have no direct data: <strong>comparison</strong>. The basic idea is that we should look for a similar event somewhere else, either currently going on or in the past, and then assume that our variable of interest will follow closely that pattern. The most important (and difficult) thing here is to choose reasonable units for comparison. Ultimately, this is what guarantees the validity of the exercise. We’ll walk through two examples which show that a mix of creativity and statistical concepts can deliver decent answers to complicated questions.</p>
-<section id="the-early-days-of-covid-19-in-brazil" class="level2" data-number="7.1">
-<h2 data-number="7.1" class="anchored" data-anchor-id="the-early-days-of-covid-19-in-brazil"><span class="header-section-number">7.1</span> The early days of COVID-19 in Brazil</h2>
+<section id="the-early-days-of-covid-19-in-brazil" class="level2" data-number="8.1">
+<h2 data-number="8.1" class="anchored" data-anchor-id="the-early-days-of-covid-19-in-brazil"><span class="header-section-number">8.1</span> The early days of COVID-19 in Brazil</h2>
 <p>It was the beginning of March, 2020 and we were seeing new cases of COVID spreading rapidly in different countries in Asia and Europe. In Brazil, it would start a few weeks later. At that time I was working at Itau Asset Management, a well-known hedge fund in Brazil. Portfolio managers and analysts needed an accurate yet timely sense of how the situation would evolve domestically in order to make reasoned decisions and keep track of the potential impact on both economic and financial variables. However, Brazil was then stepping into the early days of the epidemic curve so that no more than a handful of observations were available to estimate any model. How could I deliver a reliable answer?</p>
 <p>I started looking for patterns stemming from other countries which were already a couple of weeks ahead in this process. This search brought about some interesting clues. In particular, I noticed that for several countries the daily increase in cumulative cases was very noisy up to the hundredth confirmed case, but then it seemed to decrease slowly – though not steadily – as a function of time. We can check it in the plot below.</p>
 <div class="cell">
@@ -567,8 +557,8 @@ gtag('config', 'G-6T89HT07F5', { 'anonymize_ip': true});
 </div>
 <p>The actual values for Brazil were very close to those recorded by the two countries in the short-term and lied between the two curves in the mid-term – although I have not updated the forecasts here, something I did at the time. This result shows how simple exercises can play a significant role in real cases. In fact, we successfully relied on this strategy for a couple of months. At the time, both models produced good one up to seven-step-ahead forecasts since the beginning. For longer horizons, the Iran-like model delivered fairly stable accuracy, while the Italy-like model surprisingly improved over time.</p>
 </section>
-<section id="the-second-wave-in-brazil" class="level2" data-number="7.2">
-<h2 data-number="7.2" class="anchored" data-anchor-id="the-second-wave-in-brazil"><span class="header-section-number">7.2</span> The second wave in Brazil</h2>
+<section id="the-second-wave-in-brazil" class="level2" data-number="8.2">
+<h2 data-number="8.2" class="anchored" data-anchor-id="the-second-wave-in-brazil"><span class="header-section-number">8.2</span> The second wave in Brazil</h2>
 <p>Questions shift very rapidly in the financial markets. After some time, we were experiencing the second wave of Covid in Brazil and a set of containing restrictions were in place. As we approached important dates for local retail businesses, the big question was whether those restrictions would be lifted in time not to cause major demage to the economy.</p>
 <p>Note that it’s no more a matter of simply predicting new cases for the next days. This time we needed an estimate for the second wave peak and how fast the subsequent decline would be – these parameters served as triggers for policy decisions. Once again, Brazil was a latecomer in this process as several countries had already gone through the second wave. So with the appropriate ideas we could benefit from this condition.</p>
 <p>In general, how long does it take to reach the peak after the second wave has started? How long does it take to go down to the bottom after reaching the peak? The first challenge here is that the second wave occurred in a non-synchronized way between countries. The number of days around the peak wasn’t the same either. However, looking at the plot below we can see a large number of peaks occurring in the period between November 2020 and March 2021. At the time, I assumed it as the typical period where the second wave took place. Note that some countries had started a third wave, but I couldn’t rely on these information since this new cycle was not complete yet.</p>
@@ -750,12 +740,12 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
       <a href="./fc_abc.html" class="pagination-link">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">The ABC</span></span>
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">The ABC</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
       <a href="./fc_simulation.html" class="pagination-link">
-        <span class="nav-page-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Simulations</span></span> <i class="bi bi-arrow-right-short"></i>
+        <span class="nav-page-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Simulations</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

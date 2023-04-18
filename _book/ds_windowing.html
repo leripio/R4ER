@@ -8,7 +8,7 @@
 
 <meta name="description" content="Essential tools for modern economic analysis">
 
-<title>R for Economic Research - 5&nbsp; Deflating nominal values to real values</title>
+<title>R for Economic Research - 3&nbsp; Rolling, cumulative and lagged/leading values</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -94,8 +94,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./ds_hpfilter.html" rel="next">
-<link href="./ds_seasonality.html" rel="prev">
+<link href="./ds_seasonality.html" rel="next">
+<link href="./ds_googlemob.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -143,7 +143,7 @@ gtag('config', 'G-6T89HT07F5', { 'anonymize_ip': true});
   <header id="quarto-header" class="headroom fixed-top">
   <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
     <div class="container-fluid d-flex justify-content-between">
-      <h1 class="quarto-secondary-nav-title"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Deflating nominal values to real values</span></h1>
+      <h1 class="quarto-secondary-nav-title"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Rolling, cumulative and lagged/leading values</span></h1>
       <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
         <i class="bi bi-chevron-right"></i>
       </button>
@@ -218,7 +218,7 @@ gtag('config', 'G-6T89HT07F5', { 'anonymize_ip': true});
       <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./ds_windowing.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Rolling, cumulative and lagged/leading values</span></a>
+  <a href="./ds_windowing.html" class="sidebar-item-text sidebar-link active"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Rolling, cumulative and lagged/leading values</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -228,7 +228,7 @@ gtag('config', 'G-6T89HT07F5', { 'anonymize_ip': true});
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./ds_nominal2real.html" class="sidebar-item-text sidebar-link active"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Deflating nominal values to real values</span></a>
+  <a href="./ds_nominal2real.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Deflating nominal values to real values</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -318,14 +318,23 @@ gtag('config', 'G-6T89HT07F5', { 'anonymize_ip': true});
 </nav>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#rolling-means" id="toc-rolling-means" class="nav-link active" data-scroll-target="#rolling-means"><span class="toc-section-number">3.1</span>  Rolling means</a></li>
+  <li><a href="#accumulated-in-n-periods" id="toc-accumulated-in-n-periods" class="nav-link" data-scroll-target="#accumulated-in-n-periods"><span class="toc-section-number">3.2</span>  Accumulated in n-periods</a></li>
+  <li><a href="#from-changes-to-level" id="toc-from-changes-to-level" class="nav-link" data-scroll-target="#from-changes-to-level"><span class="toc-section-number">3.3</span>  From changes to level</a></li>
+  <li><a href="#lagged-and-leading" id="toc-lagged-and-leading" class="nav-link" data-scroll-target="#lagged-and-leading"><span class="toc-section-number">3.4</span>  Lagged and leading</a></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title d-none d-lg-block"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Deflating nominal values to real values</span></h1>
+<h1 class="title d-none d-lg-block"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Rolling, cumulative and lagged/leading values</span></h1>
 </div>
 
 <div>
@@ -344,117 +353,125 @@ gtag('config', 'G-6T89HT07F5', { 'anonymize_ip': true});
 
 </header>
 
-<p>We saw earlier in this section that it’s important to seasonally adjust a time series so that we can make meaningful comparisons between two time periods. Similarly, nominal time series (those denominated in current prices) should be deflated to real values in order to remove the effect due only to price changes over time. Knowing how to carry out this operation is mandatory because many economic time series are not available in real terms from the source.</p>
-<p>To transform nominal data into real data, two things are needed. First, we have to choose the base (or reference) year. The prevailing prices in that year will be used as a reference for other years. For example, we can transform a sample of the US nominal GDP from 2000 to 2020 using 2010 prices as reference. In this case, all the years in the sample will be denominated in 2010 prices. This is generally an arbitrary choice, but a good practice is to choose a year in which prices have been close to the sample average.</p>
-<p>More importantly, we need to choose an appropriate price index to use as the deflator. The ideal deflator should be the one that best measures the change in prices of the basket of goods or services represented by the series we want to adjust. For instance, it would make no sense to deflate a series of retail sales by a construction price index. In the absence of a specific price index for the basket of goods considered in the retail sales series, we could use a more general consumer price index as a proxy.</p>
-<p>Let’s see a practical example of how to deflate a series. For this, we will use data on nominal GDP for the United States provided by the Bureau of Economic Analysis (BEA). It’s also a good opportunity to introduce how to access data from this relevant source using its APÌ service.</p>
-<p>You’ll need to register in order to receive access to the API. This procedure takes a few minutes and requires little information. Since this information is personal, I stored my key as an environmental variable.</p>
-<p>BEA provides a detailed <a href="https://apps.bea.gov/api/_pdf/bea_web_service_api_user_guide.pdf">document</a> explaining how to use the API resources. Below, I’ll first retrieve the table names from the NIPA data base, where GDP data are stored. Note that I use the <code>pluck</code> function from the <code>purrr</code> package as a substitute for <code>[[</code>.<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> This makes it easier to access the lower-level elements of lists.</p>
+<p>Windowing operations are typically defined as calculations performed over a sliding partition of an array – for instance, rolling means and sums. Other useful operations include accumulating values in a sequence, computing leading or lagged values and so on. In common, all these operations involve doing calculations using specific positions in an array. That’s why I call them <em>Indexing operations</em>. In the coming sections, we will see applications of this type of operation.</p>
+<section id="rolling-means" class="level2" data-number="3.1">
+<h2 data-number="3.1" class="anchored" data-anchor-id="rolling-means"><span class="header-section-number">3.1</span> Rolling means</h2>
+<p>Rolling operations are routinely employed as a means of smoothing volatile time series or to mitigate the presence of seasonal effects. Take the Google Mobility data for Brazil in 2021 we saw in the first Chapter. Remember that this data has a daily frequency and that mobility in workplaces is higher on weekdays. Therefore, a simple strategy to remove this seasonal pattern is to take the 7-days rolling mean.</p>
+<p>For this, we can use the <code>roll_mean</code> function from the <code>RcppRoll</code> package. In addition to mean, the package provides functions to compute several other rolling functions – minimum/maximum, median, standard deviations, products and so on. Also, we can use the suffixes <strong>l(eft)/c(enter)/r(ight)</strong> instead of the <code>align</code> parameter inside the function call to align the window used in the calculations.</p>
 <div class="cell">
+<details>
+<summary>Show the code</summary>
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(httr)</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(jsonlite)</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>api_bea_key <span class="ot">&lt;-</span> <span class="fu">Sys.getenv</span>(<span class="st">'api_bea_key'</span>)</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>bea_nipa_tables <span class="ot">&lt;-</span> <span class="fu">GET</span>(</span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>  glue<span class="sc">::</span><span class="fu">glue</span>(</span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">'https://apps.bea.gov/api/data?UserID={api_bea_key}&amp;method=GetParameterValues&amp;datasetname=NIPA&amp;ParameterName=tablename&amp;ResultFormat=JSON'</span></span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>) <span class="sc">%&gt;%</span> </span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">content</span>(<span class="at">as =</span> <span class="st">'text'</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fromJSON</span>() <span class="sc">%&gt;%</span> </span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pluck</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>gmob_data_br <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">unz</span>(</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">'data/Region_Mobility_Report_CSVs.zip'</span>, <span class="st">"2021_BR_Region_Mobility_Report.csv"</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>) <span class="sc">%&gt;%</span> </span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">is.na</span>(sub_region_1)) <span class="sc">%&gt;%</span> </span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(date, <span class="at">mobility_workplaces =</span> <span class="fu">contains</span>(<span class="st">'workplaces'</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 </div>
-<p>We can see that the two tables of interest are <em>T10105</em> (Gross Domestic Product) and <em>T10104</em> (Price Indexes for Gross Domestic Product). Given that the import procedure is the same for both series, it makes sense to create a function with the necessary steps and then use <code>map</code> to apply it to each table name.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>bea_tables <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">'Nominal GDP'</span> <span class="ot">=</span> <span class="st">'T10105'</span>,</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">'Deflator'</span>    <span class="ot">=</span> <span class="st">'T10104'</span></span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>get_bea_data <span class="ot">&lt;-</span> <span class="cf">function</span>(tablename, api_bea_key){</span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>  api_bea_request <span class="ot">&lt;-</span> glue<span class="sc">::</span><span class="fu">glue</span>(</span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">'https://apps.bea.gov/api/data?UserID={api_bea_key}&amp;method=GetData&amp;DataSetName=NIPA&amp;TableName={tablename}&amp;Frequency=A&amp;Year=ALL&amp;ResultFormat=json'</span></span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>  gdp_request <span class="ot">&lt;-</span> <span class="fu">GET</span>(<span class="at">url =</span> api_bea_request)</span>
-<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>  gdp_content <span class="ot">&lt;-</span> <span class="fu">content</span>(gdp_request, <span class="at">as =</span> <span class="st">'text'</span>)</span>
-<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>  gdp_list    <span class="ot">&lt;-</span> <span class="fu">fromJSON</span>(gdp_content, <span class="at">flatten =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>  gdp_tbl     <span class="ot">&lt;-</span> <span class="fu">pluck</span>(gdp_list, <span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">4</span>) </span>
-<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>bea_data <span class="ot">&lt;-</span> <span class="fu">map</span>(</span>
-<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>  <span class="at">.x =</span> bea_tables,</span>
-<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>  <span class="at">.f =</span> <span class="sc">~</span> <span class="fu">get_bea_data</span>(.x, api_bea_key)</span>
-<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(RcppRoll)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>gmob_data_br_7dma <span class="ot">&lt;-</span> gmob_data_br <span class="sc">%&gt;%</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(date) <span class="sc">%&gt;%</span> </span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">mobility_workplaces_7dma =</span> <span class="fu">roll_meanr</span>(mobility_workplaces, <span class="at">n =</span> <span class="dv">7</span>, <span class="at">na.rm =</span> <span class="cn">TRUE</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>Next, I arrange the data in tidy format to facilitate future calculations.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>bea_data_tbl <span class="ot">&lt;-</span> <span class="fu">map</span>(</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">.x =</span> bea_data,</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">.f =</span> <span class="sc">~</span> .x <span class="sc">%&gt;%</span> </span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(LineDescription <span class="sc">==</span> <span class="st">'Gross domestic product'</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">select</span>(TimePeriod, DataValue)</span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>) <span class="sc">%&gt;%</span> </span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>  plyr<span class="sc">::</span><span class="fu">ldply</span>(<span class="at">.id =</span> <span class="st">'Serie'</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(<span class="at">names_from =</span> Serie, <span class="at">values_from =</span> DataValue) <span class="sc">%&gt;%</span> </span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="fu">across</span>(<span class="fu">c</span>(<span class="st">`</span><span class="at">Nominal GDP</span><span class="st">`</span>), <span class="sc">~</span> <span class="fu">str_remove_all</span>(.x, <span class="st">','</span>))) <span class="sc">%&gt;%</span> </span>
-<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="fu">across</span>(<span class="sc">-</span>TimePeriod, <span class="sc">~</span> .x <span class="sc">%&gt;%</span> <span class="fu">as.numeric</span>())) <span class="sc">%&gt;%</span> </span>
-<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(TimePeriod)</span>
-<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>bea_data_tbl</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 94 x 3
-   TimePeriod `Nominal GDP` Deflator
-   &lt;chr&gt;              &lt;dbl&gt;    &lt;dbl&gt;
- 1 1929              104556     9.39
- 2 1930               92160     9.03
- 3 1931               77391     8.14
- 4 1932               59522     7.21
- 5 1933               57154     7.01
- 6 1934               66800     7.36
- 7 1935               74241     7.50
- 8 1936               84830     7.60
- 9 1937               93003     7.87
-10 1938               87352     7.73
-# ... with 84 more rows</code></pre>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>gmob_data_br_7dma <span class="sc">%&gt;%</span> </span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> date)) <span class="sc">+</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">y =</span> mobility_workplaces, <span class="at">color =</span> <span class="st">'Mobility in Workplaces'</span>), <span class="at">lwd =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">y =</span> mobility_workplaces_7dma, <span class="at">color =</span> <span class="st">'Mobility in Workplaces - 7d MA'</span>), <span class="at">lwd =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">'top'</span>) <span class="sc">+</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">'Brazil: Mobility in workplaces (% change from baseline)'</span>,</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">''</span>,</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">''</span>,</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">color =</span> <span class="st">''</span></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>    )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="ds_windowing_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
-<p>Now we are ready to convert nominal GDP into real GDP. For this, all we have to do is to pick an arbitrary year as reference, say 2005, and divide the whole price index series by its value in 2005. This means that the price index in 2005 is equal to 1 and other values are in proportion to it. Finally, we divide the nominal GDP series by this new price index series.</p>
+</section>
+<section id="accumulated-in-n-periods" class="level2" data-number="3.2">
+<h2 data-number="3.2" class="anchored" data-anchor-id="accumulated-in-n-periods"><span class="header-section-number">3.2</span> Accumulated in n-periods</h2>
+<p>Taking the rolling mean to smooth out very volatile time series or to mitigate the seasonal pattern is a natural choice when we are interested in the level of the series. However, when dealing with variation rates the most appropriate procedure is to compute the accumulated values in twelve months for monthly series or in four quarters for quarterly series. For instance, take the monthly US CPI data we saw on the first Chapter.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>gdp_real <span class="ot">&lt;-</span> bea_data_tbl <span class="sc">%&gt;%</span> </span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">Deflator_2005 =</span> (Deflator<span class="sc">/</span>Deflator[<span class="fu">which</span>(TimePeriod <span class="sc">==</span> <span class="dv">2005</span>)]),</span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">`</span><span class="at">Real GDP</span><span class="st">`</span>    <span class="ot">=</span> <span class="st">`</span><span class="at">Nominal GDP</span><span class="st">`</span><span class="sc">/</span>Deflator_2005</span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>    )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>cpi_12m <span class="ot">&lt;-</span> cpi_tbl <span class="sc">%&gt;%</span> </span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(date) <span class="sc">%&gt;%</span> </span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">value_12m =</span> (<span class="fu">roll_prodr</span>(<span class="dv">1</span><span class="sc">+</span>value<span class="sc">/</span><span class="dv">100</span>, <span class="at">n =</span> <span class="dv">12</span>)<span class="sc">-</span><span class="dv">1</span>)<span class="sc">*</span><span class="dv">100</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>    )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
 <details>
 <summary>Show the code</summary>
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lubridate)</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>gdp_real <span class="sc">%&gt;%</span> </span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="sc">-</span>TimePeriod, <span class="at">names_to =</span> <span class="st">'var'</span>, <span class="at">values_to =</span> <span class="st">'value'</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">str_detect</span>(var, <span class="st">'Deflator'</span>, <span class="at">negate =</span> <span class="cn">TRUE</span>)) <span class="sc">%&gt;%</span> </span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">TimePeriod =</span> <span class="fu">as_date</span>(TimePeriod, <span class="at">format =</span> <span class="st">'%Y'</span>)) <span class="sc">%&gt;%</span> </span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> TimePeriod)) <span class="sc">+</span></span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">y =</span> value, <span class="at">color =</span> var), <span class="at">lwd =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
-<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">labels =</span> scales<span class="sc">::</span><span class="fu">dollar_format</span>(<span class="at">scale =</span> <span class="dv">1</span><span class="sc">/</span><span class="fl">1e6</span>, <span class="at">prefix =</span> <span class="st">"$"</span>, <span class="at">suffix =</span> <span class="st">"T"</span>)) <span class="sc">+</span></span>
-<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_date</span>(<span class="at">date_breaks =</span> <span class="st">'20 years'</span>, <span class="at">date_labels =</span> <span class="st">'%Y'</span>) <span class="sc">+</span></span>
-<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">'top'</span>) <span class="sc">+</span></span>
-<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
-<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">'US Annual GDP: Nominal vs. Real (2005 Dollars)'</span>,</span>
-<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">''</span>,</span>
-<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">''</span>,</span>
-<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">color =</span> <span class="st">''</span></span>
-<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>cpi_12m <span class="sc">%&gt;%</span> </span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> date)) <span class="sc">+</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">y =</span> value_12m), <span class="at">lwd =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">'top'</span>) <span class="sc">+</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">'US: CPI accumulated in 12-months (%)'</span>,</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">''</span>,</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">''</span>,</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">color =</span> <span class="st">''</span></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>    )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
-<p><img src="ds_nominal2real_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid" width="672"></p>
+<p><img src="ds_windowing_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
-<p>It’s clear that ignoring price changes leads to a gross misinterpretation of the GDP growth trajectory. This is precisely the kind of thing we want to avoid when adjusting the series for inflation.</p>
+</section>
+<section id="from-changes-to-level" class="level2" data-number="3.3">
+<h2 data-number="3.3" class="anchored" data-anchor-id="from-changes-to-level"><span class="header-section-number">3.3</span> From changes to level</h2>
+<p>Sometimes we are interested in looking at the series in terms of its level rather than its variation. This is particularly useful when we have reasons to believe that the data should lie within a given range or return to an expected path. In order to get the level of a series from its variations, all we need to do is accumulate its variations over time. Using the data on US CPI, we have:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>cpi_level <span class="ot">&lt;-</span> cpi_tbl <span class="sc">%&gt;%</span> </span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(date) <span class="sc">%&gt;%</span> </span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">value_level =</span> <span class="fu">cumprod</span>(<span class="dv">1</span><span class="sc">+</span>value<span class="sc">/</span><span class="dv">100</span>),</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">value_level =</span> (value_level<span class="sc">/</span><span class="fu">first</span>(value_level))<span class="sc">*</span><span class="dv">100</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>    )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<details>
+<summary>Show the code</summary>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>cpi_level <span class="sc">%&gt;%</span> </span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> date)) <span class="sc">+</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">y =</span> value_level), <span class="at">lwd =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">'top'</span>) <span class="sc">+</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_date</span>(<span class="at">date_breaks =</span> <span class="st">'1 year'</span>, <span class="at">date_labels =</span> <span class="st">'%Y'</span>) <span class="sc">+</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">'US: CPI in level (Jan/2010 = 100)'</span>,</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">''</span>,</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">''</span>,</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">color =</span> <span class="st">''</span></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>    )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<p><img src="ds_windowing_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Looking at the series in level make it easier for the analyst to conjecture possible scenarios for inflation. For example, it could either remain constant by extrapolating the last values or progressively return to the pre-covid path.</p>
+</section>
+<section id="lagged-and-leading" class="level2" data-number="3.4">
+<h2 data-number="3.4" class="anchored" data-anchor-id="lagged-and-leading"><span class="header-section-number">3.4</span> Lagged and leading</h2>
+<p>Leads and Lags of a time series are generally used in regressions, but occasionally appear in graphs that seek to compare two or more series that have a non-contemporary relationship. Also, knowing how to refer to past or future values of a series can be useful for performing calculations – computing changes from a baseline, for example. Th The <code>lead</code> and <code>lag</code> functions from <code>dplyr</code> package make this task very easy.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>cpi_lag_lead <span class="ot">&lt;-</span> cpi_tbl <span class="sc">%&gt;%</span> </span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">value_lag1  =</span> <span class="fu">lag</span>(value, <span class="dv">1</span>),</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">value_lag6  =</span> <span class="fu">lag</span>(value, <span class="dv">6</span>),</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">value_lead2 =</span> <span class="fu">lead</span>(value, <span class="dv">2</span>)</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 
 
-<section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes">
-<hr>
-<ol>
-<li id="fn1"><p><code>pluck(.x, 1,2,1)</code> is equivalent to <code>.x[[1]][[2]][[1]]</code><a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-</ol>
 </section>
 
 </main> <!-- /main -->
@@ -558,13 +575,13 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./ds_seasonality.html" class="pagination-link">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Seasonal adjustment</span></span>
+      <a href="./ds_googlemob.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Scaling-up tasks</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./ds_hpfilter.html" class="pagination-link">
-        <span class="nav-page-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Hodrick-Prescott Filter</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./ds_seasonality.html" class="pagination-link">
+        <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Seasonal adjustment</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

@@ -1,6 +1,6 @@
 # Deflating nominal values to real values
 
-We saw earlier in this section that it's important to seasonally adjust a time series so that we can make meaningful comparisons between two time periods. Similarly, nominal time series (those denominated in current prices) should be deflated to real values in order to remove the effect due only to price changes over time. Knowing how to carry out this operation is mandatory because many economic series of interest are not available in real terms from the source.
+We saw earlier in this section that it's important to seasonally adjust a time series so that we can make meaningful comparisons between two time periods. Similarly, nominal time series (those denominated in current prices) should be deflated to real values in order to remove the effect due only to price changes over time. Knowing how to carry out this operation is mandatory because many economic time series are not available in real terms from the source.
 
 To transform nominal data into real data, two things are needed. First, we have to choose the base (or reference) year. The prevailing prices in that year will be used as a reference for other years. For example, we can transform a sample of the US nominal GDP from 2000 to 2020 using 2010 prices as reference. In this case, all the years in the sample will be denominated in 2010 prices. This is generally an arbitrary choice, but a good practice is to choose a year in which prices have been close to the sample average.
 

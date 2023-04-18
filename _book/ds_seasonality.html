@@ -8,7 +8,7 @@
 
 <meta name="description" content="Essential tools for modern economic analysis">
 
-<title>R for Economic Research - 3&nbsp; Seasonal adjustment</title>
+<title>R for Economic Research - 4&nbsp; Seasonal adjustment</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -95,7 +95,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
 <link href="./ds_nominal2real.html" rel="next">
-<link href="./ds_googlemob.html" rel="prev">
+<link href="./ds_windowing.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -143,7 +143,7 @@ gtag('config', 'G-6T89HT07F5', { 'anonymize_ip': true});
   <header id="quarto-header" class="headroom fixed-top">
   <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
     <div class="container-fluid d-flex justify-content-between">
-      <h1 class="quarto-secondary-nav-title"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Seasonal adjustment</span></h1>
+      <h1 class="quarto-secondary-nav-title"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Seasonal adjustment</span></h1>
       <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
         <i class="bi bi-chevron-right"></i>
       </button>
@@ -158,23 +158,8 @@ gtag('config', 'G-6T89HT07F5', { 'anonymize_ip': true});
     <div class="sidebar-title mb-0 py-0">
       <a href="./">R for Economic Research</a> 
         <div class="sidebar-tools-main">
-    <a href="" title="Download" id="sidebar-tool-dropdown-0" class="sidebar-tool dropdown-toggle px-1" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi bi-download"></i></a>
+    <a href="" title="Share" id="sidebar-tool-dropdown-0" class="sidebar-tool dropdown-toggle px-1" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi bi-share"></i></a>
     <ul class="dropdown-menu" aria-labelledby="sidebar-tool-dropdown-0">
-        <li>
-          <a class="dropdown-item sidebar-tools-main-item" href="./R-for-Economic-Research.pdf">
-            <i class="bi bi-bi-file-pdf pe-1"></i>
-          Download PDF
-          </a>
-        </li>
-        <li>
-          <a class="dropdown-item sidebar-tools-main-item" href="./R-for-Economic-Research.epub">
-            <i class="bi bi-bi-journal pe-1"></i>
-          Download ePub
-          </a>
-        </li>
-    </ul>
-    <a href="" title="Share" id="sidebar-tool-dropdown-1" class="sidebar-tool dropdown-toggle px-1" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi bi-share"></i></a>
-    <ul class="dropdown-menu" aria-labelledby="sidebar-tool-dropdown-1">
         <li>
           <a class="dropdown-item sidebar-tools-main-item" href="https://twitter.com/intent/tweet?url=|url|">
             <i class="bi bi-bi-twitter pe-1"></i>
@@ -233,17 +218,22 @@ gtag('config', 'G-6T89HT07F5', { 'anonymize_ip': true});
       <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./ds_seasonality.html" class="sidebar-item-text sidebar-link active"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Seasonal adjustment</span></a>
+  <a href="./ds_windowing.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Rolling, cumulative and lagged/leading values</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./ds_nominal2real.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Deflating nominal values to real values</span></a>
+  <a href="./ds_seasonality.html" class="sidebar-item-text sidebar-link active"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Seasonal adjustment</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./ds_hpfilter.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Hodrick-Prescott Filter</span></a>
+  <a href="./ds_nominal2real.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Deflating nominal values to real values</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ds_hpfilter.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Hodrick-Prescott Filter</span></a>
   </div>
 </li>
       </ul>
@@ -258,17 +248,17 @@ gtag('config', 'G-6T89HT07F5', { 'anonymize_ip': true});
       <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./fc_abc.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">The ABC</span></a>
+  <a href="./fc_abc.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">The ABC</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./fc_comparison.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Forecasting by comparison</span></a>
+  <a href="./fc_comparison.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Forecasting by comparison</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./fc_simulation.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Simulations</span></a>
+  <a href="./fc_simulation.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Simulations</span></a>
   </div>
 </li>
       </ul>
@@ -283,17 +273,17 @@ gtag('config', 'G-6T89HT07F5', { 'anonymize_ip': true});
       <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./ss_intro.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Introduction</span></a>
+  <a href="./ss_intro.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Introduction</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./ss_tv_coef.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Time-varying regression coefficient</span></a>
+  <a href="./ss_tv_coef.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Time-varying regression coefficient</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./ss_common.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Dynamic Factor Model</span></a>
+  <a href="./ss_common.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Dynamic Factor Model</span></a>
   </div>
 </li>
       </ul>
@@ -308,12 +298,12 @@ gtag('config', 'G-6T89HT07F5', { 'anonymize_ip': true});
       <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./single_equation.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Single equation models</span></a>
+  <a href="./single_equation.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Single equation models</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./multiple_equations.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Multiple equations model</span></a>
+  <a href="./multiple_equations.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Multiple equations model</span></a>
   </div>
 </li>
       </ul>
@@ -332,9 +322,9 @@ gtag('config', 'G-6T89HT07F5', { 'anonymize_ip': true});
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#spotting-a-seasonal-pattern" id="toc-spotting-a-seasonal-pattern" class="nav-link active" data-scroll-target="#spotting-a-seasonal-pattern"><span class="toc-section-number">3.0.1</span>  Spotting a seasonal pattern</a></li>
-  <li><a href="#removing-the-seasonal-pattern" id="toc-removing-the-seasonal-pattern" class="nav-link" data-scroll-target="#removing-the-seasonal-pattern"><span class="toc-section-number">3.0.2</span>  Removing the seasonal pattern</a></li>
-  <li><a href="#moving-to-a-custom-specification" id="toc-moving-to-a-custom-specification" class="nav-link" data-scroll-target="#moving-to-a-custom-specification"><span class="toc-section-number">3.0.3</span>  Moving to a custom specification</a></li>
+  <li><a href="#spotting-a-seasonal-pattern" id="toc-spotting-a-seasonal-pattern" class="nav-link active" data-scroll-target="#spotting-a-seasonal-pattern"><span class="toc-section-number">4.0.1</span>  Spotting a seasonal pattern</a></li>
+  <li><a href="#removing-the-seasonal-pattern" id="toc-removing-the-seasonal-pattern" class="nav-link" data-scroll-target="#removing-the-seasonal-pattern"><span class="toc-section-number">4.0.2</span>  Removing the seasonal pattern</a></li>
+  <li><a href="#moving-to-a-custom-specification" id="toc-moving-to-a-custom-specification" class="nav-link" data-scroll-target="#moving-to-a-custom-specification"><span class="toc-section-number">4.0.3</span>  Moving to a custom specification</a></li>
   </ul>
 </nav>
     </div>
@@ -343,7 +333,7 @@ gtag('config', 'G-6T89HT07F5', { 'anonymize_ip': true});
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title"><span id="seasonality" class="quarto-section-identifier d-none d-lg-block"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Seasonal adjustment</span></span></h1>
+<h1 class="title"><span id="seasonality" class="quarto-section-identifier d-none d-lg-block"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Seasonal adjustment</span></span></h1>
 </div>
 
 <div>
@@ -363,9 +353,9 @@ gtag('config', 'G-6T89HT07F5', { 'anonymize_ip': true});
 </header>
 
 <p>Seasonality is commonly defined as the expected fluctuation in time series data that occurs within a regular frequency not exceeding a one-year-period. For instance, temperatures are higher in the summer months and lower in the winter months. These fluctuations often create difficulties for the correct identification of trends in data. For example, it doesn’t help to know that the average temperature increased in July compared to June. The relevant information is how much did the the average temperature exceed the historical pattern for this period. Therefore, in most applications with time series it’s mandatory to remove the seasonal component before carrying out any further analysis.</p>
-<p>There are some methods available for seasonal adjustment, <a href="https://www.census.gov/data/software/x13as.html">X-13-ARIMA</a> from the US Census Bureau being the most used. It basically makes use of a standard ARIMA model with external regressors accounting for outliers, permanent shifts, holidays and so on. In the following sections we’ll see how to identify and remove the seasonal pattern from Brazilian Retail Sales data (PMC) using X-13-ARIMA.</p>
-<section id="spotting-a-seasonal-pattern" class="level3" data-number="3.0.1">
-<h3 data-number="3.0.1" class="anchored" data-anchor-id="spotting-a-seasonal-pattern"><span class="header-section-number">3.0.1</span> Spotting a seasonal pattern</h3>
+<p>There are some methods available for seasonal adjustment, <a href="https://www.census.gov/data/software/x13as.html">X-13-ARIMA</a> from the US Census Bureau being the most used. It basically makes use of a standard ARIMA model with external regressors accounting for outliers, permanent shifts, holidays and so on. In the following sections we’ll see how to identify and remove the seasonal pattern from Brazilian Retail Sales data (PMC provided by IBGE, the Brazilian official bureau of statistics) using X-13-ARIMA.</p>
+<section id="spotting-a-seasonal-pattern" class="level3" data-number="4.0.1">
+<h3 data-number="4.0.1" class="anchored" data-anchor-id="spotting-a-seasonal-pattern"><span class="header-section-number">4.0.1</span> Spotting a seasonal pattern</h3>
 <p>It’s very common for time series to show a seasonal pattern strong enough that it’s possible to identify it simply by visual inspection. The data on Brazilian Retail Sales is an example of this, as we can clearly see the regularly spaced peaks throughout the sample.</p>
 <div class="cell">
 
@@ -404,8 +394,8 @@ gtag('config', 'G-6T89HT07F5', { 'anonymize_ip': true});
 </div>
 <p>Breaking down the time series into its components has a clear advantage over the previous tool, since it provides additional information about each of these components. In this case, we can notice that the seasonal component has became larger as of 2010. In addition, we can see that the large one-off shock in retail sales due to COVID-19 in March of 2020 was mostly identified as random noise rather than contaminating the other components.</p>
 </section>
-<section id="removing-the-seasonal-pattern" class="level3" data-number="3.0.2">
-<h3 data-number="3.0.2" class="anchored" data-anchor-id="removing-the-seasonal-pattern"><span class="header-section-number">3.0.2</span> Removing the seasonal pattern</h3>
+<section id="removing-the-seasonal-pattern" class="level3" data-number="4.0.2">
+<h3 data-number="4.0.2" class="anchored" data-anchor-id="removing-the-seasonal-pattern"><span class="header-section-number">4.0.2</span> Removing the seasonal pattern</h3>
 <p>X-13-ARIMA is available for R users through the <code>seasonal</code> package. In order to make it as simple as possible, the function <code>seas</code> can automatically select the model that fits the data best. Therefore, we can perform seasonal adjustment without any specific knowledge. Notice that the <code>seas</code> function will return the model selected for seasonal adjustment. We should next call the <code>final</code> function to get the seasonally adjusted values.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(seasonal)</span>
@@ -439,7 +429,7 @@ gtag('config', 'G-6T89HT07F5', { 'anonymize_ip': true});
 <p><img src="ds_seasonality_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
-<p>It looks pretty good! Remember that no seasonal treatment is perfect and the goal is always to have no apparent seasonality in the data. In this case, we could safely make meaningful comparisons between periods. To finish, it’s worth mentioning that we can assess relevant information about the selected model using standard function designed for <code>lm</code> objects. For example, we can assess relevant information on the estimated parameters calling the <code>summary</code> function and check the property of residuals calling the <code>checkresiduals</code> function (or directly perform any test based on model residuals using the <code>residuals</code> function).</p>
+<p>It looks pretty good! Remember that no seasonal treatment is perfect and the goal is always to have no apparent seasonality in the data. In this case, we could safely make meaningful comparisons between periods. To finish, it’s worth mentioning that we can assess relevant information about the selected model using standard methods for <code>lm</code> objects. For example, information on the estimated parameters are available through the <code>summary</code> function, while the <code>checkresiduals</code> function from the <code>forecast</code> package can be used to check the properties of the residuals (or directly perform any test based on model residuals using the <code>residuals</code> function).</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>pmc_sa_autox13 <span class="sc">%&gt;%</span> </span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summary</span>()</span>
@@ -447,10 +437,10 @@ gtag('config', 'G-6T89HT07F5', { 'anonymize_ip': true});
 <span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  forecast<span class="sc">::</span><span class="fu">checkresiduals</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="moving-to-a-custom-specification" class="level3" data-number="3.0.3">
-<h3 data-number="3.0.3" class="anchored" data-anchor-id="moving-to-a-custom-specification"><span class="header-section-number">3.0.3</span> Moving to a custom specification</h3>
-<p>Sometimes we just can’t rely on the automatic model selection. Either because we would like to incorporate additional features not available in the function – special moving holidays is a common issue – or because we need to replicate the seasonal adjustment made by third-parties. For instance, IBGE releases its own seasonally-adjusted retail sales data. So if we were to analyze or forecast seasonally-adjusted data using IBGE releases as our target, we would have to invariably adopt its specification.</p>
-<p>Let’s first compare the automatic seasonal adjustment we computed in the previous section with the actual seasonal-adjusted series provided by IBGE.</p>
+<section id="moving-to-a-custom-specification" class="level3" data-number="4.0.3">
+<h3 data-number="4.0.3" class="anchored" data-anchor-id="moving-to-a-custom-specification"><span class="header-section-number">4.0.3</span> Moving to a custom specification</h3>
+<p>Sometimes we just can’t rely on the automatic model selection. Either because we would like to incorporate additional features not available in the function – special moving holidays is a common issue – or because we need to replicate the seasonal adjustment provided by the source or any other third-party. For instance, IBGE releases its own seasonally-adjusted retail sales data. So if we were to analyze or forecast seasonally-adjusted data using IBGE releases as our target, we would have to invariably adopt its specification.</p>
+<p>Let’s first compare the automatic seasonal adjustment we computed in the previous section with the official seasonally-adjusted series provided by IBGE.</p>
 <div class="cell">
 <details>
 <summary>Code</summary>
@@ -462,7 +452,7 @@ gtag('config', 'G-6T89HT07F5', { 'anonymize_ip': true});
 <span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>pmc_sa_autox13 <span class="sc">%&gt;%</span> </span>
 <span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">final</span>() <span class="sc">%&gt;%</span> </span>
 <span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">autoplot</span>() <span class="sc">+</span></span>
-<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">autolayer</span>(pmc_sa_ibge, <span class="at">series =</span> <span class="st">'Retail SA (official)'</span>) <span class="sc">+</span></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">autolayer</span>(pmc_sa_ibge, <span class="at">series =</span> <span class="st">'Retail Sales SA (official)'</span>) <span class="sc">+</span></span>
 <span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a> <span class="fu">labs</span>(</span>
 <span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">'Retail sales in Brazil - Volume Index (2014 = 100)'</span>,</span>
 <span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="st">'Seasonally-Adjusted'</span>,</span>
@@ -474,8 +464,13 @@ gtag('config', 'G-6T89HT07F5', { 'anonymize_ip': true});
 <p><img src="ds_seasonality_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
-<p>We can see that for most of the sample our automatic version follows closely the IBGE’s, but it clearly goes off track right after the COVID shock in early 2000’s. Fortunately, IBGE describes the model specification it uses for the seasonal adjustment of this series in a technical note. Some relevant information are: 1. The model specification is SARIMA(0,1,1)(0,1,1); 2. It incorporates Carnival and Corpus Christi – two important moving holidays in Brazil – in the model besides the usual trading days and Easter; and 3. It also includes two level shifts – April 2020 and December 2020 – and a temporary change – April 2020. The latter arguably to cope with the effects of the COVID shock.</p>
-<p>How can we add these features to the seasonal adjustment model? Starting with the moving holidays, we need to create a vector with the dates of the holidays. However, for some holidays it might be well that their effect may extend beyond the day on which they occur. Carnival is a good example. Even though the holiday happens on a Tuesday, the celebration starts on Monday and ends on Wednesday. Hence, it’s very important to include these two extra days in the input vector. The <code>genhol</code> function makes this task much simpler: it automatically extend our date vector by including a number of earlier and/or later dates defined by the offsetting parameters <code>start</code> and <code>end</code>. Since Carnival and Corpus Christi occur, respectively, 47 and 60 days after Easter we can build the associated vectors from the latter – the <code>seasonal</code> package has built-in dates for Easter inside the <code>easter</code> vector. Otherwise, we would have to build them by ourselves (or import it from somewhere).</p>
+<p>We can see that for most of the sample our automatic version follows closely the official’s, but it clearly goes off track right after the COVID shock in early 2000’s. Fortunately, IBGE describes the model specification it uses for the seasonal adjustment of this series in a technical note. Some relevant information are:</p>
+<ol type="1">
+<li>The model specification is SARIMA(0,1,1)(0,1,1);</li>
+<li>It incorporates Carnival and Corpus Christi – two important moving holidays in Brazil – in the model besides the usual trading days and Easter; and</li>
+<li>It also includes two level shifts – April 2020 and December 2020 – and a temporary change – April 2020. The latter arguably to cope with the effects of the COVID shock.</li>
+</ol>
+<p>How can we add these features to the seasonal adjustment model? Starting with the moving holidays, we need to create a vector with the dates of the holidays. However, for some holidays it might be well that their effect may extend beyond the day on which they occur. Carnival in Brazil is a good example. Even though the holiday happens on a Tuesday, the celebration starts on Monday and ends on Wednesday. Hence, it’s very important to include these two extra days in the input vector. The <code>genhol</code> function makes this task much simpler: it automatically extend our date vector by including a number of earlier and/or later dates defined by the offsetting parameters <code>start</code> and <code>end</code>. Since Carnival and Corpus Christi occur, respectively, 47 and 60 days after Easter we can build the associated vectors from the latter – the <code>seasonal</code> package has built-in dates for Easter inside the <code>easter</code> vector. Otherwise, we would have to build them by ourselves (or import it from somewhere).</p>
 <p>Level shifts and temporary changes can easily be incorporated using textual shortcuts in the <code>regression.variables</code> parameter. For level shifts we use <strong>lsYEAR.MONTH</strong>, whereas for transitory changes we use <strong>tcYEAR.MONTH</strong>. More information on the parameters can be found in the <a href="https://www2.census.gov/software/x-13arima-seats/x-13-data/documentation/docx13as.pdf">X-13-ARIMA Reference Manual</a>.</p>
 <p>Below we can see the full specification for the custom model intended to replicate IBGE’s along with the resulting plot.</p>
 <div class="cell">
@@ -627,13 +622,13 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./ds_googlemob.html" class="pagination-link">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Scaling-up tasks</span></span>
+      <a href="./ds_windowing.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Rolling, cumulative and lagged/leading values</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
       <a href="./ds_nominal2real.html" class="pagination-link">
-        <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Deflating nominal values to real values</span></span> <i class="bi bi-arrow-right-short"></i>
+        <span class="nav-page-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Deflating nominal values to real values</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

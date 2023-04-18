@@ -1,1 +1,159 @@
-# Windowing operations
+# Rolling, cumulative and lagged/leading values
+
+Windowing operations are typically defined as calculations performed over a sliding partition of an array -- for instance, rolling means and sums. Other useful operations include accumulating values in a sequence, computing leading or lagged values and so on. In common, all these operations involve doing calculations using specific positions in an array. That's why I call them *Indexing operations*. In the coming sections, we will see applications of this type of operation.
+
+## Rolling means
+
+Rolling operations are routinely employed as a means of smoothing volatile time series or to mitigate the presence of seasonal effects. Take the Google Mobility data for Brazil in 2021 we saw in the first Chapter. Remember that this data has a daily frequency and that mobility in workplaces is higher on weekdays. Therefore, a simple strategy to remove this seasonal pattern is to take the 7-days rolling mean. 
+
+For this, we can use the `roll_mean` function from the `RcppRoll` package. In addition to mean, the package provides functions to compute several other rolling functions -- minimum/maximum, median, standard deviations, products and so on. Also, we can use the suffixes **l(eft)/c(enter)/r(ight)** instead of the `align` parameter inside the function call to align the window used in the calculations.    
+
+```{r}
+#| code-fold: true
+#| code-summary: 'Show the code'
+#| warning: false
+#| message: false
+library(tidyverse)
+gmob_data_br <- read_csv(
+  unz(
+    'data/Region_Mobility_Report_CSVs.zip', "2021_BR_Region_Mobility_Report.csv"
+  )
+) %>% 
+  filter(is.na(sub_region_1)) %>% 
+  select(date, mobility_workplaces = contains('workplaces'))
+```
+
+```{r}
+#| warning: false
+#| message: false
+library(RcppRoll)
+gmob_data_br_7dma <- gmob_data_br %>%
+  arrange(date) %>% 
+  mutate(mobility_workplaces_7dma = roll_meanr(mobility_workplaces, n = 7, na.rm = TRUE))
+```
+
+```{r}
+#| warning: false
+#| message: false
+gmob_data_br_7dma %>% 
+  ggplot(aes(x = date)) +
+  geom_line(aes(y = mobility_workplaces, color = 'Mobility in Workplaces'), lwd = 1) +
+  geom_line(aes(y = mobility_workplaces_7dma, color = 'Mobility in Workplaces - 7d MA'), lwd = 1) +
+  theme(legend.position = 'top') +
+  labs(
+    title = 'Brazil: Mobility in workplaces (% change from baseline)',
+    x = '',
+    y = '',
+    color = ''
+    )
+```
+
+## Accumulated in n-periods
+
+Taking the rolling mean to smooth out very volatile time series or to mitigate the seasonal pattern is a natural choice when we are interested in the level of the series. However, when dealing with variation rates the most appropriate procedure is to compute the accumulated values in twelve months for monthly series or in four quarters for quarterly series. For instance, take the monthly US CPI data we saw on the first Chapter.  
+
+```{r}
+#| echo: false
+#| warning: false
+#| message: false
+library(glue)
+library(httr)
+library(jsonlite)
+library(tidyverse)
+library(lubridate)
+api_url       <- 'https://api.stlouisfed.org/fred/series/observations?'
+api_fred_key  <- Sys.getenv('api_fred_key')
+api_series_id <- 'CPALTT01USM657N'
+obs_start     <- '2010-01-01'
+obs_end       <- '2022-12-01'
+api_filetype  <- 'json'
+api_request   <- glue('{api_url}series_id={api_series_id}&observation_start={obs_start}&observation_end={obs_end}&api_key={api_fred_key}&file_type={api_filetype}')
+cpi_request   <- GET(url = api_request)
+cpi_content   <- content(cpi_request, as = 'text')
+cpi_list      <- fromJSON(cpi_content, flatten = FALSE)
+cpi_tbl       <- cpi_list[['observations']] %>% 
+  as_tibble() %>% 
+  select(date, value) %>% 
+  mutate(
+    value = as.numeric(value),
+    date = ymd(date)
+    )
+```
+
+```{r}
+#| warning: false
+#| message: false
+cpi_12m <- cpi_tbl %>% 
+  arrange(date) %>% 
+  mutate(
+    value_12m = (roll_prodr(1+value/100, n = 12)-1)*100
+    )
+```
+
+```{r}
+#| warning: false
+#| message: false
+#| code-fold: true
+#| code-summary: 'Show the code'
+cpi_12m %>% 
+  ggplot(aes(x = date)) +
+  geom_line(aes(y = value_12m), lwd = 1) +
+  theme(legend.position = 'top') +
+  labs(
+    title = 'US: CPI accumulated in 12-months (%)',
+    x = '',
+    y = '',
+    color = ''
+    )
+```
+
+## From changes to level
+
+Sometimes we are interested in looking at the series in terms of its level rather than its variation. This is particularly useful when we have reasons to believe that the data should lie within a given range or return to an expected path. In order to get the level of a series from its variations, all we need to do is accumulate its variations over time. Using the data on US CPI, we have:
+
+```{r}
+#| warning: false
+#| message: false
+cpi_level <- cpi_tbl %>% 
+  arrange(date) %>% 
+  mutate(
+    value_level = cumprod(1+value/100),
+    value_level = (value_level/first(value_level))*100
+    )
+```
+
+```{r}
+#| warning: false
+#| message: false
+#| code-fold: true
+#| code-summary: 'Show the code'
+cpi_level %>% 
+  ggplot(aes(x = date)) +
+  geom_line(aes(y = value_level), lwd = 1) +
+  theme(legend.position = 'top') +
+  scale_x_date(date_breaks = '1 year', date_labels = '%Y') +
+  labs(
+    title = 'US: CPI in level (Jan/2010 = 100)',
+    x = '',
+    y = '',
+    color = ''
+    )
+```
+
+Looking at the series in level make it easier for the analyst to conjecture possible scenarios for inflation. For example, it could either remain constant by extrapolating the last values or progressively return to the pre-covid path.
+
+## Lagged and leading
+
+Leads and Lags of a time series are generally used in regressions, but occasionally appear in graphs that seek to compare two or more series that have a non-contemporary relationship. Also, knowing how to refer to past or future values of a series can be useful for performing calculations -- computing changes from a baseline, for example. Th The `lead` and `lag` functions from `dplyr` package make this task very easy.
+
+```{r}
+#| warning: false
+#| message: false
+library(tidyverse)
+cpi_lag_lead <- cpi_tbl %>% 
+  mutate(
+    value_lag1  = lag(value, 1),
+    value_lag6  = lag(value, 6),
+    value_lead2 = lead(value, 2)
+  )
+```

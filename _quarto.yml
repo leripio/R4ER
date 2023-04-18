@@ -15,6 +15,7 @@ book:
       - ds_googlemob.qmd
     - part: 'Basic time series tools'
       chapters:
+      - ds_windowing.qmd
       - ds_seasonality.qmd
       - ds_nominal2real.qmd
       - ds_hpfilter.qmd
@@ -34,7 +35,7 @@ book:
       - multiple_equations.qmd
     - references.qmd
   search: true
-  downloads: [pdf, epub]
+  #downloads: [pdf, epub]
   sharing: [twitter, facebook]
   sidebar:
     style: docked

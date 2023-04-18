@@ -8,7 +8,7 @@
 
 <meta name="description" content="Essential tools for modern economic analysis">
 
-<title>R for Economic Research - 11&nbsp; Dynamic Factor Model</title>
+<title>R for Economic Research - 12&nbsp; Dynamic Factor Model</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -163,7 +163,7 @@ gtag('config', 'G-6T89HT07F5', { 'anonymize_ip': true});
   <header id="quarto-header" class="headroom fixed-top">
   <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
     <div class="container-fluid d-flex justify-content-between">
-      <h1 class="quarto-secondary-nav-title"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Dynamic Factor Model</span></h1>
+      <h1 class="quarto-secondary-nav-title"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Dynamic Factor Model</span></h1>
       <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
         <i class="bi bi-chevron-right"></i>
       </button>
@@ -178,23 +178,8 @@ gtag('config', 'G-6T89HT07F5', { 'anonymize_ip': true});
     <div class="sidebar-title mb-0 py-0">
       <a href="./">R for Economic Research</a> 
         <div class="sidebar-tools-main">
-    <a href="" title="Download" id="sidebar-tool-dropdown-0" class="sidebar-tool dropdown-toggle px-1" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi bi-download"></i></a>
+    <a href="" title="Share" id="sidebar-tool-dropdown-0" class="sidebar-tool dropdown-toggle px-1" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi bi-share"></i></a>
     <ul class="dropdown-menu" aria-labelledby="sidebar-tool-dropdown-0">
-        <li>
-          <a class="dropdown-item sidebar-tools-main-item" href="./R-for-Economic-Research.pdf">
-            <i class="bi bi-bi-file-pdf pe-1"></i>
-          Download PDF
-          </a>
-        </li>
-        <li>
-          <a class="dropdown-item sidebar-tools-main-item" href="./R-for-Economic-Research.epub">
-            <i class="bi bi-bi-journal pe-1"></i>
-          Download ePub
-          </a>
-        </li>
-    </ul>
-    <a href="" title="Share" id="sidebar-tool-dropdown-1" class="sidebar-tool dropdown-toggle px-1" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi bi-share"></i></a>
-    <ul class="dropdown-menu" aria-labelledby="sidebar-tool-dropdown-1">
         <li>
           <a class="dropdown-item sidebar-tools-main-item" href="https://twitter.com/intent/tweet?url=|url|">
             <i class="bi bi-bi-twitter pe-1"></i>
@@ -253,17 +238,22 @@ gtag('config', 'G-6T89HT07F5', { 'anonymize_ip': true});
       <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./ds_seasonality.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Seasonal adjustment</span></a>
+  <a href="./ds_windowing.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Rolling, cumulative and lagged/leading values</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./ds_nominal2real.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Deflating nominal values to real values</span></a>
+  <a href="./ds_seasonality.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Seasonal adjustment</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./ds_hpfilter.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Hodrick-Prescott Filter</span></a>
+  <a href="./ds_nominal2real.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Deflating nominal values to real values</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ds_hpfilter.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Hodrick-Prescott Filter</span></a>
   </div>
 </li>
       </ul>
@@ -278,17 +268,17 @@ gtag('config', 'G-6T89HT07F5', { 'anonymize_ip': true});
       <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./fc_abc.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">The ABC</span></a>
+  <a href="./fc_abc.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">The ABC</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./fc_comparison.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Forecasting by comparison</span></a>
+  <a href="./fc_comparison.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Forecasting by comparison</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./fc_simulation.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Simulations</span></a>
+  <a href="./fc_simulation.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Simulations</span></a>
   </div>
 </li>
       </ul>
@@ -303,17 +293,17 @@ gtag('config', 'G-6T89HT07F5', { 'anonymize_ip': true});
       <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./ss_intro.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Introduction</span></a>
+  <a href="./ss_intro.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Introduction</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./ss_tv_coef.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Time-varying regression coefficient</span></a>
+  <a href="./ss_tv_coef.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Time-varying regression coefficient</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./ss_common.html" class="sidebar-item-text sidebar-link active"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Dynamic Factor Model</span></a>
+  <a href="./ss_common.html" class="sidebar-item-text sidebar-link active"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Dynamic Factor Model</span></a>
   </div>
 </li>
       </ul>
@@ -328,12 +318,12 @@ gtag('config', 'G-6T89HT07F5', { 'anonymize_ip': true});
       <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./single_equation.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Single equation models</span></a>
+  <a href="./single_equation.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Single equation models</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./multiple_equations.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Multiple equations model</span></a>
+  <a href="./multiple_equations.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Multiple equations model</span></a>
   </div>
 </li>
       </ul>
@@ -352,10 +342,10 @@ gtag('config', 'G-6T89HT07F5', { 'anonymize_ip': true});
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#writing-out-the-dfm-as-marss" id="toc-writing-out-the-dfm-as-marss" class="nav-link active" data-scroll-target="#writing-out-the-dfm-as-marss"><span class="toc-section-number">11.1</span>  Writing out the DFM as MARSS</a></li>
-  <li><a href="#importing-data" id="toc-importing-data" class="nav-link" data-scroll-target="#importing-data"><span class="toc-section-number">11.2</span>  Importing data</a></li>
-  <li><a href="#estimating-the-model" id="toc-estimating-the-model" class="nav-link" data-scroll-target="#estimating-the-model"><span class="toc-section-number">11.3</span>  Estimating the model</a></li>
-  <li><a href="#results" id="toc-results" class="nav-link" data-scroll-target="#results"><span class="toc-section-number">11.4</span>  Results</a></li>
+  <li><a href="#writing-out-the-dfm-as-marss" id="toc-writing-out-the-dfm-as-marss" class="nav-link active" data-scroll-target="#writing-out-the-dfm-as-marss"><span class="toc-section-number">12.1</span>  Writing out the DFM as MARSS</a></li>
+  <li><a href="#importing-data" id="toc-importing-data" class="nav-link" data-scroll-target="#importing-data"><span class="toc-section-number">12.2</span>  Importing data</a></li>
+  <li><a href="#estimating-the-model" id="toc-estimating-the-model" class="nav-link" data-scroll-target="#estimating-the-model"><span class="toc-section-number">12.3</span>  Estimating the model</a></li>
+  <li><a href="#results" id="toc-results" class="nav-link" data-scroll-target="#results"><span class="toc-section-number">12.4</span>  Results</a></li>
   </ul>
 </nav>
     </div>
@@ -364,7 +354,7 @@ gtag('config', 'G-6T89HT07F5', { 'anonymize_ip': true});
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title d-none d-lg-block"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Dynamic Factor Model</span></h1>
+<h1 class="title d-none d-lg-block"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Dynamic Factor Model</span></h1>
 </div>
 
 <div>
@@ -383,12 +373,12 @@ gtag('config', 'G-6T89HT07F5', { 'anonymize_ip': true});
 
 </header>
 
-<p>Policymakers and analysts are routinely seeking to characterize short-term fluctuation in prices as either persistent or temporary. This issue is often addressed using core measures that exclude those items that are the most volatile or most subject to supply shocks from the inflation index. <span class="citation" data-cites="fed">Eli, Flora, and Danilo (<a href="#ref-fed" role="doc-biblioref">2021</a>)</span> argue that core measures are imperfect measures of underlying inflation in that temporary shocks in sectors that were not filtered out from the index may be misunderstood as economy-wide shocks.</p>
+<p>Policymakers and analysts are routinely seeking to characterize short-term fluctuation in prices as either persistent or temporary. This issue is often addressed using core measures that exclude those items that are the most volatile or most subject to supply shocks from the inflation index. <span class="citation" data-cites="fed">Eli, Flora, and Danilo (<a href="references.html#ref-fed" role="doc-biblioref">2021</a>)</span> argue that core measures are imperfect measures of underlying inflation in that temporary shocks in sectors that were not filtered out from the index may be misunderstood as economy-wide shocks.</p>
 <p>The authors propose an alternative measure to deal with this problem. In their words:</p>
 <blockquote class="blockquote">
 <p>“The basic assumption is that each component of the inflation index combines two driving forces. The first is a trend that is common across all components. The second comes from idiosyncratic components that capture one-off changes, sector-specific developments, and measurement errors.”</p>
 </blockquote>
-<p>In fact, this idea is represented by a special class of State-Space models known as Dynamic Factor Model (DFM). In short, DFM allows us to estimate common underlying trends among a relatively large set of time series (see <span class="citation" data-cites="marss">Holmes, Scheuerell, and Ward (<a href="#ref-marss" role="doc-biblioref">2021</a>)</span>, chapter 10). Using <span class="citation" data-cites="fed">Eli, Flora, and Danilo (<a href="#ref-fed" role="doc-biblioref">2021</a>)</span> notation, the model has the following structure:</p>
+<p>In fact, this idea is represented by a special class of State-Space models known as Dynamic Factor Model (DFM). In short, DFM allows us to estimate common underlying trends among a relatively large set of time series (see <span class="citation" data-cites="marss">Holmes, Scheuerell, and Ward (<a href="references.html#ref-marss" role="doc-biblioref">2021</a>)</span>, chapter 10). Using <span class="citation" data-cites="fed">Eli, Flora, and Danilo (<a href="references.html#ref-fed" role="doc-biblioref">2021</a>)</span> notation, the model has the following structure:</p>
 <p><span class="math display">\[
 \pi_{it} = \chi_{it} + \xi_{it} \\
 \]</span></p>
@@ -397,8 +387,8 @@ gtag('config', 'G-6T89HT07F5', { 'anonymize_ip': true});
 \]</span> <span class="math display">\[
 f_t = \sum_i^p b_i f_{t-i} + u_t \ \ \ \ u_t \sim N(0, Q)
 \]</span> Where <span class="math inline">\(\pi_{it}\)</span> is the CPI for each subsector <span class="math inline">\(i\)</span>, which is the sum of the common trend, <span class="math inline">\(\chi_{it}\)</span>, and the idiosyncratic component, <span class="math inline">\(\xi_{it}\)</span>. In State-Space language, this is the observation equation and <span class="math inline">\(\chi_{it}\)</span> is the hidden state (<span class="math inline">\(x_t\)</span>). However, in this case the hidden state follows an autoregressive process of order <span class="math inline">\(p\)</span> with <span class="math inline">\(p\)</span> usually higher than 1. In addition, each subsector will have an individual contribution to the common trend given by <span class="math inline">\(\lambda_i\)</span> – also known as the <em>factor loading</em>.</p>
-<section id="writing-out-the-dfm-as-marss" class="level2" data-number="11.1">
-<h2 data-number="11.1" class="anchored" data-anchor-id="writing-out-the-dfm-as-marss"><span class="header-section-number">11.1</span> Writing out the DFM as MARSS</h2>
+<section id="writing-out-the-dfm-as-marss" class="level2" data-number="12.1">
+<h2 data-number="12.1" class="anchored" data-anchor-id="writing-out-the-dfm-as-marss"><span class="header-section-number">12.1</span> Writing out the DFM as MARSS</h2>
 <p>We start by writing out the above DFM in MARSS form. The LHS of the observation equation contains now the <span class="math inline">\(k\)</span> time series corresponding to each observation of the common underlying process, all of them is a function of a single hidden process (the common component) plus a Gaussian innovation term.<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a></p>
 <p><span class="math display">\[
 \underbrace{
@@ -474,8 +464,8 @@ v_t \sim \text{MVN}(0, Q)
 
 </div>
 </section>
-<section id="importing-data" class="level2" data-number="11.2">
-<h2 data-number="11.2" class="anchored" data-anchor-id="importing-data"><span class="header-section-number">11.2</span> Importing data</h2>
+<section id="importing-data" class="level2" data-number="12.2">
+<h2 data-number="12.2" class="anchored" data-anchor-id="importing-data"><span class="header-section-number">12.2</span> Importing data</h2>
 <p>For this exercise, we’ll use data on the 51 subsectors that make up Brazilian CPI. All these time series are the monthly percentage change accumulated in the last twelve months. This eliminates the need to add seasonal components to the model.</p>
 <p>For aesthetic reasons, the piece of code that downloads and prepare the data has been omitted. The interested reader can display it by clicking on ‘Show the code’. Basically, the final output is a A <span class="math inline">\(k \times t\)</span> matrix of the <span class="math inline">\(k\)</span> subsectors time series over <span class="math inline">\(t\)</span> time steps.</p>
 <div class="cell" data-hash="ss_common_cache/html/unnamed-chunk-2_52bbeaad37b2c406bbdcd1f21547b811">
@@ -533,8 +523,8 @@ v_t \sim \text{MVN}(0, Q)
 </details>
 </div>
 </section>
-<section id="estimating-the-model" class="level2" data-number="11.3">
-<h2 data-number="11.3" class="anchored" data-anchor-id="estimating-the-model"><span class="header-section-number">11.3</span> Estimating the model</h2>
+<section id="estimating-the-model" class="level2" data-number="12.3">
+<h2 data-number="12.3" class="anchored" data-anchor-id="estimating-the-model"><span class="header-section-number">12.3</span> Estimating the model</h2>
 <p>Next, we declare the system’s matrices. Note that by defining the <span class="math inline">\(R\)</span> matrix as diagonal and unequal, we are assuming that prices across the subsectors are independent. This is arguably a very strong assumption, but considering cross-dependence between subsectors would greatly increase the number of parameters to be estimated.</p>
 <div class="cell" data-hash="ss_common_cache/html/unnamed-chunk-3_36f3668ee8e76f81f8a5e6a33015e913">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Define model's specification</span></span>
@@ -556,8 +546,8 @@ v_t \sim \text{MVN}(0, Q)
 <span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>model.em <span class="ot">&lt;-</span> <span class="fu">MARSS</span>(CPI_ts, <span class="at">model =</span> model.spec, <span class="at">inits =</span> <span class="fu">list</span>(<span class="at">x0 =</span> <span class="dv">0</span>), <span class="at">silent =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="results" class="level2" data-number="11.4">
-<h2 data-number="11.4" class="anchored" data-anchor-id="results"><span class="header-section-number">11.4</span> Results</h2>
+<section id="results" class="level2" data-number="12.4">
+<h2 data-number="12.4" class="anchored" data-anchor-id="results"><span class="header-section-number">12.4</span> Results</h2>
 <p>After estimating the system, we are ready to compute the common inflation component, <span class="math inline">\(\chi_{it}\)</span>. Basically, <span class="math inline">\(\chi_{it}\)</span> is the dot product of the <span class="math inline">\(\lambda_i\)</span> elements (which is the <span class="math inline">\(Z\)</span> matrix) and <span class="math inline">\(f_t\)</span> (which is the estimate of the hidden state, <span class="math inline">\(x_t\)</span>). The aggregate common inflation is obtained as the sum of the contributions of each individual subsector to the headline CPI, using their original weights.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Compute model's components</span></span>
@@ -621,7 +611,7 @@ v_t \sim \text{MVN}(0, Q)
 </div>
 
 
-<div id="refs" class="references csl-bib-body hanging-indent" role="doc-bibliography">
+<div id="refs" class="references csl-bib-body hanging-indent" role="doc-bibliography" style="display: none">
 <div id="ref-fed" class="csl-entry" role="doc-biblioentry">
 Eli, Nir, Haberkorn Flora, and Cascaldi-Garcia Danilo. 2021. <span>“International Measures of Common Inflation.”</span>
 </div>
@@ -633,7 +623,7 @@ Holmes, E. E., M. D. Scheuerell, and E. J. Ward. 2021. <em>Analysis of Multivari
 <section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes">
 <hr>
 <ol>
-<li id="fn1"><p><span class="citation" data-cites="fed">Eli, Flora, and Danilo (<a href="#ref-fed" role="doc-biblioref">2021</a>)</span> consider the innovation term as following an AR(1) process. Incorporating this assumption would require an even more complex transition equation.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn1"><p><span class="citation" data-cites="fed">Eli, Flora, and Danilo (<a href="references.html#ref-fed" role="doc-biblioref">2021</a>)</span> consider the innovation term as following an AR(1) process. Incorporating this assumption would require an even more complex transition equation.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 </ol>
 </section>
 
@@ -739,12 +729,12 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
       <a href="./ss_tv_coef.html" class="pagination-link">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Time-varying regression coefficient</span></span>
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Time-varying regression coefficient</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
       <a href="./single_equation.html" class="pagination-link">
-        <span class="nav-page-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Single equation models</span></span> <i class="bi bi-arrow-right-short"></i>
+        <span class="nav-page-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Single equation models</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
