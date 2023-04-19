@@ -6,8 +6,7 @@ In this section, we'll see how to estimate the parameters of a simple reduced fo
 
 For this exercise, we'll use seasonally-adjusted quarterly data from the Brazilian economy ranging from 2004Q1 to 2022Q4. The basic Phillips Curve can assume the following form:
 
-$$ \pi_t = \beta_1\pi_{t-1} + \beta_2\pi^{e}_{t,t+4|t} + \beta_3\Delta e_{t-1} + \beta_4\tilde{y}_{t-1} + \epsilon_t $$ 
-where $\pi_t$ is a measure of inflation; $\pi^{e}_{t,t+4|t}$ is the expected inflation in $t$ for $t+4$; $e$ is a measure of exchange rate or imported inflation; and $\tilde{y}$ is a measure of output gap. In this exercise, $\pi_t$ is a measure of core inflation which excludes food-at-home and regulated prices (CPI_CORE); $\pi^{e}$ is the market expectations compiled by the Brazilian Central Bank (CPI_EXP); $e$ is an index of commodities prices in USD (CI_USD); and $\tilde{y}$ is the cycle component obtained from the HP Filter on the GDP series (YGAP).
+$$ \pi_t = \beta_1\pi_{t-1} + \beta_2\pi^{e}_{t,t+4|t} + \beta_3\Delta e_{t-1} + \beta_4\tilde{y}_{t-1} + \epsilon_t $$ where $\pi_t$ is a measure of inflation; $\pi^{e}_{t,t+4|t}$ is the expected inflation in $t$ for $t+4$; $e$ is a measure of exchange rate or imported inflation; and $\tilde{y}$ is a measure of output gap. In this exercise, $\pi_t$ is a measure of core inflation which excludes food-at-home and regulated prices (CPI_CORE); $\pi^{e}$ is the market expectations compiled by the Brazilian Central Bank (CPI_EXP); $e$ is an index of commodities prices in USD (CI_USD); and $\tilde{y}$ is the cycle component obtained from the HP Filter on the GDP series (YGAP).
 
 Let's start by importing the data set and visualizing the variables of interest.
 
@@ -46,7 +45,7 @@ cp_fit <- lm(CPI_CORE ~ CPI_CORE_lag + CPI_EXP + YGAP_lag + dlog_CI_USD -1, cp_r
 summary(cp_fit)
 ```
 
-The coefficients are highly significant and show the expected signs. To check the model validity, it's crucial that the residuals are zero-mean and exhibit no clear trend. The `checkresiduals` functions from the `forecast` package provides a handy summary of the model residuals.
+The coefficients are highly significant and show the expected signs.  To check the model validity, it's crucial that the residuals are zero-mean and exhibit no clear trend. The `checkresiduals` functions from the `forecast` package provides a handy summary of the model residuals.
 
 ```{r}
 #| warnings: false
@@ -56,7 +55,9 @@ forecast::checkresiduals(cp_fit)
 
 We can see that the residuals are well-behaved: mean around zero, no outliers and no clear trend. There is an autocorrelation signal in the third lag evidenced by the ACF, but given that it is relatively small and far enough away, I believe it can be overlooked.
 
-The next step is to visualize the model fit. We can use the `augment` function from the `broom` package, which returns a data frame with the fitted values, residuals, etc. The `broom` package also provides other functions that greatly facilitate the manipulation of the regression results, as we'll see later.
+After confirming the validity of the model, we can use it for various purposes. The estimated coefficients provide interesting rules of thumb for everyday use. For example, the `dlog_CI_USD` coefficient measures the pass-through from imported prices to inflation. According to the model, a 10% increase in imported prices adds 0.17p.p to inflation in the current quarter.    
+
+Plotting the model fit is a good way to check deviations of the target variable from its fundamentals (at least those that are taken into account in the model). We can use the `augment` function from the `broom` package, which returns a data frame with the fitted values, residuals, etc. The `broom` package also provides other functions that greatly facilitate the manipulation of the regression results, as we'll see later.
 
 ```{r}
 #| warning: false
@@ -68,22 +69,26 @@ cp_fit_plot <- cp_fit %>%
       select(date) %>% 
       rowid_to_column(var = '.rownames') %>% 
       mutate(.rownames = as.character(.rownames))
-  )
+  ) %>% 
+  mutate(deviation = CPI_CORE - .fitted)
 cp_fit_plot %>% 
   ggplot(aes(x = date)) +
-  geom_line(aes(y = CPI_CORE, color = 'Observed'), lwd = 1) +
+  geom_line(aes(y = CPI_CORE, color = 'Actual'), lwd = 1) +
   geom_line(aes(y = .fitted, color = 'Model'), lwd = 1) +
+  geom_col(aes(y = deviation, fill = 'Deviation (Actual - Fitted)')) +
   theme_light() +
   theme(legend.position = 'top') +
+  scale_fill_manual(values = 'darkgrey') +
   labs(
-    title = 'CPI Core: Observed vs. Fitted (%QoQ SA)',
+    title = 'CPI Core: Actual vs. Fitted (%QoQ SA)',
     x = '',
     y = '%',
-    color = ''
+    color = '',
+    fill = ''
   )
 ```
 
-What is the role of economic activity in inflation in recent quarters? And about external factors, did they play a significant role in the overall result? It's a common practice to quantify the contribution of each variable to the observed value in a given period. This type of decomposition is obtained by multiplying the value of each variable in the period by the respective model coefficient.
+What is the role of economic activity in inflation in recent quarters? And about external factors, have they played a significant role in the overall result? It's a common practice to quantify the contribution of each variable to the observed value in a given period. This type of decomposition is obtained by multiplying the value of each variable in the period by the respective model coefficient.
 
 This time, we can make use of the `tidy` function from the `broom` package which returns the model's coefficients in tidy format.
 
@@ -117,3 +122,16 @@ cp_decomp %>%
 ```
 
 We can see that inertia and expectations are the main drivers of inflation throughout the sample, although for specific periods economic activity and imported inflation played a significant role. I also included the residual term because it's also important to know when factors other than those incorporated into the model are relevant to the outcome and the magnitude of its contribution to the overall result.
+
+Obviously, the model can be used to produce forecasts. For this, we need to provide values for the exogenous variables including the lagged CPI. In the next section we'll see a more complete approach on how to provide scenarios for future values. For now, I'll only take the last value of each variable and add a small random variation. 
+
+```{r}
+set.seed(123)
+new_values <- tibble(
+  CPI_CORE_lag = last(cp_reg_data$CPI_CORE),
+  CPI_EXP      = last(cp_reg_data$CPI_EXP)+rnorm(1),
+  YGAP_lag     = last(cp_reg_data$YGAP)+rnorm(1),
+  dlog_CI_USD  = last(cp_reg_data$dlog_CI_USD)+rnorm(1)
+)
+predict(cp_fit, new_values)
+```

@@ -1,8 +1,10 @@
 # Seasonal adjustment {#seasonality}
 
-Seasonality is commonly defined as the expected fluctuation in time series data that occurs within a regular frequency not exceeding a one-year-period. For instance, temperatures are higher in the summer months and lower in the winter months. These fluctuations often create difficulties for the correct identification of trends in data. For example, it doesn't help to know that the average temperature increased in July compared to June. The relevant information is how much did the the average temperature exceed the historical pattern for this period. Therefore, in most applications with time series it's mandatory to remove the seasonal component before carrying out any further analysis.
+Seasonality is commonly defined as the expected fluctuation in time series data that occurs within a regular frequency not exceeding a one-year-period. For instance, temperatures are higher in the summer months and lower in the winter months. These fluctuations often create difficulties for the correct identification of trends in data. For example, it doesn't help to know that the average temperature increased in July compared to June. The relevant information is how much did the average temperature exceed the historical pattern for this period. Therefore, in most applications with time series it's mandatory to remove the seasonal component before carrying out any further analysis.
 
-There are some methods available for seasonal adjustment, [X-13-ARIMA](https://www.census.gov/data/software/x13as.html) from the US Census Bureau being the most used. It basically makes use of a standard ARIMA model with external regressors accounting for outliers, permanent shifts, holidays and so on. In the following sections we'll see how to identify and remove the seasonal pattern from Brazilian Retail Sales data (PMC provided by IBGE, the Brazilian official bureau of statistics) using X-13-ARIMA.
+There are some methods available for seasonal adjustment, [X-13-ARIMA](https://www.census.gov/data/software/x13as.html) from the US Census Bureau being the most used. Roughly speaking, it makes use of a standard ARIMA model with external regressors accounting for outliers, permanent shifts, holidays and so on. The [Seasonal Adjustment Q&A](https://www.census.gov/data/software/x13as/seasonal-adjustment-questions-answers.html) section of the Census website provides details on how the tool works, as well as useful information on the practice of seasonal adjustment. It's worth giving it a read.
+
+In the following sections we'll see how to identify and remove the seasonal pattern from Brazilian Retail Sales data (PMC provided by IBGE, the Brazilian official bureau of statistics) using X-13-ARIMA.  
 
 ### Spotting a seasonal pattern
 
@@ -139,11 +141,11 @@ pmc_sa_autox13 %>%
   )
 ```
 
-We can see that for most of the sample our automatic version follows closely the official's, but it clearly goes off track right after the COVID shock in early 2000's. Fortunately, IBGE describes the model specification it uses for the seasonal adjustment of this series in a technical note. Some relevant information are: 
+We can see that for most of the sample our automatic version follows closely the official's, but it clearly goes off track right after the COVID shock in early 2000's. Fortunately, IBGE describes the model specification it uses for the seasonal adjustment of this series in a technical note. Some relevant information are:
 
-1. The model specification is SARIMA(0,1,1)(0,1,1); 
-2. It incorporates Carnival and Corpus Christi -- two important moving holidays in Brazil -- in the model besides the usual trading days and Easter; and 
-3. It also includes two level shifts -- April 2020 and December 2020 -- and a temporary change -- April 2020. The latter arguably to cope with the effects of the COVID shock.
+1.  The model specification is SARIMA(0,1,1)(0,1,1);
+2.  It incorporates Carnival and Corpus Christi -- two important moving holidays in Brazil -- in the model besides the usual trading days and Easter; and
+3.  It also includes two level shifts -- April 2020 and December 2020 -- and a temporary change -- April 2020. The latter arguably to cope with the effects of the COVID shock.
 
 How can we add these features to the seasonal adjustment model? Starting with the moving holidays, we need to create a vector with the dates of the holidays. However, for some holidays it might be well that their effect may extend beyond the day on which they occur. Carnival in Brazil is a good example. Even though the holiday happens on a Tuesday, the celebration starts on Monday and ends on Wednesday. Hence, it's very important to include these two extra days in the input vector. The `genhol` function makes this task much simpler: it automatically extend our date vector by including a number of earlier and/or later dates defined by the offsetting parameters `start` and `end`. Since Carnival and Corpus Christi occur, respectively, 47 and 60 days after Easter we can build the associated vectors from the latter -- the `seasonal` package has built-in dates for Easter inside the `easter` vector. Otherwise, we would have to build them by ourselves (or import it from somewhere).
 
