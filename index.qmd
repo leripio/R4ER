@@ -18,4 +18,14 @@ I really hope that you enjoy reading this book and that it can benefit you in yo
 
 Also, I would be very happy to receive suggestions and feedback via [email](mailto:leripiorenato@gmail.com).
 
-For more information about me and my work, visit [rleripio.com](http://www.rleripio.com).
+# Author {.unnumbered}
+
+I’m a Senior Analyst at [Kapitalo Investimentos](https://www.kapitalo.com.br/), in charge of developing tools to improve the accuracy of economic forecasts. For more information about me and my work, visit [rleripio.com](http://www.rleripio.com). 
+
+# Citation {.unnumbered}
+
+Leripio, J. Renato. (2023) R for Economic Research: Essential tools for modern economic analysis. Edition 2023-04. Available at http://book.rleripio.com
+
+# License {.unnumbered}
+
+<p xmlns:cc="http://creativecommons.org/ns#" xmlns:dct="http://purl.org/dc/terms/"><a property="dct:title" rel="cc:attributionURL" href="http://book.rleripio.com">R for Economic Research: Essential tools for modern economic analysis</a> by <a rel="cc:attributionURL dct:creator" property="cc:attributionName" href="http://www.rleripio.com">J. Renato Leripio</a> is licensed under <a href="http://creativecommons.org/licenses/by-nc-sa/4.0/?ref=chooser-v1" target="_blank" rel="license noopener noreferrer" style="display:inline-block;">Attribution-NonCommercial-ShareAlike 4.0 International<img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/cc.svg?ref=chooser-v1"><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/by.svg?ref=chooser-v1"><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/nc.svg?ref=chooser-v1"><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/sa.svg?ref=chooser-v1"></a></p>
