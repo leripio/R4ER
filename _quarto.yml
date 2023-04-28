@@ -7,8 +7,8 @@ book:
   author: "J. Renato Leripio"
   date: "4/3/2023"
   repo-url: https://github.com/leripio/R4ER
-  
   google-analytics: "G-6T89HT07F5"
+  cover-image: "images/cover.jpg"
   chapters:
     - index.qmd
     - part: 'Data science with Tidyverse'
