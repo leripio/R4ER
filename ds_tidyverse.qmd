@@ -1144,7 +1144,7 @@ us_gdp <- read_delim(
 us_gdp
 ```
 
-The data frame is in long format, which is not suitable for a table. So, we'll start by pivoting our data frame so as the dates goes across the columns and the variables (the breakdown of the contributions to the US GDP) goes across the rows. Then, we'll transform it to a `gt` object.
+The data frame is in long format, which is not suitable for a table. So, we'll start by pivoting our data frame so as the dates goes across the columns and the variables (the breakdown of the contributions to the US GDP) goes across the rows. Then, we'll transform it in a `gt` object.
 
 ```{r}
 #| warning: false

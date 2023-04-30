@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="J. Renato Leripio">
-<meta name="dcterms.date" content="2023-04-03">
+<meta name="dcterms.date" content="2023-04-30">
 <meta name="description" content="Essential tools for modern economic analysis">
 
 <title>R for Economic Research</title>
@@ -193,7 +193,7 @@ gtag('config', 'G-6T89HT07F5', { 'anonymize_ip': true});
       <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./fc_abc.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">The ABC</span></a>
+  <a href="./fc_abc.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">The abc</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -210,7 +210,7 @@ gtag('config', 'G-6T89HT07F5', { 'anonymize_ip': true});
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-expanded="true">State-space models</a>
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-expanded="true">Economic modelling</a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-expanded="true">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
@@ -218,24 +218,19 @@ gtag('config', 'G-6T89HT07F5', { 'anonymize_ip': true});
       <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./ss_intro.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Introduction</span></a>
+  <a href="./single_equation.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Single equation models</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./ss_tv_coef.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Time-varying regression coefficient</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./ss_common.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Dynamic Factor Model</span></a>
+  <a href="./multiple_equations.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Multiple equations model</span></a>
   </div>
 </li>
       </ul>
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" aria-expanded="true">Economic modelling</a>
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" aria-expanded="true">State-space models</a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" aria-expanded="true">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
@@ -243,12 +238,17 @@ gtag('config', 'G-6T89HT07F5', { 'anonymize_ip': true});
       <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./single_equation.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Single equation models</span></a>
+  <a href="./ss_intro.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Introduction</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./multiple_equations.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Multiple equations model</span></a>
+  <a href="./ss_tv_coef.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Time-varying regression coefficient</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ss_common.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Dynamic Factor Model</span></a>
   </div>
 </li>
       </ul>
@@ -268,6 +268,7 @@ gtag('config', 'G-6T89HT07F5', { 'anonymize_ip': true});
    
   <ul>
   <li><a href="#preface" id="toc-preface" class="nav-link active" data-scroll-target="#preface">Preface</a></li>
+  <li><a href="#data" id="toc-data" class="nav-link" data-scroll-target="#data">Data</a></li>
   <li><a href="#author" id="toc-author" class="nav-link" data-scroll-target="#author">Author</a></li>
   <li><a href="#citation" id="toc-citation" class="nav-link" data-scroll-target="#citation">Citation</a></li>
   <li><a href="#license" id="toc-license" class="nav-link" data-scroll-target="#license">License</a></li>
@@ -301,7 +302,7 @@ gtag('config', 'G-6T89HT07F5', { 'anonymize_ip': true});
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">April 3, 2023</p>
+      <p class="date">April 30, 2023</p>
     </div>
   </div>
     
@@ -314,14 +315,18 @@ gtag('config', 'G-6T89HT07F5', { 'anonymize_ip': true});
 <section id="preface" class="level1 unnumbered">
 <p><img src="images/cover.jpg" title="R for Economic Research" class="quarto-cover-image img-fluid"></p><h1 class="unnumbered">Preface</h1>
 <p>Over the past years I’ve received a lot of messages asking what I considered to be the most important subjects one should learn in order to start a career in economic research. R for Economic Research is my contribution to those who have some knowledge of R programming but still lack the necessary tools to carry out professional economic analysis. This is an intermediate-level book where the reader will find shortcuts to start working on a variety of tasks and also valuable references to delve into the details of more complex topics.</p>
-<p>After six years as a professional in this field, I believe I am in a position to suggest a set of necessary tools for this type of work. The reasoning behind the book can be described as follows.</p>
+<p>The reasoning behind the book can be described as follows.</p>
 <p><strong>Modern economic research requires a solid knowledge of a programming language</strong>. In fact, with a growing set of data now available through APIs it is possible to produce automated analyzes almost instantly using efficient techniques. In addition, unstructured data only becomes true information if correctly handled. I chose R because I strongly believe that Tidyverse is unrivaled as a data science workflow.</p>
 <p><strong>It does require more than just programming</strong>. Indeed, I have interviewed several applicants who were quite proficient in programming but lacked knowledge of basic topics on applied time series. For example, they didn’t know how to perform seasonal adjustment nor how to deflating nominal to real values. Filling in these gaps is crucial.</p>
 <p><strong>Knowledge about forecasting is vital</strong>. I’m definitely not talking about state-of-the-art machine learning models. In fact, most problems can be addressed with traditional statistical methods. Setting up the workflow to generate reliable forecasts is the relevant skill here.</p>
-<p><strong>Taking it to the next level</strong>. Some tools allow us to considerably expand our possibilities. Learning how to build and estimate state-space models is undoubtedly a big step forward in becoming a senior analyst.</p>
 <p><strong>I can’t help but talk about economic modelling</strong>. Estimating the relationship between economic variables and making projections is the core business of those who work with economic research. Despite being a topic that requires theoretical and applied training beyond the scope of this book, I believe that showing how to set up the framework for these models is a valuable contribution for those who want to start in the field.</p>
+<p><strong>Taking it to the next level</strong>. Some tools allow us to considerably expand our possibilities. Learning how to build and estimate state-space models is undoubtedly a big step forward in becoming a senior analyst.</p>
 <p>I really hope that you enjoy reading this book and that it can benefit you in your career.</p>
 <p>Also, I would be very happy to receive suggestions and feedback via <a href="mailto:leripiorenato@gmail.com">email</a>.</p>
+</section>
+<section id="data" class="level1 unnumbered">
+<h1 class="unnumbered">Data</h1>
+<p>All the data sets used in the examples will be soon released as an R package. In the meantime, the relevant data are stored in the folder named <em>data</em> in the book official <a href="https://github.com/leripio/R4ER">repository</a> on Github.</p>
 </section>
 <section id="author" class="level1 unnumbered">
 <h1 class="unnumbered">Author</h1>

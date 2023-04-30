@@ -5,7 +5,7 @@ book:
   title: "R for Economic Research"
   description: "Essential tools for modern economic analysis"
   author: "J. Renato Leripio"
-  date: "4/3/2023"
+  date: "4/30/2023"
   repo-url: https://github.com/leripio/R4ER
   google-analytics: "G-6T89HT07F5"
   cover-image: "images/cover.jpg"
@@ -26,15 +26,16 @@ book:
       - fc_abc.qmd
       - fc_comparison.qmd
       - fc_simulation.qmd
+    
+    - part: 'Economic modelling'
+      chapters:
+      - single_equation.qmd
+      - multiple_equations.qmd
     - part: 'State-space models'
       chapters:
       - ss_intro.qmd
       - ss_tv_coef.qmd
       - ss_common.qmd
-    - part: 'Economic modelling'
-      chapters:
-      - single_equation.qmd
-      - multiple_equations.qmd
     - references.qmd
   search: true
   #downloads: [pdf, epub]
