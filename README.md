@@ -10,9 +10,9 @@ After six years as a professional in this field, I believe I am in a position to
 
 **Knowledge about forecasting is vital**. I'm definitely not talking about state-of-the-art machine learning models. In fact, most problems can be addressed with traditional statistical methods. Setting up the workflow to generate reliable forecasts is the relevant skill here.
 
-**Taking it to the next level**. Some tools allow us to considerably expand our possibilities. Learning how to build and estimate state-space models is undoubtedly a big step forward in becoming a senior analyst.
-
 **I can't help but talk about economic modelling**. Estimating the relationship between economic variables and making projections is the core business of those who work with economic research. Despite being a topic that requires theoretical and applied training beyond the scope of this book, I believe that showing how to set up the framework for these models is a valuable contribution for those who want to start in the field.
+
+**Taking it to the next level**. Some tools allow us to considerably expand our possibilities. Learning how to build and estimate state-space models is undoubtedly a big step forward in becoming a senior analyst.
 
 I really hope that you enjoy reading this book and that it can benefit you in your career.
 
