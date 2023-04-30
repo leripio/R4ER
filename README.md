@@ -1,6 +1,6 @@
 # Preface
 
-<img align="left" src="images/cover.jpg">
+<img align="left" src="images/cover.jpg" width="48">
 
 Over the past years I've received a lot of messages asking what I considered to be the most important subjects one should learn in order to start a career in economic research. R for Economic Research is my contribution to those who have some knowledge of R programming but still lack the necessary tools to carry out professional economic analysis. This is an intermediate-level book where the reader will find shortcuts to start working on a variety of tasks and also valuable references to delve into the details of more complex topics.
 
