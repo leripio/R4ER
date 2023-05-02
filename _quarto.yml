@@ -38,6 +38,8 @@ book:
       - ss_common.qmd
     - references.qmd
   search: true
+  twitter-card:
+    image: "/images/preview.png"
   #downloads: [pdf, epub]
   sharing: [twitter, facebook, linkedin]
   sidebar:
