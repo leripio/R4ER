@@ -7,6 +7,7 @@ book:
   author: "J. Renato Leripio"
   date: "4/30/2023"
   repo-url: https://github.com/leripio/R4ER
+  site-url: "http://book.rleripio.com"
   google-analytics: "G-6T89HT07F5"
   cover-image: "images/cover.jpg"
   chapters:
