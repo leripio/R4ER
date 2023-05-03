@@ -38,7 +38,7 @@ book:
     - references.qmd
   search: true
   twitter-card:
-    image: "/images/preview.jpg"
+    image: "images/preview.jpg"
   #downloads: [pdf, epub]
   sharing: [twitter, facebook, linkedin]
   sidebar:
