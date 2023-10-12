@@ -2,66 +2,70 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>http://book.rleripio.com/index.html</loc>
-    <lastmod>2023-10-12T18:45:35.942Z</lastmod>
+    <lastmod>2023-10-12T19:57:09.072Z</lastmod>
   </url>
   <url>
     <loc>http://book.rleripio.com/ds_tidyverse.html</loc>
-    <lastmod>2023-09-24T22:23:43.073Z</lastmod>
+    <lastmod>2023-10-12T19:57:09.109Z</lastmod>
   </url>
   <url>
     <loc>http://book.rleripio.com/ds_googlemob.html</loc>
-    <lastmod>2023-09-03T23:50:14.013Z</lastmod>
+    <lastmod>2023-10-12T19:57:09.121Z</lastmod>
   </url>
   <url>
     <loc>http://book.rleripio.com/ds_windowing.html</loc>
-    <lastmod>2023-09-24T21:44:57.831Z</lastmod>
+    <lastmod>2023-10-12T19:57:09.127Z</lastmod>
   </url>
   <url>
     <loc>http://book.rleripio.com/ds_seasonality.html</loc>
-    <lastmod>2023-09-24T22:01:07.755Z</lastmod>
+    <lastmod>2023-10-12T19:57:09.134Z</lastmod>
   </url>
   <url>
     <loc>http://book.rleripio.com/ds_nominal2real.html</loc>
-    <lastmod>2023-09-24T22:23:43.079Z</lastmod>
+    <lastmod>2023-10-12T19:57:09.140Z</lastmod>
   </url>
   <url>
     <loc>http://book.rleripio.com/ds_hpfilter.html</loc>
-    <lastmod>2023-09-24T22:23:43.917Z</lastmod>
+    <lastmod>2023-10-12T19:57:09.148Z</lastmod>
   </url>
   <url>
     <loc>http://book.rleripio.com/fc_abc.html</loc>
-    <lastmod>2023-09-24T22:49:48.056Z</lastmod>
+    <lastmod>2023-10-12T19:57:09.159Z</lastmod>
   </url>
   <url>
     <loc>http://book.rleripio.com/fc_comparison.html</loc>
-    <lastmod>2023-09-24T23:15:06.574Z</lastmod>
+    <lastmod>2023-10-12T19:57:09.169Z</lastmod>
   </url>
   <url>
     <loc>http://book.rleripio.com/fc_simulation.html</loc>
-    <lastmod>2023-09-24T23:25:35.266Z</lastmod>
+    <lastmod>2023-10-12T19:57:09.176Z</lastmod>
   </url>
   <url>
     <loc>http://book.rleripio.com/single_equation.html</loc>
-    <lastmod>2023-10-12T17:12:33.722Z</lastmod>
+    <lastmod>2023-10-12T19:57:09.183Z</lastmod>
   </url>
   <url>
     <loc>http://book.rleripio.com/multiple_equations.html</loc>
-    <lastmod>2023-10-12T17:29:13.864Z</lastmod>
+    <lastmod>2023-10-12T19:57:09.190Z</lastmod>
   </url>
   <url>
     <loc>http://book.rleripio.com/ss_intro.html</loc>
-    <lastmod>2023-10-12T17:54:04.773Z</lastmod>
+    <lastmod>2023-10-12T19:57:09.192Z</lastmod>
   </url>
   <url>
     <loc>http://book.rleripio.com/ss_tv_coef.html</loc>
-    <lastmod>2023-10-12T18:16:15.964Z</lastmod>
+    <lastmod>2023-10-12T19:57:09.202Z</lastmod>
   </url>
   <url>
     <loc>http://book.rleripio.com/ss_common.html</loc>
-    <lastmod>2023-10-12T18:45:11.431Z</lastmod>
+    <lastmod>2023-10-12T19:57:09.212Z</lastmod>
   </url>
   <url>
     <loc>http://book.rleripio.com/references.html</loc>
-    <lastmod>2023-08-27T22:46:04.643Z</lastmod>
+    <lastmod>2023-10-12T19:57:09.215Z</lastmod>
+  </url>
+  <url>
+    <loc>http://book.rleripio.com/R-for-Economic-Research.epub</loc>
+    <lastmod>2023-10-12T19:57:08.703Z</lastmod>
   </url>
 </urlset>
