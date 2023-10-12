@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.1.189">
+<meta name="generator" content="quarto-1.3.353">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -18,9 +18,10 @@ div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
 ul.task-list{list-style: none;}
 ul.task-list li input[type="checkbox"] {
   width: 0.8em;
-  margin: 0 0.8em 0.2em -1.6em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
 pre > code.sourceCode { white-space: pre; position: relative; }
 pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
@@ -47,43 +48,13 @@ pre.numberSource code > span > a:first-child::before
     -khtml-user-select: none; -moz-user-select: none;
     -ms-user-select: none; user-select: none;
     padding: 0 4px; width: 4em;
-    color: #aaaaaa;
   }
-pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
 div.sourceCode
   {   }
 @media screen {
 pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
-code span.al { color: #ff0000; font-weight: bold; } /* Alert */
-code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
-code span.at { color: #7d9029; } /* Attribute */
-code span.bn { color: #40a070; } /* BaseN */
-code span.bu { color: #008000; } /* BuiltIn */
-code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
-code span.ch { color: #4070a0; } /* Char */
-code span.cn { color: #880000; } /* Constant */
-code span.co { color: #60a0b0; font-style: italic; } /* Comment */
-code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
-code span.do { color: #ba2121; font-style: italic; } /* Documentation */
-code span.dt { color: #902000; } /* DataType */
-code span.dv { color: #40a070; } /* DecVal */
-code span.er { color: #ff0000; font-weight: bold; } /* Error */
-code span.ex { } /* Extension */
-code span.fl { color: #40a070; } /* Float */
-code span.fu { color: #06287e; } /* Function */
-code span.im { color: #008000; font-weight: bold; } /* Import */
-code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
-code span.kw { color: #007020; font-weight: bold; } /* Keyword */
-code span.op { color: #666666; } /* Operator */
-code span.ot { color: #007020; } /* Other */
-code span.pp { color: #bc7a00; } /* Preprocessor */
-code span.sc { color: #4070a0; } /* SpecialChar */
-code span.ss { color: #bb6688; } /* SpecialString */
-code span.st { color: #4070a0; } /* String */
-code span.va { color: #19177c; } /* Variable */
-code span.vs { color: #4070a0; } /* VerbatimString */
-code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
 </style>
 
 
@@ -137,7 +108,7 @@ gtag('config', 'G-6T89HT07F5', { 'anonymize_ip': true});
 
 <meta name="twitter:title" content="R for Economic Research - 2&nbsp; Scaling-up tasks">
 <meta name="twitter:description" content="Essential tools for modern economic analysis">
-<meta name="twitter:image" content="http://book.rleripio.com/images\preview.jpg">
+<meta name="twitter:image" content="http://book.rleripio.com/images/preview.jpg">
 <meta name="twitter:card" content="summary_large_image">
 </head>
 
@@ -145,11 +116,16 @@ gtag('config', 'G-6T89HT07F5', { 'anonymize_ip': true});
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
-  <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
-    <div class="container-fluid d-flex justify-content-between">
-      <h1 class="quarto-secondary-nav-title"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Scaling-up tasks</span></h1>
-      <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
-        <i class="bi bi-chevron-right"></i>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./ds_tidyverse.html">Data science with Tidyverse</a></li><li class="breadcrumb-item"><a href="./ds_googlemob.html"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Scaling-up tasks</span></a></li></ol></nav>
+      <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+      </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
       </button>
     </div>
   </nav>
@@ -157,186 +133,210 @@ gtag('config', 'G-6T89HT07F5', { 'anonymize_ip': true});
 <!-- content -->
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
 <!-- sidebar -->
-  <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation docked overflow-auto">
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation docked overflow-auto">
     <div class="pt-lg-2 mt-2 text-left sidebar-header">
     <div class="sidebar-title mb-0 py-0">
       <a href="./">R for Economic Research</a> 
         <div class="sidebar-tools-main">
-    <a href="https://github.com/leripio/R4ER" title="Source Code" class="sidebar-tool px-1"><i class="bi bi-github"></i></a>
-    <a href="" title="Share" id="sidebar-tool-dropdown-0" class="sidebar-tool dropdown-toggle px-1" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi bi-share"></i></a>
-    <ul class="dropdown-menu" aria-labelledby="sidebar-tool-dropdown-0">
-        <li>
-          <a class="dropdown-item sidebar-tools-main-item" href="https://twitter.com/intent/tweet?url=|url|">
-            <i class="bi bi-bi-twitter pe-1"></i>
-          Twitter
-          </a>
-        </li>
-        <li>
-          <a class="dropdown-item sidebar-tools-main-item" href="https://www.facebook.com/sharer/sharer.php?u=|url|">
-            <i class="bi bi-bi-facebook pe-1"></i>
-          Facebook
-          </a>
-        </li>
-        <li>
-          <a class="dropdown-item sidebar-tools-main-item" href="https://www.linkedin.com/sharing/share-offsite/?url=|url|">
-            <i class="bi bi-bi-linkedin pe-1"></i>
-          LinkedIn
-          </a>
-        </li>
-    </ul>
+    <a href="https://github.com/leripio/R4ER" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
+    <div class="dropdown">
+      <a href="" title="Share" id="quarto-navigation-tool-dropdown-0" class="quarto-navigation-tool dropdown-toggle px-1" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Share"><i class="bi bi-share"></i></a>
+      <ul class="dropdown-menu" aria-labelledby="quarto-navigation-tool-dropdown-0">
+          <li>
+            <a class="dropdown-item sidebar-tools-main-item" href="https://twitter.com/intent/tweet?url=|url|">
+              <i class="bi bi-bi-twitter pe-1"></i>
+            Twitter
+            </a>
+          </li>
+          <li>
+            <a class="dropdown-item sidebar-tools-main-item" href="https://www.facebook.com/sharer/sharer.php?u=|url|">
+              <i class="bi bi-bi-facebook pe-1"></i>
+            Facebook
+            </a>
+          </li>
+          <li>
+            <a class="dropdown-item sidebar-tools-main-item" href="https://www.linkedin.com/sharing/share-offsite/?url=|url|">
+              <i class="bi bi-bi-linkedin pe-1"></i>
+            LinkedIn
+            </a>
+          </li>
+      </ul>
+    </div>
 </div>
     </div>
       </div>
-      <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="mt-2 flex-shrink-0 align-items-center">
         <div class="sidebar-search">
         <div id="quarto-search" class="" title="Search"></div>
         </div>
-      </div>
+        </div>
     <div class="sidebar-menu-container"> 
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./index.html" class="sidebar-item-text sidebar-link">Preface</a>
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Preface</span></a>
   </div>
 </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">Data science with Tidyverse</a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
+ <span class="menu-text">Data science with Tidyverse</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
       <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./ds_tidyverse.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction</span></a>
+  <a href="./ds_tidyverse.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./ds_googlemob.html" class="sidebar-item-text sidebar-link active"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Scaling-up tasks</span></a>
+  <a href="./ds_googlemob.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Scaling-up tasks</span></span></a>
   </div>
 </li>
       </ul>
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">Basic time series tools</a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">
+ <span class="menu-text">Basic time series tools</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
       <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./ds_windowing.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Rolling, cumulative and lagged/leading values</span></a>
+  <a href="./ds_windowing.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Rolling, cumulative and lagged/leading values</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./ds_seasonality.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Seasonal adjustment</span></a>
+  <a href="./ds_seasonality.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Seasonal adjustment</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./ds_nominal2real.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Deflating nominal values to real values</span></a>
+  <a href="./ds_nominal2real.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Deflating nominal values to real values</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./ds_hpfilter.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Hodrick-Prescott Filter</span></a>
+  <a href="./ds_hpfilter.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Hodrick-Prescott Filter</span></span></a>
   </div>
 </li>
       </ul>
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true">Forecasting</a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true">
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true">
+ <span class="menu-text">Forecasting</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
       <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./fc_abc.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">The abc</span></a>
+  <a href="./fc_abc.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">The abc</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./fc_comparison.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Forecasting by comparison</span></a>
+  <a href="./fc_comparison.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Forecasting by comparison</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./fc_simulation.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Simulations</span></a>
+  <a href="./fc_simulation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Simulations</span></span></a>
   </div>
 </li>
       </ul>
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-expanded="true">Economic modelling</a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-expanded="true">
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-expanded="true">
+ <span class="menu-text">Economic modelling</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
       <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./single_equation.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Single equation models</span></a>
+  <a href="./single_equation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Single equation models</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./multiple_equations.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Multiple equations model</span></a>
+  <a href="./multiple_equations.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Multiple equations model</span></span></a>
   </div>
 </li>
       </ul>
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" aria-expanded="true">State-space models</a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" aria-expanded="true">
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" aria-expanded="true">
+ <span class="menu-text">State-space models</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
       <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./ss_intro.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Introduction</span></a>
+  <a href="./ss_intro.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Introduction</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./ss_tv_coef.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Time-varying regression coefficient</span></a>
+  <a href="./ss_tv_coef.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Time-varying regression coefficient</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./ss_common.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Dynamic Factor Model</span></a>
+  <a href="./ss_common.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Dynamic Factor Model</span></span></a>
   </div>
 </li>
       </ul>
   </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./references.html" class="sidebar-item-text sidebar-link">References</a>
+  <a href="./references.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">References</span></a>
   </div>
 </li>
     </ul>
     </div>
 </nav>
+<div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
         <nav id="TOC" role="doc-toc" class="toc-active">
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#importing-data" id="toc-importing-data" class="nav-link active" data-scroll-target="#importing-data"><span class="toc-section-number">2.1</span>  Importing data</a></li>
-  <li><a href="#preparing-the-data" id="toc-preparing-the-data" class="nav-link" data-scroll-target="#preparing-the-data"><span class="toc-section-number">2.2</span>  Preparing the data</a></li>
-  <li><a href="#plot-information" id="toc-plot-information" class="nav-link" data-scroll-target="#plot-information"><span class="toc-section-number">2.3</span>  Plot information</a></li>
-  <li><a href="#from-code-to-function" id="toc-from-code-to-function" class="nav-link" data-scroll-target="#from-code-to-function"><span class="toc-section-number">2.4</span>  From code to function</a></li>
+  <li><a href="#importing-data" id="toc-importing-data" class="nav-link active" data-scroll-target="#importing-data"><span class="header-section-number">2.1</span> Importing data</a></li>
+  <li><a href="#preparing-the-data" id="toc-preparing-the-data" class="nav-link" data-scroll-target="#preparing-the-data"><span class="header-section-number">2.2</span> Preparing the data</a></li>
+  <li><a href="#plot-information" id="toc-plot-information" class="nav-link" data-scroll-target="#plot-information"><span class="header-section-number">2.3</span> Plot information</a></li>
+  <li><a href="#from-code-to-function" id="toc-from-code-to-function" class="nav-link" data-scroll-target="#from-code-to-function"><span class="header-section-number">2.4</span> From code to function</a></li>
   </ul>
 </nav>
     </div>
@@ -345,30 +345,26 @@ gtag('config', 'G-6T89HT07F5', { 'anonymize_ip': true});
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title d-none d-lg-block"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Scaling-up tasks</span></h1>
+<h1 class="title"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Scaling-up tasks</span></h1>
 </div>
 
-<div>
-  <div class="description">
-    Essential tools for modern economic analysis
-  </div>
-</div>
 
 
 <div class="quarto-title-meta">
 
     
+  
     
   </div>
   
 
 </header>
 
-<p>In the introductory Chapter we saw how to import, organize and visualize data. However, little attention has been given to situations that require greater efficiency or scalability. This Chapter will take a step further in extending the previous knowledge to deal with more challenging situations.</p>
-<p>For this exercise, we will use the Google Mobility data. Google started releasing this data on a daily basis right after the COVID outbreak spread across the world by mid-February 2020. Since then this data has been widely used for different purposes, from assessing/measuring economic activity to designing public policies. In spite of being a well-organized data set, it does offer the opportunity to do real-life data wrangling and to explore good practices from importing through visualizing.<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a></p>
+<p>In the introductory chapter we saw how to import, organize and visualize data. However, little attention has been given to situations that require greater efficiency or scalability. This chapter will take a step further in extending the previous knowledge to deal with more challenging situations.</p>
+<p>For this exercise, we will use the Google Mobility data. Google started releasing this data on a daily basis right after the COVID outbreak spread across the world by mid-February 2020. Since then this data has been widely used for different purposes, from assessing/measuring economic activity to designing public policies. In spite of being a well-organized data set, it does offer the opportunity to do real-life data wrangling and to explore good practices from importing to visualizing.<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a></p>
 <section id="importing-data" class="level2" data-number="2.1">
 <h2 data-number="2.1" class="anchored" data-anchor-id="importing-data"><span class="header-section-number">2.1</span> Importing data</h2>
-<p>Google offers two ways to download mobility data: you can either get a unique .csv file with all the available countries or you can get a .zip file with a separate .csv file for each country. We will stick with the latter for a simple reason: we are probably not interested in analyzing every single country and as data sets grow larger, it’s much more efficient to import only the data we are interested in.</p>
+<p>Google offers two ways to download its mobility data. You can either get a unique .csv file with all the available countries or you can get a .zip file with a separate .csv file for each country. We will stick with the latter for a simple reason: we are probably not interested in analyzing every single country and as data sets grow larger, it’s much more efficient to import only the data we are interested in.</p>
 <p>We begin by downloading the .zip file to the <code>data</code> folder.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">download.file</span>(</span>
@@ -410,7 +406,7 @@ gtag('config', 'G-6T89HT07F5', { 'anonymize_ip': true});
 <p>Another issue that could cause us problems is if any of the elements in <code>google_filenames</code> did not exist. For example, if there wasn’t data for Germany in 2021. The <code>map</code> function would throw an error and interrupt the task, regardless all the other files were present. To prevent this problem, we can use the <code>possibly</code> function from <code>purrr</code> package, which replaces the error (or any side effect) with another output. In this case, we can replace the error by a <code>NULL</code> element in the list.</p>
 <p>Therefore, the efficient strategy in this case is:</p>
 <ol type="1">
-<li>Use the <code>map</code> function to import each file as an element in a list using the <code>possibly</code> function to avoid any error.</li>
+<li>Use the <code>map</code> function to import each file as an element in a list using the <code>possibly</code> function to avoid any error to stop the whole process.</li>
 <li>Assign meaningful names for each element of that list with <code>set_names</code> from <code>magrittr</code> package.</li>
 <li>Call the <code>ldply</code> function from <code>plyr</code> package to stack them.</li>
 </ol>
@@ -435,33 +431,30 @@ gtag('config', 'G-6T89HT07F5', { 'anonymize_ip': true});
 <h2 data-number="2.2" class="anchored" data-anchor-id="preparing-the-data"><span class="header-section-number">2.2</span> Preparing the data</h2>
 <p>Now the we have successfully imported the data for the selected countries, it is time to produce useful content. Let’s begin with a closer look on the structure of the data set. We can remove the <code>year_country</code> column since it was only for pedagogical purposes and we won’t need it.</p>
 <div class="cell">
-
-</div>
-<div class="cell">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>mobility_data <span class="sc">%&gt;%</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">glimpse</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Rows: 4,772,663
 Columns: 15
-$ country_region_code                                &lt;chr&gt; "BR", "BR", "BR", "~
-$ country_region                                     &lt;chr&gt; "Brazil", "Brazil",~
-$ sub_region_1                                       &lt;chr&gt; NA, NA, NA, NA, NA,~
-$ sub_region_2                                       &lt;chr&gt; NA, NA, NA, NA, NA,~
-$ metro_area                                         &lt;lgl&gt; NA, NA, NA, NA, NA,~
-$ iso_3166_2_code                                    &lt;chr&gt; NA, NA, NA, NA, NA,~
-$ census_fips_code                                   &lt;chr&gt; NA, NA, NA, NA, NA,~
-$ place_id                                           &lt;chr&gt; "ChIJzyjM68dZnAARYz~
-$ date                                               &lt;date&gt; 2020-02-15, 2020-0~
-$ retail_and_recreation_percent_change_from_baseline &lt;dbl&gt; 5, 2, -2, -3, -1, 1~
-$ grocery_and_pharmacy_percent_change_from_baseline  &lt;dbl&gt; 4, 3, 0, -1, -2, 7,~
-$ parks_percent_change_from_baseline                 &lt;dbl&gt; -5, -13, -12, -11, ~
-$ transit_stations_percent_change_from_baseline      &lt;dbl&gt; 8, 3, 9, 9, 8, 11, ~
-$ workplaces_percent_change_from_baseline            &lt;dbl&gt; 6, 0, 19, 15, 14, 1~
-$ residential_percent_change_from_baseline           &lt;dbl&gt; 0, 1, -1, -1, -1, -~</code></pre>
+$ country_region_code                                &lt;chr&gt; "BR", "BR", "BR", "…
+$ country_region                                     &lt;chr&gt; "Brazil", "Brazil",…
+$ sub_region_1                                       &lt;chr&gt; NA, NA, NA, NA, NA,…
+$ sub_region_2                                       &lt;chr&gt; NA, NA, NA, NA, NA,…
+$ metro_area                                         &lt;lgl&gt; NA, NA, NA, NA, NA,…
+$ iso_3166_2_code                                    &lt;chr&gt; NA, NA, NA, NA, NA,…
+$ census_fips_code                                   &lt;chr&gt; NA, NA, NA, NA, NA,…
+$ place_id                                           &lt;chr&gt; "ChIJzyjM68dZnAARYz…
+$ date                                               &lt;date&gt; 2020-02-15, 2020-0…
+$ retail_and_recreation_percent_change_from_baseline &lt;dbl&gt; 5, 2, -2, -3, -1, 1…
+$ grocery_and_pharmacy_percent_change_from_baseline  &lt;dbl&gt; 4, 3, 0, -1, -2, 7,…
+$ parks_percent_change_from_baseline                 &lt;dbl&gt; -5, -13, -12, -11, …
+$ transit_stations_percent_change_from_baseline      &lt;dbl&gt; 8, 3, 9, 9, 8, 11, …
+$ workplaces_percent_change_from_baseline            &lt;dbl&gt; 6, 0, 19, 15, 14, 1…
+$ residential_percent_change_from_baseline           &lt;dbl&gt; 0, 1, -1, -1, -1, -…</code></pre>
 </div>
 </div>
 <p>We can see our data set has about 4.7 million rows and 15 columns. The most relevant information are stored in the columns ending with <code>percent_change_from_baseline</code>. These are precisely the measures of mobility for categorized places. The other columns of interest are those containing <code>region</code> and, of course, the column <code>date</code>. I recommend you to take some time exploring the data set. You will notice that the <code>sub_region_*</code> columns refer to regional breakdowns such as states and municipalities. They are <code>NA</code> for aggregate levels.</p>
-<p>Suppose our ultimate goal is to have a plot with the average mobility across all the categories for each country in the national-level. We know in advance that it’s very likely that a strong seasonal pattern is present. For example, mobility in workplaces should be higher on weekdays and lower on weekends. The opposite should be true for parks. Creating a 7-days rolling mean of the original time series should solve the problem.</p>
+<p>Suppose our ultimate goal is to have a plot with the average mobility across all the categories for each country at national level. We know in advance that it’s very likely that a strong seasonal pattern is present. For example, mobility in workplaces should be higher on weekdays and lower on weekends. The opposite should be true for parks. Creating a 7-days rolling mean of the original time series should solve the problem.</p>
 <p>Finally, we need to invert the residential mobility since a higher (lower) residential mobility means a lower (higher) mobility elsewhere. So, if we are to aggregate all the mobility categories into one single measure (the average) they must point to the same direction.</p>
 <p>Hence, our task is to produce a data frame with only the relevant variables. This involves, for each country, the following sequence of actions:</p>
 <ol type="1">
@@ -474,44 +467,47 @@ $ residential_percent_change_from_baseline           &lt;dbl&gt; 0, 1, -1, -1, -
 <p>This should not be quite a challenge and we can accomplish it with a few lines of code using the right features from <code>dplyr</code> package. I consider Items 3 and 4 the most important because we are tempted to offer a cumbersome solution that can be easily avoided with the proper tools. But before jumping to the best approach, let’s figure out how an inefficient approach might look like for Item 3. Using the <code>roll_meanr</code> function from the <code>RcppRoll</code> package to compute 7-days rolling means, our first solution could be something like this:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(RcppRoll)</span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>mutate_try1 <span class="ot">&lt;-</span> mobility_data <span class="sc">%&gt;%</span> </span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(country_region) <span class="sc">%&gt;%</span> </span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(date) <span class="sc">%&gt;%</span> </span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">retail_and_recreation_percent_change_from_baseline =</span> <span class="fu">roll_meanr</span>(retail_and_recreation_percent_change_from_baseline, <span class="dv">7</span>, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
-<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">grocery_and_pharmacy_percent_change_from_baseline =</span> <span class="fu">roll_meanr</span>(grocery_and_pharmacy_percent_change_from_baseline, <span class="dv">7</span>, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
-<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">parks_percent_change_from_baseline =</span> <span class="fu">roll_meanr</span>(parks_percent_change_from_baseline, <span class="dv">7</span>, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
-<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">transit_stations_percent_change_from_baseline =</span> <span class="fu">roll_meanr</span>(transit_stations_percent_change_from_baseline, <span class="dv">7</span>, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
-<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">workplaces_percent_change_from_baseline =</span> <span class="fu">roll_meanr</span>(workplaces_percent_change_from_baseline, <span class="dv">7</span>, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
-<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">residential_percent_change_from_baseline =</span> <span class="fu">roll_meanr</span>(residential_percent_change_from_baseline, <span class="dv">7</span>, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span> </span>
-<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>mutate_try1 <span class="ot">&lt;-</span> mobility_data <span class="sc">%&gt;%</span> </span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(country_region) <span class="sc">%&gt;%</span> </span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(date) <span class="sc">%&gt;%</span> </span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">retail_and_recreation_percent_change_from_baseline =</span> <span class="fu">roll_meanr</span>(retail_and_recreation_percent_change_from_baseline, <span class="dv">7</span>, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">grocery_and_pharmacy_percent_change_from_baseline  =</span> <span class="fu">roll_meanr</span>(grocery_and_pharmacy_percent_change_from_baseline, <span class="dv">7</span>, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">parks_percent_change_from_baseline                 =</span> <span class="fu">roll_meanr</span>(parks_percent_change_from_baseline, <span class="dv">7</span>, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">transit_stations_percent_change_from_baseline      =</span> <span class="fu">roll_meanr</span>(transit_stations_percent_change_from_baseline, <span class="dv">7</span>, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">workplaces_percent_change_from_baseline            =</span> <span class="fu">roll_meanr</span>(workplaces_percent_change_from_baseline, <span class="dv">7</span>, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">residential_percent_change_from_baseline           =</span> <span class="fu">roll_meanr</span>(residential_percent_change_from_baseline, <span class="dv">7</span>, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span> </span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>This solution is terrible, nevertheless I come across it very often. Fortunately, we already have a way to avoid it. The first step towards a better solution would be to use the <code>across</code> function from <code>dplyr</code> package to replace the variable name in the right-hand side by <code>.x</code>. This will eliminate part of the redundancies.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(RcppRoll)</span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>mutate_try2 <span class="ot">&lt;-</span> mobility_data <span class="sc">%&gt;%</span> </span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(country_region) <span class="sc">%&gt;%</span> </span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(date) <span class="sc">%&gt;%</span> </span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">across</span>(retail_and_recreation_percent_change_from_baseline, <span class="sc">~</span> <span class="fu">roll_meanr</span>(.x, <span class="dv">7</span>)),</span>
-<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">across</span>(grocery_and_pharmacy_percent_change_from_baseline, <span class="sc">~</span> <span class="fu">roll_meanr</span>(.x, <span class="dv">7</span>)),</span>
-<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">across</span>(parks_percent_change_from_baseline, <span class="sc">~</span> <span class="fu">roll_meanr</span>(.x, <span class="dv">7</span>)),</span>
-<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">across</span>(transit_stations_percent_change_from_baseline, <span class="sc">~</span> <span class="fu">roll_meanr</span>(.x, <span class="dv">7</span>)),</span>
-<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">across</span>(workplaces_percent_change_from_baseline, <span class="sc">~</span> <span class="fu">roll_meanr</span>(.x, <span class="dv">7</span>)),</span>
-<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">across</span>(residential_percent_change_from_baseline, <span class="sc">~</span> <span class="fu">roll_meanr</span>(.x, <span class="dv">7</span>))</span>
-<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">%&gt;%</span> </span>
-<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>mutate_try2 <span class="ot">&lt;-</span> mobility_data <span class="sc">%&gt;%</span> </span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(country_region) <span class="sc">%&gt;%</span> </span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(date) <span class="sc">%&gt;%</span> </span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">across</span>(retail_and_recreation_percent_change_from_baseline, <span class="sc">~</span> <span class="fu">roll_meanr</span>(.x, <span class="dv">7</span>)),</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">across</span>(grocery_and_pharmacy_percent_change_from_baseline, <span class="sc">~</span> <span class="fu">roll_meanr</span>(.x, <span class="dv">7</span>)),</span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">across</span>(parks_percent_change_from_baseline, <span class="sc">~</span> <span class="fu">roll_meanr</span>(.x, <span class="dv">7</span>)),</span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">across</span>(transit_stations_percent_change_from_baseline, <span class="sc">~</span> <span class="fu">roll_meanr</span>(.x, <span class="dv">7</span>)),</span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">across</span>(workplaces_percent_change_from_baseline, <span class="sc">~</span> <span class="fu">roll_meanr</span>(.x, <span class="dv">7</span>)),</span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">across</span>(residential_percent_change_from_baseline, <span class="sc">~</span> <span class="fu">roll_meanr</span>(.x, <span class="dv">7</span>))</span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">%&gt;%</span> </span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Ok, we’ve made some progress in cutting part of the repetitions but we can certainly do better. Note that the variables we are interested in show a clear pattern: they all end with <strong>percent_change_from_baseline</strong> or simply <strong>baseline</strong>. We can take advantage of this to further improve our solution using <strong>select helpers</strong>. These are expressions that can be used to refer to specific patterns. For instance, here we could use the select helper <code>ends_with</code> to create the 7-days rolling mean for all the variables ending with <strong>baseline</strong>.</p>
 <p>In addition, we can also use the argument <code>.names</code> to assign a <code>glue</code>-style name to the new variables: <code>{.col}</code> gets the column name and <code>{.fun}</code> gets the name of the function. This is great to identify which function we applied to each variable. Here, we can use a <strong>ma7d</strong> suffix which stands for <em>moving-average 7-days</em>.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(RcppRoll)</span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>mutate_topsolution <span class="ot">&lt;-</span> mobility_data <span class="sc">%&gt;%</span> </span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(country_region) <span class="sc">%&gt;%</span> </span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(date) <span class="sc">%&gt;%</span> </span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="fu">across</span>(<span class="fu">ends_with</span>(<span class="st">'baseline'</span>), <span class="sc">~</span> <span class="fu">roll_meanr</span>(.x, <span class="at">na.rm =</span> <span class="cn">TRUE</span>), <span class="at">.names =</span> <span class="st">'{.col}_ma7d'</span>)) <span class="sc">%&gt;%</span> </span>
-<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>mutate_topsolution <span class="ot">&lt;-</span> mobility_data <span class="sc">%&gt;%</span> </span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(country_region) <span class="sc">%&gt;%</span> </span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(date) <span class="sc">%&gt;%</span> </span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="fu">across</span>(<span class="fu">ends_with</span>(<span class="st">'baseline'</span>), <span class="sc">~</span> <span class="fu">roll_meanr</span>(.x, <span class="at">na.rm =</span> <span class="cn">TRUE</span>), <span class="at">.names =</span> <span class="st">'{.col}_ma7d'</span>)) <span class="sc">%&gt;%</span> </span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>The main lesson here is to avoid using variables names to compute the operations. Instead, whenever possible we must rely on the combination of <code>across</code> and select helpers. This avoids unnecessarily writing variables names so many times and therefore allows us to easily scale up the work.</p>
 <p>The same reasoning applies to Item 4. Can you see how? Remember that Item 4 asks us to create a column with the average mobility across categories. Well, all these columns end with <em>baseline</em>. Therefore, we don’t need to rewrite all the variables names to get a new column with the mean – we can resort to select helpers. The only difference is that now we need an operation across the rows rather than across the columns.</p>
@@ -519,22 +515,23 @@ $ residential_percent_change_from_baseline           &lt;dbl&gt; 0, 1, -1, -1, -
 <p>Below the full solution for Items 1 to 5.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(RcppRoll)</span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>mobility_final <span class="ot">&lt;-</span> mobility_data <span class="sc">%&gt;%</span> </span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">is.na</span>(sub_region_1)) <span class="sc">%&gt;%</span></span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="fu">across</span>(<span class="fu">starts_with</span>(<span class="st">'residential'</span>), <span class="sc">~</span> <span class="sc">-</span><span class="dv">1</span><span class="sc">*</span>.x)) <span class="sc">%&gt;%</span></span>
-<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(country_region) <span class="sc">%&gt;%</span></span>
-<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(date) <span class="sc">%&gt;%</span> </span>
-<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="fu">across</span>(<span class="fu">ends_with</span>(<span class="st">'baseline'</span>), <span class="sc">~</span> <span class="fu">roll_meanr</span>(.x, <span class="dv">7</span>, <span class="at">na.rm =</span> <span class="cn">TRUE</span>), <span class="at">.names =</span> <span class="st">'{.col}_ma7d'</span>)) <span class="sc">%&gt;%</span></span>
-<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>() <span class="sc">%&gt;%</span> </span>
-<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rowwise</span>() <span class="sc">%&gt;%</span> </span>
-<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">avg_mobility =</span> <span class="fu">mean</span>(<span class="fu">c_across</span>(<span class="fu">ends_with</span>(<span class="st">'ma7d'</span>)), <span class="at">na.rm =</span> <span class="cn">TRUE</span>)) <span class="sc">%&gt;%</span></span>
-<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>() <span class="sc">%&gt;%</span> </span>
-<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(date, country_region, <span class="fu">ends_with</span>(<span class="st">'ma7d'</span>), avg_mobility) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>mobility_final <span class="ot">&lt;-</span> mobility_data <span class="sc">%&gt;%</span> </span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">is.na</span>(sub_region_1)) <span class="sc">%&gt;%</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="fu">across</span>(<span class="fu">starts_with</span>(<span class="st">'residential'</span>), <span class="sc">~</span> <span class="sc">-</span><span class="dv">1</span><span class="sc">*</span>.x)) <span class="sc">%&gt;%</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(country_region) <span class="sc">%&gt;%</span></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(date) <span class="sc">%&gt;%</span> </span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="fu">across</span>(<span class="fu">ends_with</span>(<span class="st">'baseline'</span>), <span class="sc">~</span> <span class="fu">roll_meanr</span>(.x, <span class="dv">7</span>, <span class="at">na.rm =</span> <span class="cn">TRUE</span>), <span class="at">.names =</span> <span class="st">'{.col}_ma7d'</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rowwise</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">avg_mobility =</span> <span class="fu">mean</span>(<span class="fu">c_across</span>(<span class="fu">ends_with</span>(<span class="st">'ma7d'</span>)), <span class="at">na.rm =</span> <span class="cn">TRUE</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(date, country_region, <span class="fu">ends_with</span>(<span class="st">'ma7d'</span>), avg_mobility) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="plot-information" class="level2" data-number="2.3">
 <h2 data-number="2.3" class="anchored" data-anchor-id="plot-information"><span class="header-section-number">2.3</span> Plot information</h2>
-<p>We have mobility data for six countries and we should now decide how to plot them. Time series are usually better presented as lines, but there are some choices to be made. The most important one is whether we should display the countries data either as a single or in separate graphs. It depends on the purpose of the plot. If we are interested in observing the differences among countries in the same time period, then a single graph is a natural choice. On the other hand, if our goal is to observe in more detail the evolution in each country, then a separate plot is more convenient.</p>
+<p>We have mobility data for six countries and we should now decide how to plot them. Time series are usually better presented as lines, but there are some choices to be made. The most important one is whether we should display the countries data in a single or in a multiple panel. It depends on the purpose of the plot. If we are interested in observing the differences among countries in the same time period, then a single graph is a natural choice. On the other hand, if our goal is to observe in more detail the evolution in each country, then a separate plot is more convenient.</p>
 <p>Let’s stick with the latter in this example using the <code>facet_wrap</code> feature. In this case we’re segmenting our plot by country, but we’re not constrained to segment it by only one variable. Besides, we could use the argument <code>scales = 'free_y'</code> to make the scales of each graph more adjusted to the limits of the data. It’s not desirable here as we want to make visual comparisons between countries straightforward.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>mobility_final <span class="sc">%&gt;%</span> </span>
@@ -642,7 +639,7 @@ $ residential_percent_change_from_baseline           &lt;dbl&gt; 0, 1, -1, -1, -
 <section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes">
 <hr>
 <ol>
-<li id="fn1"><p>As of 2022-10-15, Community Mobility Reports are no longer updated, although all historical data remained publicly available.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn1"><p>As of 2022-10-15, Community Mobility Reports are no longer updated, although all historical data remains publicly available.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 <li id="fn2"><p>The <code>furrr</code> package makes it incredible simple to run the <code>map</code> function in parallel. See: https://furrr.futureverse.org/ for a comprehensive approach.<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 <li id="fn3"><p>See https://ggplot2-book.org/arranging-plots.html to learn how to use the special operators provided by <code>patchwork</code> to arrange the plots.<a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 </ol>
@@ -676,9 +673,23 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     icon: icon
   };
   anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
   const clipboard = new window.ClipboardJS('.code-copy-button', {
-    target: function(trigger) {
-      return trigger.previousElementSibling;
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
     }
   });
   clipboard.on('success', function(e) {
@@ -690,7 +701,24 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     button.classList.add('code-copy-button-checked');
     var currentTitle = button.getAttribute("title");
     button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
     setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
       button.setAttribute("title", currentTitle);
       button.classList.remove('code-copy-button-checked');
     }, 1000);
@@ -726,24 +754,128 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       return note.innerHTML;
     });
   }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
   var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
   for (var i=0; i<bibliorefs.length; i++) {
     const ref = bibliorefs[i];
-    const cites = ref.parentNode.getAttribute('data-cites').split(' ');
-    tippyHover(ref, function() {
-      var popup = window.document.createElement('div');
-      cites.forEach(function(cite) {
-        var citeDiv = window.document.createElement('div');
-        citeDiv.classList.add('hanging-indent');
-        citeDiv.classList.add('csl-entry');
-        var biblioDiv = window.document.getElementById('ref-' + cite);
-        if (biblioDiv) {
-          citeDiv.innerHTML = biblioDiv.innerHTML;
-        }
-        popup.appendChild(citeDiv);
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
       });
-      return popup.innerHTML;
-    });
+    }
   }
 });
 </script>

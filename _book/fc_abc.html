@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.1.189">
+<meta name="generator" content="quarto-1.3.353">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -18,9 +18,10 @@ div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
 ul.task-list{list-style: none;}
 ul.task-list li input[type="checkbox"] {
   width: 0.8em;
-  margin: 0 0.8em 0.2em -1.6em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
 pre > code.sourceCode { white-space: pre; position: relative; }
 pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
@@ -47,48 +48,19 @@ pre.numberSource code > span > a:first-child::before
     -khtml-user-select: none; -moz-user-select: none;
     -ms-user-select: none; user-select: none;
     padding: 0 4px; width: 4em;
-    color: #aaaaaa;
   }
-pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
 div.sourceCode
   {   }
 @media screen {
 pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
-code span.al { color: #ff0000; font-weight: bold; } /* Alert */
-code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
-code span.at { color: #7d9029; } /* Attribute */
-code span.bn { color: #40a070; } /* BaseN */
-code span.bu { color: #008000; } /* BuiltIn */
-code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
-code span.ch { color: #4070a0; } /* Char */
-code span.cn { color: #880000; } /* Constant */
-code span.co { color: #60a0b0; font-style: italic; } /* Comment */
-code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
-code span.do { color: #ba2121; font-style: italic; } /* Documentation */
-code span.dt { color: #902000; } /* DataType */
-code span.dv { color: #40a070; } /* DecVal */
-code span.er { color: #ff0000; font-weight: bold; } /* Error */
-code span.ex { } /* Extension */
-code span.fl { color: #40a070; } /* Float */
-code span.fu { color: #06287e; } /* Function */
-code span.im { color: #008000; font-weight: bold; } /* Import */
-code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
-code span.kw { color: #007020; font-weight: bold; } /* Keyword */
-code span.op { color: #666666; } /* Operator */
-code span.ot { color: #007020; } /* Other */
-code span.pp { color: #bc7a00; } /* Preprocessor */
-code span.sc { color: #4070a0; } /* SpecialChar */
-code span.ss { color: #bb6688; } /* SpecialString */
-code span.st { color: #4070a0; } /* String */
-code span.va { color: #19177c; } /* Variable */
-code span.vs { color: #4070a0; } /* VerbatimString */
-code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+/* CSS for citations */
 div.csl-bib-body { }
 div.csl-entry {
   clear: both;
 }
-.hanging div.csl-entry {
+.hanging-indent div.csl-entry {
   margin-left:2em;
   text-indent:-2em;
 }
@@ -102,8 +74,7 @@ div.csl-right-inline {
 }
 div.csl-indent {
   margin-left: 2em;
-}
-</style>
+}</style>
 
 
 <script src="site_libs/quarto-nav/quarto-nav.js"></script>
@@ -153,11 +124,12 @@ gtag('js', new Date());
 gtag('config', 'G-6T89HT07F5', { 'anonymize_ip': true});
 </script>
 
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
 <meta name="twitter:title" content="R for Economic Research - 7&nbsp; The abc">
 <meta name="twitter:description" content="Essential tools for modern economic analysis">
-<meta name="twitter:image" content="http://book.rleripio.com/images\preview.jpg">
+<meta name="twitter:image" content="http://book.rleripio.com/images/preview.jpg">
 <meta name="twitter:card" content="summary_large_image">
 </head>
 
@@ -165,11 +137,16 @@ gtag('config', 'G-6T89HT07F5', { 'anonymize_ip': true});
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
-  <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
-    <div class="container-fluid d-flex justify-content-between">
-      <h1 class="quarto-secondary-nav-title"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">The abc</span></h1>
-      <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
-        <i class="bi bi-chevron-right"></i>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./fc_abc.html">Forecasting</a></li><li class="breadcrumb-item"><a href="./fc_abc.html"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">The abc</span></a></li></ol></nav>
+      <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+      </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
       </button>
     </div>
   </nav>
@@ -177,186 +154,210 @@ gtag('config', 'G-6T89HT07F5', { 'anonymize_ip': true});
 <!-- content -->
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
 <!-- sidebar -->
-  <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation docked overflow-auto">
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation docked overflow-auto">
     <div class="pt-lg-2 mt-2 text-left sidebar-header">
     <div class="sidebar-title mb-0 py-0">
       <a href="./">R for Economic Research</a> 
         <div class="sidebar-tools-main">
-    <a href="https://github.com/leripio/R4ER" title="Source Code" class="sidebar-tool px-1"><i class="bi bi-github"></i></a>
-    <a href="" title="Share" id="sidebar-tool-dropdown-0" class="sidebar-tool dropdown-toggle px-1" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi bi-share"></i></a>
-    <ul class="dropdown-menu" aria-labelledby="sidebar-tool-dropdown-0">
-        <li>
-          <a class="dropdown-item sidebar-tools-main-item" href="https://twitter.com/intent/tweet?url=|url|">
-            <i class="bi bi-bi-twitter pe-1"></i>
-          Twitter
-          </a>
-        </li>
-        <li>
-          <a class="dropdown-item sidebar-tools-main-item" href="https://www.facebook.com/sharer/sharer.php?u=|url|">
-            <i class="bi bi-bi-facebook pe-1"></i>
-          Facebook
-          </a>
-        </li>
-        <li>
-          <a class="dropdown-item sidebar-tools-main-item" href="https://www.linkedin.com/sharing/share-offsite/?url=|url|">
-            <i class="bi bi-bi-linkedin pe-1"></i>
-          LinkedIn
-          </a>
-        </li>
-    </ul>
+    <a href="https://github.com/leripio/R4ER" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
+    <div class="dropdown">
+      <a href="" title="Share" id="quarto-navigation-tool-dropdown-0" class="quarto-navigation-tool dropdown-toggle px-1" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Share"><i class="bi bi-share"></i></a>
+      <ul class="dropdown-menu" aria-labelledby="quarto-navigation-tool-dropdown-0">
+          <li>
+            <a class="dropdown-item sidebar-tools-main-item" href="https://twitter.com/intent/tweet?url=|url|">
+              <i class="bi bi-bi-twitter pe-1"></i>
+            Twitter
+            </a>
+          </li>
+          <li>
+            <a class="dropdown-item sidebar-tools-main-item" href="https://www.facebook.com/sharer/sharer.php?u=|url|">
+              <i class="bi bi-bi-facebook pe-1"></i>
+            Facebook
+            </a>
+          </li>
+          <li>
+            <a class="dropdown-item sidebar-tools-main-item" href="https://www.linkedin.com/sharing/share-offsite/?url=|url|">
+              <i class="bi bi-bi-linkedin pe-1"></i>
+            LinkedIn
+            </a>
+          </li>
+      </ul>
+    </div>
 </div>
     </div>
       </div>
-      <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="mt-2 flex-shrink-0 align-items-center">
         <div class="sidebar-search">
         <div id="quarto-search" class="" title="Search"></div>
         </div>
-      </div>
+        </div>
     <div class="sidebar-menu-container"> 
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./index.html" class="sidebar-item-text sidebar-link">Preface</a>
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Preface</span></a>
   </div>
 </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">Data science with Tidyverse</a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
+ <span class="menu-text">Data science with Tidyverse</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
       <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./ds_tidyverse.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction</span></a>
+  <a href="./ds_tidyverse.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./ds_googlemob.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Scaling-up tasks</span></a>
+  <a href="./ds_googlemob.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Scaling-up tasks</span></span></a>
   </div>
 </li>
       </ul>
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">Basic time series tools</a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">
+ <span class="menu-text">Basic time series tools</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
       <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./ds_windowing.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Rolling, cumulative and lagged/leading values</span></a>
+  <a href="./ds_windowing.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Rolling, cumulative and lagged/leading values</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./ds_seasonality.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Seasonal adjustment</span></a>
+  <a href="./ds_seasonality.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Seasonal adjustment</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./ds_nominal2real.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Deflating nominal values to real values</span></a>
+  <a href="./ds_nominal2real.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Deflating nominal values to real values</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./ds_hpfilter.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Hodrick-Prescott Filter</span></a>
+  <a href="./ds_hpfilter.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Hodrick-Prescott Filter</span></span></a>
   </div>
 </li>
       </ul>
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true">Forecasting</a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true">
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true">
+ <span class="menu-text">Forecasting</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
       <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./fc_abc.html" class="sidebar-item-text sidebar-link active"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">The abc</span></a>
+  <a href="./fc_abc.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">The abc</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./fc_comparison.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Forecasting by comparison</span></a>
+  <a href="./fc_comparison.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Forecasting by comparison</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./fc_simulation.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Simulations</span></a>
+  <a href="./fc_simulation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Simulations</span></span></a>
   </div>
 </li>
       </ul>
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-expanded="true">Economic modelling</a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-expanded="true">
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-expanded="true">
+ <span class="menu-text">Economic modelling</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
       <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./single_equation.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Single equation models</span></a>
+  <a href="./single_equation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Single equation models</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./multiple_equations.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Multiple equations model</span></a>
+  <a href="./multiple_equations.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Multiple equations model</span></span></a>
   </div>
 </li>
       </ul>
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" aria-expanded="true">State-space models</a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" aria-expanded="true">
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" aria-expanded="true">
+ <span class="menu-text">State-space models</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
       <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./ss_intro.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Introduction</span></a>
+  <a href="./ss_intro.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Introduction</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./ss_tv_coef.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Time-varying regression coefficient</span></a>
+  <a href="./ss_tv_coef.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Time-varying regression coefficient</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./ss_common.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Dynamic Factor Model</span></a>
+  <a href="./ss_common.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Dynamic Factor Model</span></span></a>
   </div>
 </li>
       </ul>
   </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./references.html" class="sidebar-item-text sidebar-link">References</a>
+  <a href="./references.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">References</span></a>
   </div>
 </li>
     </ul>
     </div>
 </nav>
+<div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
         <nav id="TOC" role="doc-toc" class="toc-active">
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#step-1-observe-the-time-series-features" id="toc-step-1-observe-the-time-series-features" class="nav-link active" data-scroll-target="#step-1-observe-the-time-series-features"><span class="toc-section-number">7.1</span>  Step 1: Observe the time series features</a></li>
-  <li><a href="#step-2-split-the-sample" id="toc-step-2-split-the-sample" class="nav-link" data-scroll-target="#step-2-split-the-sample"><span class="toc-section-number">7.2</span>  Step 2: Split the sample</a></li>
-  <li><a href="#step-3-choose-the-model" id="toc-step-3-choose-the-model" class="nav-link" data-scroll-target="#step-3-choose-the-model"><span class="toc-section-number">7.3</span>  Step 3: Choose the model</a></li>
-  <li><a href="#step-4-evaluate-the-model" id="toc-step-4-evaluate-the-model" class="nav-link" data-scroll-target="#step-4-evaluate-the-model"><span class="toc-section-number">7.4</span>  Step 4: Evaluate the model</a></li>
+  <li><a href="#step-1-observe-the-time-series-features" id="toc-step-1-observe-the-time-series-features" class="nav-link active" data-scroll-target="#step-1-observe-the-time-series-features"><span class="header-section-number">7.1</span> Step 1: Observe the time series features</a></li>
+  <li><a href="#step-2-split-the-sample" id="toc-step-2-split-the-sample" class="nav-link" data-scroll-target="#step-2-split-the-sample"><span class="header-section-number">7.2</span> Step 2: Split the sample</a></li>
+  <li><a href="#step-3-choose-the-model" id="toc-step-3-choose-the-model" class="nav-link" data-scroll-target="#step-3-choose-the-model"><span class="header-section-number">7.3</span> Step 3: Choose the model</a></li>
+  <li><a href="#step-4-evaluate-the-model" id="toc-step-4-evaluate-the-model" class="nav-link" data-scroll-target="#step-4-evaluate-the-model"><span class="header-section-number">7.4</span> Step 4: Evaluate the model</a></li>
   </ul>
 </nav>
     </div>
@@ -365,19 +366,15 @@ gtag('config', 'G-6T89HT07F5', { 'anonymize_ip': true});
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title d-none d-lg-block"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">The abc</span></h1>
+<h1 class="title"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">The abc</span></h1>
 </div>
 
-<div>
-  <div class="description">
-    Essential tools for modern economic analysis
-  </div>
-</div>
 
 
 <div class="quarto-title-meta">
 
     
+  
     
   </div>
   
@@ -386,11 +383,11 @@ gtag('config', 'G-6T89HT07F5', { 'anonymize_ip': true});
 
 <p>In recent years, forecasting has been widely associated with sophisticated Machine (or Deep) Learning methods such as XGBoost, LSTM, Random Forest and Neural Networks. In fact, these algorithms have proven to be very effective in improving forecast accuracy in various contexts. However, in most day-to-day applications simpler statistical methods deliver a fairly good result at a very low cost of implementation. Also, they can serve as a good benchmark for more complex models.</p>
 <p>In this Chapter we’ll cover the basic steps to generate forecasts of a time series, making extensive use of the resources from the <code>forecast</code> package to predict the Brazilian CPI ex-regulated prices. I’d like to draw your attention to the fact that the choice of the appropriate method, though very relevant, is only part of the process. Therefore, in order to be successful we’ll need to understand and treat every single step very carefully.</p>
-<p>For those interested in a more rigorous and detailed approach to this subject, I couldn’t recommend enough the exceptional <span class="citation" data-cites="fpp2">Hyndman and Athanasopoulos (<a href="references.html#ref-fpp2" role="doc-biblioref">2018</a>)</span>.</p>
+<p>For those interested in a more rigorous and detailed approach to this subject, I couldn’t recommend enough the exceptional <span class="citation" data-cites="fpp2">R. J. Hyndman and Athanasopoulos (<a href="references.html#ref-fpp2" role="doc-biblioref">2018</a>)</span>.</p>
 <section id="step-1-observe-the-time-series-features" class="level2" data-number="7.1">
 <h2 data-number="7.1" class="anchored" data-anchor-id="step-1-observe-the-time-series-features"><span class="header-section-number">7.1</span> Step 1: Observe the time series features</h2>
 <p>Forecasting is all about extrapolating patterns. When our forecast depends on other variables, we’re assuming that the historical relationship between the target and the explanatory variables holds into the future. Likewise, when we’re employing univariate methods the main assumption is that the time series features remain constant or evolve in an understandable way. Hence, the first step is to investigate the features of the time series.</p>
-<p>Let’s import the monthly CPI ex-regulated prices (Not Seasonally Adjusted) from the Brazilian Central Bank API using the <code>rbcb</code> package. Then, we’ll plot the series with the <code>autoplot</code> function from the <code>forecast</code> package. Note that it’s based on <code>ggplot</code> so we can add <code>ggplot</code> resources to the plot.</p>
+<p>Let’s import the monthly CPI ex-regulated prices (Not Seasonally Adjusted) from the Brazilian Central Bank API using the <code>rbcb</code> package. Then, we’ll plot the series with the <code>autoplot</code> function from the <code>forecast</code> package. Note that it’s based on <code>ggplot</code> so we can add <code>ggplot</code> layers to the plot.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(forecast)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
@@ -413,12 +410,12 @@ gtag('config', 'G-6T89HT07F5', { 'anonymize_ip': true});
 <div id="fig-cpi_br_ex_autoplot" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
 <p><img src="fc_abc_files/figure-html/fig-cpi_br_ex_autoplot-1.png" class="img-fluid figure-img" width="672"></p>
-<p></p><figcaption class="figure-caption">Figure&nbsp;7.1: Plot of Brazilian CPI ex-regulated prices - %MoM NSA</figcaption><p></p>
+<figcaption class="figure-caption">Figure&nbsp;7.1: Plot of Brazilian CPI ex-regulated prices - %MoM NSA</figcaption>
 </figure>
 </div>
 </div>
 </div>
-<p><a href="#fig-cpi_br_ex_autoplot">Figure&nbsp;<span>7.1</span></a> gives a general picture of the time series. We can visually infer that the average CPI was around 0.5% from 2004 to 2016, then dropped to half that from mid-2016 to early 2020 before the Covid-19 pandemic hit the economy. This episode started a trend where inflation increased to values close to 1%.</p>
+<p>The figure above gives a general picture of the time series. We can visually infer that the average CPI was around 0.5% from 2004 to 2016, then dropped to half that from mid-2016 to early 2020 before the Covid-19 pandemic hit the economy. This episode started a trend where inflation increased to values close around 1%.</p>
 <p>A more useful plot can be obtained using the <code>mstl</code> function, which decomposes the series into trend, seasonal and remainder (noise) terms. These are precisely the features we’re most interested in understanding in order to make accurate predictions.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mstl</span>(cpi_br) <span class="sc">%&gt;%</span> </span>
@@ -428,17 +425,17 @@ gtag('config', 'G-6T89HT07F5', { 'anonymize_ip': true});
 <div id="fig-cpi_br_ex_mstl" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
 <p><img src="fc_abc_files/figure-html/fig-cpi_br_ex_mstl-1.png" class="img-fluid figure-img" width="672"></p>
-<p></p><figcaption class="figure-caption">Figure&nbsp;7.2: MSTL Decomposition of the Brazilian CPI ex-regulated prices time series</figcaption><p></p>
+<figcaption class="figure-caption">Figure&nbsp;7.2: MSTL Decomposition of the Brazilian CPI ex-regulated prices time series</figcaption>
 </figure>
 </div>
 </div>
 </div>
-<p>We can extract two important pieces of information from <a href="#fig-cpi_br_ex_mstl">Figure&nbsp;<span>7.2</span></a>. The first one is that the trend started in the aftermath of the Covid-19 pandemic is flattening, although with no clear sign of a reversion; and the second one is a noticeable change in the seasonal pattern as of 2016, with higher peaks and a different shape. So when selecting an appropriate forecasting model we should opt for those with a flexible approach to both trend and seasonality, in the case of univariate models, or choose explanatory variables which reproduce this pattern at some extent.</p>
+<p>We can extract two important pieces of information from this graph. The first one is that the trend started in the aftermath of the Covid-19 pandemic is flattening, although with no clear sign of a reversion; and the second one is a noticeable change in the seasonal pattern as of 2016, with higher peaks and a different shape. So when selecting an appropriate forecasting model we should opt for those with a flexible approach to both trend and seasonality, in the case of univariate models, or choose explanatory variables which reproduce this pattern at some extent.</p>
 </section>
 <section id="step-2-split-the-sample" class="level2" data-number="7.2">
 <h2 data-number="7.2" class="anchored" data-anchor-id="step-2-split-the-sample"><span class="header-section-number">7.2</span> Step 2: Split the sample</h2>
-<p>We need to split the sample into training and testing sets in order to perform the evaluation of our model. There are several splitting schemes and the choice depends on the nature of the data and the sample size. For time series, the most robust scheme is <em>block cross-validation</em>, where many contiguous sections of the time series are selected at random to train the model and tests are performed on the adjacent observations. In practice, however, it’s very common to use the <em>leave-one-out</em> approach, where we train the model using observations up to <span class="math inline">\(t-1\)</span> to predict the target at <span class="math inline">\(t\)</span>. This procedure is iterated over <span class="math inline">\(t\)</span> in order to provide a representative set of (pseudo) out-of-sample forecasts that we can use to assess the model accuracy.</p>
-<p>Note that the structural changes we saw in <a href="#fig-cpi_br_ex_mstl">Figure&nbsp;<span>7.2</span></a> have important implications on the choice of the split scheme. More specifically, the new seasonal pattern comprises about 40% of the sample, whereas the post-Covid trend is present in only 15%. Thus, testing our model over the whole sample – or a sample which overrepresents this period – could make us believe that we have a good model to predict the future when in fact we don’t.</p>
+<p>We need to split the sample into training and testing sets in order to perform the evaluation of our model. There are several splitting schemes and the appropriate choice depends on the nature of the data and the sample size. For time series, the most robust scheme is <em>block cross-validation</em>, where many contiguous sections of the time series are selected at random to train the model and tests are performed on the adjacent observations. In practice, however, it’s very common to use the <em>leave-one-out</em> approach, where we train the model using observations up to <span class="math inline">\(t-1\)</span> to predict the target at <span class="math inline">\(t\)</span>. This procedure is iterated over <span class="math inline">\(t\)</span> in order to provide a representative set of (pseudo) out-of-sample forecasts that we can use to assess the model accuracy.</p>
+<p>Note that the structural changes we saw in <a href="#fig-cpi_br_ex_mstl">Figure&nbsp;<span>7.2</span></a> have important implications for the choice of the split scheme. More specifically, the new seasonal pattern comprises about 40% of the sample, whereas the post-Covid trend is present in only 15%. Thus, testing our model over the whole sample – or a sample which overrepresents this period – could make us believe that we have a good model to predict the future when in fact we don’t.</p>
 <p>Let’s make a simple though very common choice here: take the sample as of 2016 and use the <em>leave-one-out</em> approach starting at Jan/2019 to predict the twelve months ahead. We’ll use the <code>rsample</code> package which is part of the <code>tidymodels</code> ecosystem of R packages specially designed to handle forecasting in a tidy way. Since it’s under the <em>tidy</em> philosophy, we need to first convert our data from <code>ts</code> to <code>data frame</code> or <code>tibble</code>. It can be easily achieved using the <code>timetk</code> package.</p>
 <p>The <code>rolling_origin</code> function from <code>rsample</code> provides a convenient object where in each <em>slice</em> we have two components, the train set and the test set, which can be accessed by specific functions. The <code>initial</code> argument defines the size of the initial sample used for training the model; the <code>assess</code> argument defines the number of observations used for assessment in each step; and <code>cumulative = TRUE</code> means we’ll not drop the first value of the sample as we incorporate a new value so as to keep the sample size constant. Rather, we’ll have an <em>expanding-window</em> sample.</p>
 <div class="cell">
@@ -457,7 +454,7 @@ gtag('config', 'G-6T89HT07F5', { 'anonymize_ip': true});
 <span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>cpi_split</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># Rolling origin forecast resampling 
-# A tibble: 44 x 2
+# A tibble: 44 × 2
    splits         id     
    &lt;list&gt;         &lt;chr&gt;  
  1 &lt;split [36/1]&gt; Slice01
@@ -470,16 +467,18 @@ gtag('config', 'G-6T89HT07F5', { 'anonymize_ip': true});
  8 &lt;split [43/1]&gt; Slice08
  9 &lt;split [44/1]&gt; Slice09
 10 &lt;split [45/1]&gt; Slice10
-# ... with 34 more rows</code></pre>
+# ℹ 34 more rows</code></pre>
 </div>
 </div>
 <p>As you can see, the <code>cpi_split</code> contains 43 slices – each slice is represented by a two-dimensional sample with [train set/test set]. The first slice contains a training set ranging from Jan/2016 to Dec/2018 (36 observations) and a test set with a single observation on Jan/2019. The second slice incorporates the observation on Jan/2019 to the training set (37 observations now) and leaves Feb/2019 as the test set. The same logic applies to the other slices until the end of the sample. With our split scheme done, we’re ready to go the next step.</p>
 </section>
 <section id="step-3-choose-the-model" class="level2" data-number="7.3">
 <h2 data-number="7.3" class="anchored" data-anchor-id="step-3-choose-the-model"><span class="header-section-number">7.3</span> Step 3: Choose the model</h2>
-<p>Choosing an appropriate model involves several dimensions. First, we should decide whether or not to use explanatory variables – and if so, which variables to use. In addition, we should weigh the pros and cons of employing a machine learning model instead of a simpler method. Considerations on both time and interpretability play a significant role in many fields. Since the purpose here is to develop intuition about each step of the forecasting pipeline, I’ll avoid these issues by assuming we’re restricted to using univariate statistical models only. This is by no means a very strong assumption since in real-life we are often required to provide reasonable forecasts quickly rather than spending a great amount of time searching for the most accurate numbers.</p>
-<p>The <code>forecast</code> package contains a large set of very useful univariate statistical models. The ETS is generally my choice when I have no obvious candidate, because it doesn’t impose any strong assumption about the data (eg. stationarity). In addition, it has proven to perform very well on a variety of data sets at the <a href="https://en.wikipedia.org/wiki/Makridakis_Competitions"><strong>M</strong> Competition</a>. I use TBATS as a first approach whenever I have to predict high frequency data (daily or higher) since it can handle multiple seasonal patterns. ARIMA is useful for stationary data, specially when ACF/PACF plots show a well-defined autocorrelation structure. However, it’s worth noting that in practice statistical assumptions are often overlooked when the purpose of the model is forecasting rather than making inference.</p>
-<p>As a matter of fact, producing accurate forecasts is inevitably a trial and error process and, as we become experienced with the subject, some choices look more promising. For instance, we saw that the Brazilian CPI exhibit a changing trend – favoring a more flexible model like ETS. On the other hand, for most of the period this trend seems to evolve at a constant pace, which makes ARIMA models good candidates as well. In addition, in the presence of a seasonal pattern models which are more successful in capturing the seasonality of the data have a clear advantage. It’s not unusual for one model to be better at capturing a specific feature of the data while another model does the same for other feature – that’s why combining the forecasts from different models usually improve accuracy.<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> Therefore, in order to have a more reliable result we’ll produce forecasts from three sources: ETS, ARIMA and the average between them.</p>
+<p>Choosing an appropriate model involves several dimensions. First, we should decide whether or not to use explanatory variables – and if so, which variables to use. In addition, we should weigh the pros and cons of employing a machine learning model instead of a simpler method. Considerations on both processing time and interpretability play a significant role in many fields. Since the purpose here is to develop intuition about each step of the forecasting pipeline, I’ll avoid these issues by assuming we’re restricted to using univariate statistical models only. This is by no means a very strong assumption since in real-life we are often required to provide reasonable forecasts quickly rather than spending a great amount of time searching for the most accurate numbers.</p>
+<p>The <code>forecast</code> package contains a large set of very useful univariate statistical models. The ETS is generally my choice when I have no obvious candidate, because it doesn’t impose any strong assumption about the data (eg. stationarity). In addition, it has proven to perform very well on a variety of data sets at the <a href="https://en.wikipedia.org/wiki/Makridakis_Competitions"><strong>M</strong> Competition</a>.</p>
+<p>I use TBATS as a first approach whenever I have to predict high frequency data (daily or higher) since it can handle multiple seasonal patterns. ARIMA is useful for stationary data, specially when ACF/PACF plots show a well-defined autocorrelation structure. However, it’s worth noting that in practice statistical assumptions are often overlooked when the purpose of the model is forecasting rather than making inference.</p>
+<p>As a matter of fact, producing accurate forecasts is inevitably a trial and error process and, as we become experienced with the subject, some choices look more promising. For instance, we saw that the Brazilian CPI exhibit a changing trend – favoring a more flexible model like ETS. On the other hand, for most of the period this trend seems to evolve at a constant pace, which makes ARIMA models good candidates as well.</p>
+<p>In addition, in the presence of a seasonal pattern models which are more successful in capturing the seasonality of the data have a clear advantage. It’s not unusual for one model to be better at capturing a specific feature of the data while another model does the same for other feature – that’s why combining the forecasts from different models usually improve accuracy.<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> Therefore, in order to have a more reliable result we’ll produce forecasts from three sources: ETS, ARIMA and the average between them.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>cpi_fc <span class="ot">&lt;-</span> cpi_split <span class="sc">%&gt;%</span> </span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
@@ -515,7 +514,7 @@ gtag('config', 'G-6T89HT07F5', { 'anonymize_ip': true});
 <span id="cb6-32"><a href="#cb6-32" aria-hidden="true" tabindex="-1"></a>  <span class="fu">right_join</span>(cpi_df, <span class="at">by =</span> <span class="st">'date'</span>)</span>
 <span id="cb6-33"><a href="#cb6-33" aria-hidden="true" tabindex="-1"></a>cpi_fc</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 80 x 5
+<pre><code># A tibble: 80 × 5
    date      ets_fc arima_fc avg_fc value
    &lt;yearmon&gt;  &lt;dbl&gt;    &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;
  1 Jan 2019   0.166   0.330  0.248   0.41
@@ -528,7 +527,7 @@ gtag('config', 'G-6T89HT07F5', { 'anonymize_ip': true});
  8 Aug 2019   0.187   0.132  0.160  -0.06
  9 Sep 2019   0.187   0.0449 0.116  -0.1 
 10 Oct 2019   0.126  -0.0230 0.0516  0.18
-# ... with 70 more rows</code></pre>
+# ℹ 70 more rows</code></pre>
 </div>
 </div>
 <p>Now we have a data frame with the predictions from each source plus the actual (realized) value for the CPI for the last 45 months – including periods pre-, during- and post-Covid. In the next section, we’ll see how to get a representative summary of the results so as we can conclude which model is better. You may have a clue on how to do this, but I can assure you that there are some relevant aspects worth exploring that are hardly found elsewhere. Before moving to the next section, we can take a look on how these forecasts look like.</p>
@@ -547,7 +546,7 @@ gtag('config', 'G-6T89HT07F5', { 'anonymize_ip': true});
 <span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>       <span class="at">color =</span> <span class="st">''</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stderr">
-<pre><code>Warning: Removed 108 row(s) containing missing values (geom_path).</code></pre>
+<pre><code>Warning: Removed 108 rows containing missing values (`geom_line()`).</code></pre>
 </div>
 <div class="cell-output-display">
 <p><img src="fc_abc_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid" width="672"></p>
@@ -603,7 +602,8 @@ gtag('config', 'G-6T89HT07F5', { 'anonymize_ip': true});
 <p><img src="fc_abc_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
-<p>Now we’re ready to apply our two custom functions plus the MAE to the errors we computed from the three models in order to decide which one is the most accurate. Again, these metrics aren’t comparable to each other. Instead, we’re interested in the ordering within the same metric. In addition, there’s no such a thing as the best metric. As we saw earlier in this section, the appropriate metric is the one that reflects as closely as possible our objective. Besides, we find several desirable characteristics in conventional metrics such as MAE or RMSE and I don’t mean to rule them out. The main message here is that we must be fully aware of what our objective is and how to translate it into an appropriate function. In this regard, the knowledge of functional forms is essential.</p>
+<p>Now we’re ready to apply our two custom functions plus the MAE to the errors we computed from the three models in order to decide which one is the most accurate. Again, these metrics aren’t comparable to each other. Instead, we’re interested in the ordering within the same metric.</p>
+<p>In addition, there’s no such a thing as the best metric. As we saw earlier in this section, the appropriate metric is the one that reflects as closely as possible our objective. Besides, we find several desirable characteristics in conventional metrics such as MAE or RMSE and I don’t mean to rule them out (see <span class="citation" data-cites="hyndman_metrics">Robert J. Hyndman and Koehler (<a href="references.html#ref-hyndman_metrics" role="doc-biblioref">2005</a>)</span> for more on this). The main message here is that we must be fully aware of what our objective is and how to translate it into an appropriate function. In this regard, the knowledge of functional forms is essential.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>cpi_errors <span class="ot">&lt;-</span> cpi_fc <span class="sc">%&gt;%</span> </span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(date <span class="sc">&gt;=</span> <span class="st">'Jan 2019'</span>) <span class="sc">%&gt;%</span> </span>
@@ -622,7 +622,7 @@ gtag('config', 'G-6T89HT07F5', { 'anonymize_ip': true});
 <span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">model =</span> <span class="fu">str_remove_all</span>(model, <span class="st">'error_|_fc'</span>))</span>
 <span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a>cpi_errors</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 3 x 4
+<pre><code># A tibble: 3 × 4
   model  acc1  acc2   mae
   &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
 1 ets   0.488 0.304 0.317
@@ -630,12 +630,17 @@ gtag('config', 'G-6T89HT07F5', { 'anonymize_ip': true});
 3 avg   0.468 0.292 0.298</code></pre>
 </div>
 </div>
-<p>The results show that the ARIMA model is the most accurate by the three metrics, outperforming even the average model. At this point, I’d like to conclude with two considerations. The first is that combining models usually improves performance, but not always as the above exercise made clear. Nevertheless, although the literature shows that using either the mean or median of the models is very difficult be beaten, it’s possible to improve accuracy by optimizing the weights assigned to each model. Finally, we compared the models by means of their point forecasts. Despite being very common, this does not take into account the fact that each point forecast is one single realization of a random process and there is a vast literature that suggests the use of density forecasts and distributional accuracy measures.</p>
+<p>The results show that the ARIMA model is the most accurate by the three metrics, outperforming even the average model. At this point, I’d like to conclude with two considerations. The first is that combining models usually improves performance, but not always as the above exercise made clear.</p>
+<p>Nevertheless, although the literature shows that using either the mean or median of the models is very difficult to be beaten, it’s possible to improve accuracy by optimizing the weights assigned to each model.</p>
+<p>Finally, we compared the models by means of their point forecasts. Despite being very common, this does not take into account the fact that each point forecast is one single realization of a random process and there is a vast literature suggesting the use of density forecasts and distributional accuracy measures.</p>
 
 
-<div id="refs" class="references csl-bib-body hanging-indent" role="doc-bibliography" style="display: none">
-<div id="ref-fpp2" class="csl-entry" role="doc-biblioentry">
+<div id="refs" class="references csl-bib-body hanging-indent" role="list" style="display: none">
+<div id="ref-fpp2" class="csl-entry" role="listitem">
 Hyndman, R. J., and G. Athanasopoulos. 2018. <em>Forecasting: Principles and Practice, 2nd Edition</em>. OTexts: Melbourne, Australia.
+</div>
+<div id="ref-hyndman_metrics" class="csl-entry" role="listitem">
+Hyndman, Robert J., and Anne B. Koehler. 2005. <span>“Another Look at Measures of Forecast Accuracy.”</span>
 </div>
 </div>
 </section>
@@ -674,9 +679,23 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     icon: icon
   };
   anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
   const clipboard = new window.ClipboardJS('.code-copy-button', {
-    target: function(trigger) {
-      return trigger.previousElementSibling;
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
     }
   });
   clipboard.on('success', function(e) {
@@ -688,7 +707,24 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     button.classList.add('code-copy-button-checked');
     var currentTitle = button.getAttribute("title");
     button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
     setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
       button.setAttribute("title", currentTitle);
       button.classList.remove('code-copy-button-checked');
     }, 1000);
@@ -724,24 +760,128 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       return note.innerHTML;
     });
   }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
   var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
   for (var i=0; i<bibliorefs.length; i++) {
     const ref = bibliorefs[i];
-    const cites = ref.parentNode.getAttribute('data-cites').split(' ');
-    tippyHover(ref, function() {
-      var popup = window.document.createElement('div');
-      cites.forEach(function(cite) {
-        var citeDiv = window.document.createElement('div');
-        citeDiv.classList.add('hanging-indent');
-        citeDiv.classList.add('csl-entry');
-        var biblioDiv = window.document.getElementById('ref-' + cite);
-        if (biblioDiv) {
-          citeDiv.innerHTML = biblioDiv.innerHTML;
-        }
-        popup.appendChild(citeDiv);
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
       });
-      return popup.innerHTML;
-    });
+    }
   }
 });
 </script>
