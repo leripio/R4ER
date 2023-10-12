@@ -51,7 +51,8 @@ bibliography: references.bib
 format:
   html:
     theme: cosmo
-  pdf:
-    documentclass: scrreprt
+  epub:
+    toc: true
+    html-math-method: mathml
 
 editor: visual

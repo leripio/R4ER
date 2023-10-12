@@ -1,14 +1,14 @@
 # Scaling-up tasks
 
-In the introductory Chapter we saw how to import, organize and visualize data. However, little attention has been given to situations that require greater efficiency or scalability. This Chapter will take a step further in extending the previous knowledge to deal with more challenging situations.
+In the introductory chapter we saw how to import, organize and visualize data. However, little attention has been given to situations that require greater efficiency or scalability. This chapter will take a step further in extending the previous knowledge to deal with more challenging situations.
 
-For this exercise, we will use the Google Mobility data. Google started releasing this data on a daily basis right after the COVID outbreak spread across the world by mid-February 2020. Since then this data has been widely used for different purposes, from assessing/measuring economic activity to designing public policies. In spite of being a well-organized data set, it does offer the opportunity to do real-life data wrangling and to explore good practices from importing through visualizing.[^ds_googlemob-1]
+For this exercise, we will use the Google Mobility data. Google started releasing this data on a daily basis right after the COVID outbreak spread across the world by mid-February 2020. Since then this data has been widely used for different purposes, from assessing/measuring economic activity to designing public policies. In spite of being a well-organized data set, it does offer the opportunity to do real-life data wrangling and to explore good practices from importing to visualizing.[^ds_googlemob-1]
 
-[^ds_googlemob-1]: As of 2022-10-15, Community Mobility Reports are no longer updated, although all historical data remained publicly available.
+[^ds_googlemob-1]: As of 2022-10-15, Community Mobility Reports are no longer updated, although all historical data remains publicly available.
 
 ## Importing data
 
-Google offers two ways to download mobility data: you can either get a unique .csv file with all the available countries or you can get a .zip file with a separate .csv file for each country. We will stick with the latter for a simple reason: we are probably not interested in analyzing every single country and as data sets grow larger, it's much more efficient to import only the data we are interested in.
+Google offers two ways to download its mobility data. You can either get a unique .csv file with all the available countries or you can get a .zip file with a separate .csv file for each country. We will stick with the latter for a simple reason: we are probably not interested in analyzing every single country and as data sets grow larger, it's much more efficient to import only the data we are interested in.
 
 We begin by downloading the .zip file to the `data` folder.
 
@@ -59,7 +59,7 @@ Another issue that could cause us problems is if any of the elements in `google_
 
 Therefore, the efficient strategy in this case is:
 
-1.  Use the `map` function to import each file as an element in a list using the `possibly` function to avoid any error.
+1.  Use the `map` function to import each file as an element in a list using the `possibly` function to avoid any error to stop the whole process.
 2.  Assign meaningful names for each element of that list with `set_names` from `magrittr` package.
 3.  Call the `ldply` function from `plyr` package to stack them.
 
@@ -102,7 +102,7 @@ mobility_data %>%
 
 We can see our data set has about 4.7 million rows and 15 columns. The most relevant information are stored in the columns ending with `percent_change_from_baseline`. These are precisely the measures of mobility for categorized places. The other columns of interest are those containing `region` and, of course, the column `date`. I recommend you to take some time exploring the data set. You will notice that the `sub_region_*` columns refer to regional breakdowns such as states and municipalities. They are `NA` for aggregate levels.
 
-Suppose our ultimate goal is to have a plot with the average mobility across all the categories for each country in the national-level. We know in advance that it's very likely that a strong seasonal pattern is present. For example, mobility in workplaces should be higher on weekdays and lower on weekends. The opposite should be true for parks. Creating a 7-days rolling mean of the original time series should solve the problem.
+Suppose our ultimate goal is to have a plot with the average mobility across all the categories for each country at national level. We know in advance that it's very likely that a strong seasonal pattern is present. For example, mobility in workplaces should be higher on weekdays and lower on weekends. The opposite should be true for parks. Creating a 7-days rolling mean of the original time series should solve the problem.
 
 Finally, we need to invert the residential mobility since a higher (lower) residential mobility means a lower (higher) mobility elsewhere. So, if we are to aggregate all the mobility categories into one single measure (the average) they must point to the same direction.
 
@@ -120,16 +120,17 @@ This should not be quite a challenge and we can accomplish it with a few lines o
 #| eval: false
 #| warning: false
 library(RcppRoll)
+
 mutate_try1 <- mobility_data %>% 
   group_by(country_region) %>% 
   arrange(date) %>% 
   mutate(
     retail_and_recreation_percent_change_from_baseline = roll_meanr(retail_and_recreation_percent_change_from_baseline, 7, na.rm = TRUE),
-    grocery_and_pharmacy_percent_change_from_baseline = roll_meanr(grocery_and_pharmacy_percent_change_from_baseline, 7, na.rm = TRUE),
-    parks_percent_change_from_baseline = roll_meanr(parks_percent_change_from_baseline, 7, na.rm = TRUE),
-    transit_stations_percent_change_from_baseline = roll_meanr(transit_stations_percent_change_from_baseline, 7, na.rm = TRUE),
-    workplaces_percent_change_from_baseline = roll_meanr(workplaces_percent_change_from_baseline, 7, na.rm = TRUE),
-    residential_percent_change_from_baseline = roll_meanr(residential_percent_change_from_baseline, 7, na.rm = TRUE)
+    grocery_and_pharmacy_percent_change_from_baseline  = roll_meanr(grocery_and_pharmacy_percent_change_from_baseline, 7, na.rm = TRUE),
+    parks_percent_change_from_baseline                 = roll_meanr(parks_percent_change_from_baseline, 7, na.rm = TRUE),
+    transit_stations_percent_change_from_baseline      = roll_meanr(transit_stations_percent_change_from_baseline, 7, na.rm = TRUE),
+    workplaces_percent_change_from_baseline            = roll_meanr(workplaces_percent_change_from_baseline, 7, na.rm = TRUE),
+    residential_percent_change_from_baseline           = roll_meanr(residential_percent_change_from_baseline, 7, na.rm = TRUE)
   ) %>% 
   ungroup()
 ```
@@ -139,6 +140,7 @@ This solution is terrible, nevertheless I come across it very often. Fortunately
 ```{r}
 #| eval: false
 library(RcppRoll)
+
 mutate_try2 <- mobility_data %>% 
   group_by(country_region) %>% 
   arrange(date) %>% 
@@ -161,6 +163,7 @@ In addition, we can also use the argument `.names` to assign a `glue`-style name
 #| eval: false
 #| warning: false
 library(RcppRoll)
+
 mutate_topsolution <- mobility_data %>% 
   group_by(country_region) %>% 
   arrange(date) %>% 
@@ -178,6 +181,7 @@ Below the full solution for Items 1 to 5.
 
 ```{r}
 library(RcppRoll)
+
 mobility_final <- mobility_data %>% 
   filter(is.na(sub_region_1)) %>%
   mutate(across(starts_with('residential'), ~ -1*.x)) %>%
@@ -193,7 +197,7 @@ mobility_final <- mobility_data %>%
 
 ## Plot information
 
-We have mobility data for six countries and we should now decide how to plot them. Time series are usually better presented as lines, but there are some choices to be made. The most important one is whether we should display the countries data either as a single or in separate graphs. It depends on the purpose of the plot. If we are interested in observing the differences among countries in the same time period, then a single graph is a natural choice. On the other hand, if our goal is to observe in more detail the evolution in each country, then a separate plot is more convenient.
+We have mobility data for six countries and we should now decide how to plot them. Time series are usually better presented as lines, but there are some choices to be made. The most important one is whether we should display the countries data in a single or in a multiple panel. It depends on the purpose of the plot. If we are interested in observing the differences among countries in the same time period, then a single graph is a natural choice. On the other hand, if our goal is to observe in more detail the evolution in each country, then a separate plot is more convenient.
 
 Let's stick with the latter in this example using the `facet_wrap` feature. In this case we're segmenting our plot by country, but we're not constrained to segment it by only one variable. Besides, we could use the argument `scales = 'free_y'` to make the scales of each graph more adjusted to the limits of the data. It's not desirable here as we want to make visual comparisons between countries straightforward.
 

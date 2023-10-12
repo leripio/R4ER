@@ -1,6 +1,8 @@
 # Dynamic Factor Model
 
-Policymakers and analysts are routinely seeking to characterize short-term fluctuation in prices as either persistent or temporary. This issue is often addressed using core measures that exclude those items that are the most volatile or most subject to supply shocks from the inflation index. @fed argue that core measures are imperfect measures of underlying inflation in that temporary shocks in sectors that were not filtered out from the index may be misunderstood as economy-wide shocks.
+Policymakers and analysts are routinely seeking to characterize short-term fluctuation in prices as either persistent or temporary. This issue is often addressed using core measures that exclude those items that are the most volatile or most subject to supply shocks from the inflation index.
+
+@fed argue that core measures are imperfect measures of underlying inflation in that temporary shocks in sectors that were not filtered out from the index may be misunderstood as economy-wide shocks.
 
 The authors propose an alternative measure to deal with this problem. In their words:
 
@@ -48,7 +50,7 @@ z_k
 x_t
 \end{bmatrix}
 +
-v_t \text{~ MVN}
+v_t \sim N
 \begin{pmatrix}
 0,
 \underbrace{
@@ -93,7 +95,7 @@ x_{t-p}
 \end{bmatrix}
 }_{x_{t-1}}
 +
-v_t \sim \text{MVN}(0, Q)
+w_t \sim N(0, Q)
 $$
 
 ```{r}
@@ -108,7 +110,7 @@ library(MARSS)
 
 For this exercise, we'll use data on the 51 subsectors that make up Brazilian CPI. All these time series are the monthly percentage change accumulated in the last twelve months. This eliminates the need to add seasonal components to the model.
 
-For aesthetic reasons, the piece of code that downloads and prepare the data has been omitted. The interested reader can display it by clicking on 'Show the code'. Basically, the final output is a A $k \times t$ matrix of the $k$ subsectors time series over $t$ time steps.
+For aesthetic reasons, the piece of code that downloads and prepare the data has been omitted. The interested reader can display it by clicking on 'Show the code'. Basically, the final output is $k \times t$ matrix of the $k$ subsectors time series over $t$ time steps.
 
 ```{r}
 #| warning: false
@@ -126,8 +128,8 @@ sidra_codes <- list(
   'weights_asof2020' = '/t/7060/n1/all/v/66/p/all/c315/all/d/v2265%202',
   'peso_upto2019'    = '/t/1419/n1/all/v/66/p/all/c315/all/d/v2265%202'
   )
-cpi_data   <- purrr::map(.x = sidra_codes, .f = ~ get_sidra(api = .x))
-cpi_df <- cpi_data %>% 
+cpi_data <- purrr::map(.x = sidra_codes, .f = ~ get_sidra(api = .x))
+cpi_df   <- cpi_data %>% 
   plyr::ldply() %>% 
   select(
     var   = `Variável`, 
@@ -150,14 +152,17 @@ cpi_df <- cpi_data %>%
   map(.f = ~ .x %>% select(-var))
 
 CPI_reg <- cpi_df$CPI %>% 
-  tidyr::pivot_wider(names_from = 'item', 
-                     values_from = 'value') %>% 
-  dplyr::select(where(~ sum(is.na(.x)) == 0))
+  pivot_wider(
+    names_from = 'item', 
+    values_from = 'value'
+    ) %>% 
+  select(where(~ sum(is.na(.x)) == 0))
 
 CPI_twelveMonths <- CPI_reg %>% 
   arrange(date) %>% 
   mutate(across(-date, ~ ((RcppRoll::roll_prodr(1+.x/100, 12))-1)*100)) %>% 
   filter(between(date, ymd('2012-12-01'), ymd('2022-12-01')))
+
 CPI_ts <- CPI_twelveMonths %>% 
   arrange(date) %>%
   select(-c(date, contains('geral'))) %>%
@@ -168,7 +173,7 @@ CPI_ts <- CPI_twelveMonths %>%
 
 ## Estimating the model
 
-Next, we declare the system's matrices. Note that by defining the $R$ matrix as diagonal and unequal, we are assuming that prices across the subsectors are independent. This is arguably a very strong assumption, but considering cross-dependence between subsectors would greatly increase the number of parameters to be estimated.
+Next, we declare the system matrices. Note that by defining the $R$ matrix as diagonal and unequal, we are assuming that the shocks to prices across the subsectors are independent. This is arguably a very strong assumption, but considering cross-dependence between subsectors would greatly increase the number of parameters to be estimated. Also, we are considering four lags autorregressive terms in prices dynamics.
 
 ```{r}
 #| cache: true
@@ -190,7 +195,12 @@ model.spec$Q <- "diagonal and equal"
 model.spec$R <- "diagonal and unequal"
 model.spec$A <- "zero" 
 # Estimate using the EM Algorithm
-model.em <- MARSS(CPI_ts, model = model.spec, inits = list(x0 = 0), silent = TRUE)
+model.em <- MARSS(
+  CPI_ts, 
+  model  = model.spec, 
+  inits  = list(x0 = 0), 
+  silent = TRUE
+  )
 ```
 
 ## Results

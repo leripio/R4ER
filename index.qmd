@@ -20,19 +20,19 @@ Also, I would be very happy to receive suggestions and feedback via [email](mail
 
 # Acknowledgements {.unnumbered}
 
-First and foremost, I'd like to thank all those who generously contribute to the R community -- whether it's developing packages, free content, or answering questions on Stack Overflow. Most of my learning I owe to you, and this book is, to a large extent, a way of giving back. 
+First and foremost, I'd like to thank all those who generously contribute to the R community -- whether it's developing packages, free content, or answering questions on Stack Overflow. Most of my learning I owe to you, and this book is, to a large extent, a way of giving back.
 
-I would also like to thank my therapist Fátima for all the emotional support on this journey. Writing this book was an act of making myself vulnerable in several ways: showing my skills publicly, writing in a language I am not a native speaker of, and much more.
+I would also like to thank my therapist Fátima for all the emotional support on this journey. Writing this book was an act of making myself vulnerable in several ways: showing my skills publicly, writing in a language I am not a native speaker and much more.
 
 Finally, I dedicate this book to my family: my mom Célia, my dad João Bosco, my sister Nathália and her newborn boy João Gabriel.
 
 # Data {.unnumbered}
 
-All the data sets used in the examples will be soon released as an R package. In the meantime, the relevant data are stored in the folder named *data* in the book official [repository](https://github.com/leripio/R4ER) on Github.  
+All the data sets used in the examples will be soon released as an R package. In the meantime, the relevant data are stored in the folder named *data* in the book official [repository](https://github.com/leripio/R4ER) on Github.
 
 # Author {.unnumbered}
 
-I’m a Senior Analyst at [Kapitalo Investimentos](https://www.kapitalo.com.br/), in charge of developing tools to improve the accuracy of economic forecasts. For more information about me and my work, visit [rleripio.com](http://www.rleripio.com). 
+I'm a Senior Analyst at [Kapitalo Investimentos](https://www.kapitalo.com.br/), in charge of developing tools to improve the accuracy of economic forecasts. For more information about me and my work, visit [rleripio.com](http://www.rleripio.com).
 
 # Citation {.unnumbered}
 
@@ -40,4 +40,8 @@ Leripio, J. Renato. (2023) R for Economic Research: Essential tools for modern e
 
 # License {.unnumbered}
 
-<p xmlns:cc="http://creativecommons.org/ns#" xmlns:dct="http://purl.org/dc/terms/"><a property="dct:title" rel="cc:attributionURL" href="http://book.rleripio.com">R for Economic Research: Essential tools for modern economic analysis</a> by <a rel="cc:attributionURL dct:creator" property="cc:attributionName" href="http://www.rleripio.com">J. Renato Leripio</a> is licensed under <a href="http://creativecommons.org/licenses/by-nc-sa/4.0/?ref=chooser-v1" target="_blank" rel="license noopener noreferrer" style="display:inline-block;">Attribution-NonCommercial-ShareAlike 4.0 International<img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/cc.svg?ref=chooser-v1"><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/by.svg?ref=chooser-v1"><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/nc.svg?ref=chooser-v1"><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/sa.svg?ref=chooser-v1"></a></p>
+<p xmlns:cc="http://creativecommons.org/ns#" xmlns:dct="http://purl.org/dc/terms/">
+
+<a property="dct:title" rel="cc:attributionURL" href="http://book.rleripio.com">R for Economic Research: Essential tools for modern economic analysis</a> by <a rel="cc:attributionURL dct:creator" property="cc:attributionName" href="http://www.rleripio.com">J. Renato Leripio</a> is licensed under <a href="http://creativecommons.org/licenses/by-nc-sa/4.0/?ref=chooser-v1" target="_blank" rel="license noopener noreferrer" style="display:inline-block;">Attribution-NonCommercial-ShareAlike 4.0 International<img src="https://mirrors.creativecommons.org/presskit/icons/cc.svg?ref=chooser-v1" style="height:22px!important;margin-left:3px;vertical-align:text-bottom;"/><img src="https://mirrors.creativecommons.org/presskit/icons/by.svg?ref=chooser-v1" style="height:22px!important;margin-left:3px;vertical-align:text-bottom;"/><img src="https://mirrors.creativecommons.org/presskit/icons/nc.svg?ref=chooser-v1" style="height:22px!important;margin-left:3px;vertical-align:text-bottom;"/><img src="https://mirrors.creativecommons.org/presskit/icons/sa.svg?ref=chooser-v1" style="height:22px!important;margin-left:3px;vertical-align:text-bottom;"/></a>
+
+</p>

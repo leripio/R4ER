@@ -2,7 +2,7 @@
 
 A fundamental part of the work in economic research consists of estimating relationships between variables. A good starting point is to use reduced forms of well-established models in the literature. For example, to analyze the effect of a certain variable on economic activity, we can use a specification derived from the IS curve. Similarly, we can use (a variation of) the Phillips Curve to measure the impact of a certain variable on inflation.
 
-In this section, we'll see how to estimate the parameters of a simple reduced form Phillips Curve, check basic properties of the model and extract some useful information from it. It's worth noting that the same procedures applies for any other custom model.
+In this section, we'll see how to estimate the parameters of a simple reduced form Phillips Curve, check basic properties of the model and extract some useful information from it. It's worth noting that the same procedures applies to any other custom model.
 
 For this exercise, we'll use seasonally-adjusted quarterly data from the Brazilian economy ranging from 2004Q1 to 2022Q4. The basic Phillips Curve can assume the following form:
 
@@ -18,7 +18,7 @@ library(tidyverse)
 library(lubridate)
 cp_data <- readRDS('data/ch12_cp_data.rds')
 cp_data %>% 
-  pivot_longer(-date, 'var', 'value') %>% 
+  pivot_longer(-date, names_to = 'var', values_to = 'value') %>% 
   ggplot(aes(x = date, y = value)) +
   geom_line(lwd = 1) +
   theme_light() +
@@ -30,7 +30,7 @@ cp_data %>%
   )
 ```
 
-Next, we need to create the appropriate variables for lagged `CPI` and `YGAP` and the percentage change of `CI_USD`. Then, we fit the model to the data. Note that we are imposing no restrictions on the coefficients at this point, although the structural version of the Phillips curve does (we'll see how to do so in the next section). In addition, we are using OLS to estimate the coefficients, although a endogeneity-robust method such as the Generalized Method of Moments (GMM) is more suitable.
+Next, we need to create the appropriate variables for lagged `CPI` and `YGAP` and the percentage change of `CI_USD`. Then, we fit the model to the data. Note that we are imposing no restrictions on the coefficients at this point, although the structural version of the Phillips curve does (we'll see how to do so in the next section). In addition, we are using OLS to estimate the coefficients, although an endogeneity-robust method such as the Generalized Method of Moments (GMM) is more suitable.
 
 ```{r}
 #| warning: false
@@ -45,7 +45,7 @@ cp_fit <- lm(CPI_CORE ~ CPI_CORE_lag + CPI_EXP + YGAP_lag + dlog_CI_USD -1, cp_r
 summary(cp_fit)
 ```
 
-The coefficients are highly significant and show the expected signs.  To check the model validity, it's crucial that the residuals are zero-mean and exhibit no clear trend. The `checkresiduals` functions from the `forecast` package provides a handy summary of the model residuals.
+The coefficients are highly significant and show the expected signs. To check the model validity, it's crucial that the residuals are zero-mean and exhibit no clear trend. The `checkresiduals` functions from the `forecast` package provides a handy summary of the model residuals.
 
 ```{r}
 #| warnings: false
@@ -55,7 +55,7 @@ forecast::checkresiduals(cp_fit)
 
 We can see that the residuals are well-behaved: mean around zero, no outliers and no clear trend. There is an autocorrelation signal in the third lag evidenced by the ACF, but given that it is relatively small and far enough away, I believe it can be overlooked.
 
-After confirming the validity of the model, we can use it for various purposes. The estimated coefficients provide interesting rules of thumb for everyday use. For example, the `dlog_CI_USD` coefficient measures the pass-through from imported prices to inflation. According to the model, a 10% increase in imported prices adds 0.17p.p to inflation in the current quarter.    
+After confirming the validity of the model, we can use it for various purposes. The estimated coefficients provide interesting rules of thumb for everyday use. For example, the `dlog_CI_USD` coefficient measures the pass-through from imported prices to inflation. According to the model, a 10% increase in imported prices adds 0.17p.p to inflation in the current quarter.
 
 Plotting the model fit is a good way to check deviations of the target variable from its fundamentals (at least those that are taken into account in the model). We can use the `augment` function from the `broom` package, which returns a data frame with the fitted values, residuals, etc. The `broom` package also provides other functions that greatly facilitate the manipulation of the regression results, as we'll see later.
 
@@ -71,6 +71,7 @@ cp_fit_plot <- cp_fit %>%
       mutate(.rownames = as.character(.rownames))
   ) %>% 
   mutate(deviation = CPI_CORE - .fitted)
+
 cp_fit_plot %>% 
   ggplot(aes(x = date)) +
   geom_line(aes(y = CPI_CORE, color = 'Actual'), lwd = 1) +
@@ -88,7 +89,7 @@ cp_fit_plot %>%
   )
 ```
 
-What is the role of economic activity in inflation in recent quarters? And about external factors, have they played a significant role in the overall result? It's a common practice to quantify the contribution of each variable to the observed value in a given period. This type of decomposition is obtained by multiplying the value of each variable in the period by the respective model coefficient.
+What is the role of economic activity in inflation in recent quarters? What about external factors, have they played a significant role in the overall result? It's a common practice to quantify the contribution of each variable to the observed value in a given period. This kind of decomposition is obtained by multiplying the value of each variable in the period by the respective model coefficient.
 
 This time, we can make use of the `tidy` function from the `broom` package which returns the model's coefficients in tidy format.
 
@@ -108,6 +109,7 @@ cp_decomp <- cp_fit_plot %>%
       select(date, contribution = .resid) %>% 
       mutate(term = 'residual')
   )
+
 cp_decomp %>% 
   ggplot(aes(x = date)) +
   geom_col(aes(y = contribution, fill = term)) +
@@ -123,7 +125,7 @@ cp_decomp %>%
 
 We can see that inertia and expectations are the main drivers of inflation throughout the sample, although for specific periods economic activity and imported inflation played a significant role. I also included the residual term because it's also important to know when factors other than those incorporated into the model are relevant to the outcome and the magnitude of its contribution to the overall result.
 
-Obviously, the model can be used to produce forecasts. For this, we need to provide values for the exogenous variables including the lagged CPI. In the next section we'll see a more complete approach on how to provide scenarios for future values. For now, I'll only take the last value of each variable and add a small random variation. 
+Obviously, the model can be used to produce forecasts. For this, we need to provide values for the exogenous variables including the lagged CPI. In the next section we'll see a more complete approach on how to provide scenarios for future values. For now, I'll only take the last value of each variable and add a small random variation.
 
 ```{r}
 set.seed(123)

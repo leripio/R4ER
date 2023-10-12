@@ -49,7 +49,7 @@ Tidyverse also provides packages for reading other usual file types. For instanc
 
 ### Reading from API {#readapi}
 
-Although the use of traditional flat files are still widespread, organizations are increasingly switching to API's to make data available to the public. This is a huge improvement since we're able to customize our demand and import only the data we need for the specific task.
+Although the use of traditional flat files are still widespread, organizations are increasingly switching to APIs to make data available to the public. This is a huge improvement since we're able to customize our demand and import only the data we need for the specific task.
 
 If you don't know what an API is, think of it as an interface to a database. However, instead of reading all the content from this database you can inform what columns you want, the desired observations (time range if it's a time series) and so on. These filters are embedded in a **request** and the right form to specify it is usually available in a documentation provided by the API maintainer.
 
@@ -71,7 +71,7 @@ $$
 \underbrace{\text{series\_id=GNPCA}}_\text{Parameter: Series ID}
 $$
 
-3.  The API Key. We must create an account and require a personal key in order to import data from the API. This one is an example for illustrative purposes only.
+3.  The API Key. We must create an account and require a personal key in order to import data from the API. This one is an example for illustrative purpose only.
 
 $$
 \underbrace{\text{api\_key=abcdefghijklmnopqrstuvwxyz123456}}_\text{Parameter: API Key}
@@ -85,11 +85,11 @@ $$
 
 Note that all the parameters following the static part are separated by an **&**. Then, if we want to add any extra parameter it should be placed right after this character. Also, the order of the parameters is not relevant.
 
-Suppose we want to read monthly data for the [US Consumer Price Index (CPI)](https://fred.stlouisfed.org/series/CPALTT01USM657N). The `series_id` is **CPALTT01USM657N**. Besides, we'd only like to read data between January 2010 and December 2022. How can we do so? There are two parameters -- `observation_start` and `observation_end` which set, respectively, the range of the observation period (YYYY-MM-DD format).
+Suppose we want to read monthly data for the [US Consumer Price Index (CPI)](https://fred.stlouisfed.org/series/CPALTT01USM657N). The `series_id` is **CPALTT01USM657N**. Besides, we'd only like to read data between January 2010 and December 2022. How can we do so? There are two parameters -- `observation_start` and `observation_end` -- which set the range of the observation period (YYYY-MM-DD format).
 
-The code below creates a separate object for each part of the request. Then, we use the `glue` function from the homonymous package to merge the pieces into a single string adding the **&** character between parameters. We could create the full string all at once, but creating separate objects makes it easier to find and edit values as well as to transform this task into a custom function if we had to frequently read data from this source (more on this later).
+The code below creates a separate object for each part of the request. Then, we use the `glue` function from the homonymous package to merge the pieces into a single string adding the **&** character between parameters. Note that we could create the full string all at once, but setting separate objects makes it easier to find and edit values when necessary as well as to transform this task into a custom function if we had to read data from this source often (more on this later).
 
-You'll need to register in order to be granted access to the API. Since this information is personal, I stored my key as an environmental variable named `api_fred_key` which can be accessed like any other object.
+You'll need to register in order to be granted access to the API. Since this information is personal, I stored my key as an environmental variable named `api_fred_key` which can be accessed like any other object. If you want to create an environmental variable, the easiest way is through the function `edit_r_environ()` from the `usethis` package. This will open your `.Renviron` file, where you should place the following line: `variable_name=variable_value`. Then you must save it and restart your R session for changes to take effect. Now you can get the value from your environmental variable using `Sys.getenv('variable_name')`
 
 ```{r}
 #| warning: false
@@ -119,7 +119,7 @@ cpi_tbl     <- cpi_list[['observations']] %>% as_tibble()
 cpi_tbl
 ```
 
-This concludes our section on how to import data. If you're struggling with other types of data, Tidyverse's official [website](https://www.tidyverse.org/packages/#import) provides a comprehensive list of all the supported file formats and the respective packages used to handle them. Also, you can take a look at the `rio` package, which makes it easy to import and export data from and to different file extensions.
+This concludes our section on how to import data. If you're struggling with other types of data, Tidyverse's official [website](https://www.tidyverse.org/packages/#import) provides a comprehensive list of all the supported file formats and the respective packages used to handle them. Also, you can take a look at the `rio` package, which makes it easy to import/export data from/to different file extensions.
 
 ## Wrangling
 
@@ -191,7 +191,7 @@ covid_data_sub3 <- covid_data %>%
   distinct() %>% 
   filter(
     continent == 'Europe',
-    date <= '2021-06-30'
+    date <= '2022-06-30'
     ) %>% 
   group_by(location) %>% 
   summarise(max_new_cases = max(new_cases)) %>% 
@@ -284,7 +284,7 @@ In order to merge the data frames by their common countries while keeping the re
 
 These four functions comprise what it's called **mutating-joins** since they add columns from one data frame to the other. There are also the **filtering-joins** functions, which filter the rows from one data frame based on the presence (`semi_join`) or absence (`anti_join`) of matches in the other data frame. Given the latter category is used to a much lesser extent, I won't go into detail right now. Eventually they'll show up in the coming chapters.
 
-We saw that `*_join*` operations are particularly useful to merge data frames horizontally and by their matching rows according to key variables. More often than not we need to stack data vertically by their matching columns. For example, suppose the Covid data set was released as a single file for each country and we needed to perform some comparisons between France and the United Kingdom - `covid_fr` and `covid_uk` data sets shown below.
+We saw that `*_join` operations are particularly useful to merge data frames horizontally and by their matching rows according to key variables. More often than not we need to stack data vertically by their matching columns. For example, suppose the Covid data set was released as a single file for each country and we needed to perform some comparisons between France and the United Kingdom - `covid_fr` and `covid_uk` data sets shown below.
 
 ```{r}
 #| echo: false
@@ -305,13 +305,13 @@ covid_fr_uk <- bind_rows(covid_fr, covid_uk)
 covid_fr_uk
 ```
 
-The `bind_cols` function is more restrictive in this regard. It's used to merge the columns of data frames, but matching by row position rather than a key variable. For this reason, we can't have data frames of different lengths. In practice, it's much more common to rely on `*_join*` functions when we need to merge data frames horizontally.
+The `bind_cols` function is more restrictive in this regard. It's used to merge the columns of data frames, but matching by row position rather than a key variable. For this reason, we can't have data frames of different lengths. In practice, it's much more common (and safe) to rely on `*_join` functions when we need to merge data frames horizontally.
 
 ### Data layout {#datalay}
 
 We've walked through the main functions of `dplyr`. Now, we turn to the `tidyr` package. According to the tidyverse's website, the goal of `tidyr` is to help us create **tidy data**. It means a data set where every column is a variable; every row is an observation; and each cell is a single value.
 
-Tidy data is also known as **wide** format -- since it increases the number of columns and decreases the number of rows --, as opposed to the **long** format, where data are stacked increasing the number of rows and decreasing the number of columns. It took me a while before I could tell if a data set was either in wide or long format, so don't worry if it's not so clear right now. Perhaps a more direct way of thinking about this distinction is to ask yourself: *Is all the information contained in a single cell?*. If so, it's wide format. If not, then it's long format.
+Tidy data is also known as **wide** format -- since it increases the number of columns and decreases the number of rows --, as opposed to the **long** format, where data are stacked increasing the number of rows and decreasing the number of columns. It took me a while before I could tell if a data set was either in wide or long format, so don't worry if it's not so clear right now. Perhaps a more direct way of thinking about this distinction is to ask yourself: *Is all the information contained in a single cell?* If so, it's wide format. If not, then it's long format.
 
 For example, is the Covid data set in wide or long format? If we took a single cell from the **new_cases** column, does it convey all the information for this variable contained in the data set? No, it doesn't. We know the number of new cases in a given date, but we don't know the country that value refers to -- is this from Germany? Nigeria? Chile?
 
@@ -342,11 +342,11 @@ covid_wide_02 <- covid_data %>%
 covid_wide_02
 ```
 
-Our new data set expanded to `r ncol(covid_wide_02)-1` columns. As we create more and more columns to get a wide data set it might become harder to perform some simple tasks. For example, using `filter` is generally easier than using a conditional `select` when we want to keep only the relevant data.
+Our new data set expanded to `r ncol(covid_wide_02)-1` columns. As we create more and more columns to get a wide data set it might become harder to perform some simple tasks. In fact, using `filter` is generally easier than using a conditional `select` when we want to keep only the relevant data.
 
 In summary, long format may be preferable over wide format when the data set contains more than one grouping variable or we want to work on more than one variable. Besides, long format data sets are ideal for plotting with `ggplot2` package as we'll see later.
 
-Therefore, it's not unusual to convert a data set from wide to long format. The syntax is very similar to what we saw earlier when converting from long to wide format. The unique difference is in the `cols` argument, used to declare what columns we want to stack. However, since wide data sets usually have a large number of columns and we're often interested in putting all of them in long format, it's much easier to declare what columns we want to leave out (`-`).
+Therefore, it's not unusual to convert a data set from wide to long format. The syntax is very similar to what we saw earlier when converting from long to wide format. The only difference is in the `cols` argument, used to declare what columns we want to stack. However, since wide data sets usually have a large number of columns and we're often interested in putting all of them in long format, it's much easier to declare what columns we want to leave out (the `-` operator).
 
 ```{r}
 covid_long_01 <- covid_wide_02 %>% 
@@ -373,7 +373,7 @@ covid_loc_cont <- covid_data %>%
 covid_loc_cont
 ```
 
-This is undesirable since we can no longer use `group_by` or `filter` over either country or continents names alone, for instance. Hence, the best practice is to have a single column for each variable. This can be easily achieved using the `separate` function, with a highly self-explanatory syntax. Again, the separator character being unique in the string makes the job much easier.
+This is undesirable since we can no longer use `group_by` or `filter` over either country or continents names alone. Hence, the best practice is to have a single column for each variable. This can be easily achieved using the `separate` function, with a highly self-explanatory syntax. Again, the separator character being unique in the string makes the job much easier.
 
 ```{r}
 covid_separate <- covid_loc_cont %>% 
@@ -452,7 +452,7 @@ covid_americas <- covid_data %>%
   filter(stringr::str_detect(continent, 'America'))
 ```
 
-Note that we could have left aside several characters using only, say, 'Am' or 'Ame'. This would have worked fine if there was no other continent with this sequence of characters. Of course, this parsimony makes more sense for lengthy words or long sentences. For short words I recommended you to write the full word in order to prevent any undesirable output.In addition, we can also provide multiple patterns to `str_detect` by separating them with a `|`.
+Note that we could have left aside several characters using only, say, 'Am' or 'Ame'. This would have worked fine if there was no other continent with this sequence of characters. Of course, this parsimony makes more sense for lengthy words or long sentences. For short words I recommend you to write the full word in order to prevent any undesirable output. ßIn addition, we can also provide multiple patterns to `str_detect` by separating them with a `|`.
 
 ```{r}
 covid_americas <- covid_data %>% 
@@ -466,9 +466,9 @@ covid_exAsia <- covid_data %>%
   filter(str_detect(continent, 'Asia', negate = TRUE))
 ```
 
-Another recurrent task when we're dealing with strings is to remove a part of it. It's generally required in order to establish a standard within categories so we can perform further operations. The complexity of this task vary depending on the form of this undesired part.
+Another recurrent task when we're dealing with strings is to remove a part of it. It's generally required in order to establish a standard within categories so we can perform further operations. The complexity of this task varies depending on the form of this undesired part.
 
-The most simple case is when we have to remove a sequence of characters which is fixed both in length and in position. For example, suppose we have a data frame `covid_numCont` in which the observations in the continent column starts with a random number from 0 to 9 -- think of it as a typing error from the source, since the same reasoning applies if those random numbers were present only in a few observations.
+The simplest case is when we have to remove a sequence of characters which is fixed both in length and in position. For example, suppose we have a data frame `covid_numCont` in which the observations in the continent column starts with a random number from 0 to 9 -- think of it as a typing error from the source, since the same reasoning applies if those random numbers were present only in a few observations.
 
 ```{r}
 #| echo: FALSE
@@ -481,14 +481,14 @@ covid_numCont %>%
   slice_sample(n =  10)
 ```
 
-To solve this is solely a matter of subsetting the string from position three onwards using `str_sub`. The `end` argument defaults to last character, so we don't need to explicit it.
+To solve this is solely a matter of subsetting the string from position three onwards using `str_sub`. The `end` argument defaults to the last character, so we don't need to make it explicit.
 
 ```{r}
 covid_numCont %>% 
   mutate(continent = str_sub(continent, start = 3))
 ```
 
-Nice. But what if the random numbers ranged from 0 to 10?
+Nice. But what if the random numbers ranged from 0 to 10 as in the data frame below?
 
 ```{r}
 #| echo: FALSE
@@ -537,8 +537,8 @@ Or we can simply pass a vector with all the replacements to the `str_replace_all
 ```{r}
 #| eval: FALSE
 covid_typo %>% 
-  dplyr::mutate(
-    continent = stringr::str_replace_all(
+  mutate(
+    continent = str_replace_all(
       continent, 
       c('Nort America'   = 'North America',
         'Northh America' = 'North America')
@@ -566,7 +566,7 @@ We can easily get rid of the whitespaces using those functions. It's advisable t
 ```{r}
 #| eval: FALSE
 covid_ws %>% 
-  dplyr::mutate(
+  mutate(
     continent = continent %>% 
       str_trim() %>% 
       str_squish()
@@ -613,7 +613,7 @@ Having knowledge on date manipulation is crucial to perform a lot of tasks when 
 
 The first step when we're working with dates is to convert the string to a date object. In order to get rid of ambiguity issues, `lubridate` contains a set of predefined functions that take into account the ordering of year, month and day in the string.
 
-For instance, if we have a date in the standard `YYYY-MM-DD` format we can use the `ymd` function. Note that it works regardless of how these terms are separated: it might be like `2021-12-01`, `2022/12/01` or even `20221201`. Also, months names (full or abbreviated forms) are allowed: `2021-December-01` or `2021-Dec-01`. The same logic applies to the whole family of related functions: `mdy`, `dmy`, `ydm`, `dym`, `my`, `ym` and so on.
+For instance, if we have a date in the standard `YYYY-MM-DD` format we can use the `ymd` function. Note that it works regardless of how these terms are separated: it might be like `2021-12-01`, `2022/12/01` or even `20221201`. Also, months names (full or abbreviated forms) are allowed -- `2021-December-01` or `2021-Dec-01`. The same logic applies to the whole family of related functions: `mdy`, `dmy`, `ydm`, `dym`, `my`, `ym` and so on.
 
 ```{r}
 #| warning: false
@@ -720,7 +720,7 @@ d1 %m-% months(3)
 d1 %m+% days(1)
 ```
 
-In addition, there's also the lesser known `add_with_rollback` function which we can use to have more control of the output. For example, when adding one month to 2022-01-31 we might want either 2022-02-28 (the last day of the next month) or 2022-03-01 (a period of one month). To get the latter, we set the `roll_to_first` parameter to `TRUE`.
+In addition, there's also the lesser known `add_with_rollback` function which we can use to have more control over the output. For example, when adding one month to 2022-01-31 we might want either 2022-02-28 (the last day of the next month) or 2022-03-01 (a period of one month). To get the latter, we set the `roll_to_first` parameter to `TRUE`.
 
 ```{r}
 d2 <- ymd('2022-01-31')
@@ -762,7 +762,7 @@ It's very useful, for example, when you need to compare observations from the sa
 
 ## Looping
 
-Iteration is an indispensable tool in programming and every language has its own structure. Essentially, loops are used to repeat an action over a set of values, thus preventing us from the annoying and risky copying-and-pasting thing. Whenever we have any kind of redundancy, there's a good reason to use loops.
+Iteration is an indispensable tool in programming and every language has its own structure. Essentially, loops are used to repeat an action over a set of values, thus preventing us from the annoying and risky copy-and-paste thing. Whenever we have any kind of redundancy, there's a good reason to use loops.
 
 The `purrr` package provides many interesting tools for working with functions and vectors. For our purposes, we'll stick with the family of `map` functions. The logic will always be the same: applying a function -- existing or user-defined -- over a vector (or list) of arguments.
 
@@ -776,7 +776,7 @@ v_all <- list(v1, v2, v3)
 map(.x = v_all, .f = mean)
 ```
 
-Note that by default the output will be a list, but we can have other output formats using `map_*`: `map_dbl` will return the results as a vector, whereas `map_dfc` will return them in a (column) data frame. We only need to consider whether or not the output can be coerced to the desired class.
+Note that by default the output will be a list, but we can have other output formats using `map_*`: `map_dbl` will return the results as a vector, whereas `map_dfc` will return them in a (column) data frame. We only need to consider whether the output can be coerced to the desired class.
 
 ```{r}
 #| warning: false
@@ -789,7 +789,7 @@ Most of the time I prefer to return the results as a list, because that makes it
 
 Now, let's introduce some degree of complexity to the exercise by providing our own function. For this, let's use the example of importing data from an API we saw earlier in the Importing section. Suppose that in addition to CPI we also want to get the time series for GDP and Unemployment rate.
 
-Remember (or scroll up if necessary) that we created an object called `api_series_id` with the ID of the CPI time series and that was the only specific parameter -- everything else would be the same for any other series we wanted. Therefore, our first task here is to create a function whose only parameter is the series ID. Then, we create a vector (or list) with the desired series ID's and -- guess what? -- use them inside the `map` function.
+Remember (or scroll up if necessary) that we created an object called `api_series_id` with the ID of the CPI time series and that was the only specific parameter -- everything else would be the same for any other series we wanted. Therefore, our first task here is to create a function whose only parameter is the series ID. Then, we create a vector (or list) with the desired IDs and -- guess what? -- use them inside the `map` function.
 
 I'll create the `get_series` function using the same content we already saw up there, but leaving the `api_series_id` as a parameter (`series_id`). Note that I'll keep some objects with their original names -- starting with *cpi\_* -- just to avoid confusion. This has no practical effect, though.
 
@@ -809,13 +809,13 @@ get_series <- function(series_id){
 } 
 ```
 
-We can test our function using the CPI's ID we used before.
+We can test our function using the ID for CPI we used before.
 
 ```{r}
 get_series(series_id = 'CPALTT01USM657N')
 ```
 
-Great, it's working fine! The next step is to create a vector (or list) with the IDs of each series. Assigning names to the vector (list) elements is a good idea since these names are carried forward helping to identify the elements in the output list.
+Great, it's working fine! The next step is to create a vector (or list) with the IDs for each series. Assigning names to the vector (list) elements is a good idea since these names are carried forward helping us to identify the elements in the output list.
 
 ```{r}
 id_list <- list(
@@ -860,8 +860,9 @@ A safer, thus preferable, alternative is to use names rather than positions as i
 vars_fred <- c('CPI', 'GDP', 'Unemp')
 fred_data2_names <- map(
   .x = vars_fred, 
-  .f = function(x) get_series2par(series_id = id_list[[x]],
-                               series_start = time_list[[x]]
+  .f = function(x) get_series2par(
+    series_id = id_list[[x]],
+    series_start = time_list[[x]]
   )
 ) %>% 
   magrittr::set_names(vars_fred)
@@ -909,7 +910,7 @@ We're almost there in our goal to review the basics of Tidyverse. Succinctly des
 
 In fact, the grammar used in `ggplot2` package is broad and far from simple at first glance. But as you practice, it becomes increasingly graspable. Still, I encourage you to dive into the amazing @ggplo2book since getting fluent on this subject is indispensable.
 
-Let's think about the process of making a graphic as a set of layers arranged sequentially. The first layer is the data you want to plot. We'll use the CPI data from the Importing section. The second layer is the `ggplot` function. So far, there's nothing to visualize. All these two layers do is to set the stage for what's coming next.
+Let's think about the process of making a graphic as a set of layers arranged sequentially. The first layer is the data you want to plot. We'll use the CPI data frame from the Importing section. The second layer is the `ggplot` function. So far, there's nothing to visualize. All these two layers do is to set the stage for what's coming next.
 
 ```{r}
 #| eval: FALSE
@@ -1002,7 +1003,7 @@ cpi_tbl %>%
   scale_y_continuous(breaks = seq(-1, 1.5, 0.25), limits = c(-1, 1.5))
 ```
 
-You should be asking yourself why `x` and `y` parameters went inside the `aes` function whereas `color` went outside it. First of all, the parameters which set the graphic axes always go inside `aes`. Other parameters have a special role whether they appear inside or outside `aes`. According to the documentation, *aesthetic mappings describe how variables in the data are mapped to visual properties (aesthetics) of geoms*. It's much easier to understand through an example.
+You may be wondering why `x` and `y` parameters went inside the `aes` function whereas `color` went outside it. First of all, the parameters which set the graphic axes always go inside `aes`. Other parameters have a special role whether they appear either inside or outside `aes`. According to the documentation, *aesthetic mappings describe how variables in the data are mapped to visual properties (aesthetics) of geoms*. It's much easier to understand through an example.
 
 In the graphic above, we used `color` outside `aes` to define which color we wanted for the graphic line. However, if we were to use `color` as an attribute to highlight different groups from the data, `color` should go inside `aes`. In addition, we should pass a variable onto it instead of color names. This variable might be discrete, in which case we would have one color per group; or it might be continuous, in which case we would have a color gradient according to its magnitude.
 
@@ -1063,7 +1064,7 @@ covid_data %>%
   )
 ```
 
-We saw earlier how to manually set the color to each group. It's worth emphasizing that we're by no means bounded to using colors names as `ggplot` also works with other tools such as HEX codes and the awesome ColorBrewer. ColorBrewer is an amazing source for color schemes carefully designed to improve visual communication. You can check this out at https://colorbrewer2.org/.
+We saw earlier how to manually set the color to each group. It's worth emphasizing that we're by no means bounded to using colors names as `ggplot` also works with other tools such as HEX codes and the awesome ColorBrewer. ColorBrewer is an amazing source for color schemes carefully designed to improve visual communication. You can check this out at <https://colorbrewer2.org/>.
 
 We'll stick with ColorBrewer since it makes it effortless to assign a different color to each of the six continents. Notice that after choosing your desired pattern and palette in the website, you get some meta data (type and scheme) that will be used here.
 
@@ -1118,9 +1119,9 @@ Since we have a separate panel for each continent, it's no longer necessary to a
 
 ## Tables
 
-Graphs are the right tool to show historical data or relationship between variables. Nonetheless, we often need to send reports with detailed data from the latest release of a certain variable. Tables are much better suited for this type of task and the `gt` package is awesome when it comes to customizing tables. It's worth taking a look at the package's [website](https://gt.rstudio.com/) to get a better sense of the  syntax.
+Graphs are the right tool to show historical data or relationship between variables. Nonetheless, we often need to send reports with detailed data from the latest release of a certain variable. Tables are much better suited for this type of task and the `gt` package is awesome when it comes to customizing tables. It's worth taking a look at the package's [website](https://gt.rstudio.com/) to get a better sense of the syntax.
 
-In the following example, we will see how to organize the data properly to convert it in a nice-looking table. The data frame `us_gdp` below contains data on the contributions to percent change in real gross domestic product (annual rates) for the US economy released by the Bureau of Economic Analysis of the U.S Department of Commerce (BEA).
+In the following example, we will see how to organize the data properly to convert it into a nice-looking table. The data frame `us_gdp` below contains data on the contributions to percent change in real gross domestic product (annual rates) for the US economy released by the Bureau of Economic Analysis of the U.S Department of Commerce (BEA).
 
 ```{r}
 #| echo: false
@@ -1174,7 +1175,7 @@ us_gdp_gt <- us_gdp_gt %>%
 us_gdp_gt
 ```
 
-The `tab_spanner` feature allows us to organize columns under a common label. We can use one of its variation (`tab_spanner_delim`) to organize the quarters under the respective year in order to make our table more compact and nice-looking.  
+The `tab_spanner` feature allows us to organize columns under a common label. We can use one of its variation (`tab_spanner_delim`) to organize the quarters under the respective year in order to make our table more compact and nice-looking.
 
 ```{r}
 us_gdp_gt <- us_gdp_gt %>% 
@@ -1185,16 +1186,4 @@ us_gdp_gt <- us_gdp_gt %>%
 us_gdp_gt
 ```
 
-Finally, a useful feature of the `gt` package is the ease of implementing summary operations over table values. For example, we could add a row with the sum of the values on each column.
-
-```{r}
-us_gdp_gt <- us_gdp_gt %>% 
-  summary_rows(
-    fns = list(
-      'Total' = 'sum'
-    )
-  )
-us_gdp_gt
-```
-
-We could keep formatting our table adding more features (a color scheme, for instance), but we can be content for now. We have a well-formatted and very functional table that can be used to convey a nice summary of the US GDP release.
+We could keep adding more features (a color scheme, for instance), but we can be content for now. We have a well-formatted and very functional table that can be used to convey a nice summary of the US GDP release.

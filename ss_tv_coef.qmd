@@ -1,10 +1,36 @@
 # Time-varying regression coefficient
 
-When estimating a time series model, we are often questioning whether the relationship of interest has changed over time -- in other words, whether the coefficient $\beta$ is the same over the entire period. For example, there's a vast literature on macroeconomics showing that inflation inertia is affected by several economic and institutional factors. We can employ a state-space model to empirically address this concern, by means of a stochastic $\beta$ coefficient in a AR(1) equation for inflation.[^ss_tv_coef-1]
+When estimating a time series model, we are often questioning whether the relationship of interest has changed over time -- in other words, whether the coefficient $\beta$ is the same over the entire period. For example, there's a vast literature on macroeconomics showing that inflation inertia is affected by several economic and institutional factors. 
+
+We can employ a state-space model to empirically address this concern, by means of a stochastic $\beta$ coefficient in a AR(1) equation for inflation.[^ss_tv_coef-1] In state-space form:
+
+$$
+y_t = 
+\begin{bmatrix}
+1 & y_{t-1}
+\end{bmatrix}
+\begin{bmatrix}
+\alpha_t \\ \beta_t
+\end{bmatrix} +
+v_t \sim N(0, R)
+$$
+$$
+\begin{bmatrix}
+\alpha_t \\ \beta_t
+\end{bmatrix} = 
+\begin{bmatrix}
+1 & 0 \\ 0 & 1
+\end{bmatrix}
+\begin{bmatrix}
+\alpha_{t-1} \\ \beta_{t-1}
+\end{bmatrix}
++ 
+w_t \sim N(0, Q)
+$$
 
 [^ss_tv_coef-1]: We'll use a AR(1) model for simplicity, but the same logic applies to more complex models.
 
-For this exercise we'll use the CPI in Brazil excluding regulated prices such as public transport, energy and others. After importing the series from the Brazilian Central Bank API with the `rbcb` package, we'll compute the seasonally-adjusted series on the original data with the `seasonal` package (see @seasonality).
+For this exercise we'll use the CPI in Brazil excluding regulated prices such as public transport, energy and others. After importing the series from the Brazilian Central Bank API with the `rbcb` package, we'll compute the seasonally-adjusted series on the original data with the `seasonal` package (see the section on Seasonal Adjustment for details).
 
 ```{r}
 #| warning: false
@@ -44,7 +70,7 @@ cpi_br_df %>%
 
 We're primarily interested in estimating the $Z_t$ matrix, which contains the coefficient associated to the hidden state process $x_t$ -- which represents the $\beta$ coefficient in this case. However, instead of a single coefficient, we'll have one for each $t$. This has implications for how we should declare the model objects to the `MARSS` function. In particular, time-varying parameters are specified by passing in an array of matrices where the second dimension of the array is the data and the third dimension is time.
 
-It's worth noting that in this case we might have two time-varying coefficients -- the $\beta$ for the lagged inflation and the intercept term. If we wanted the intercept term to be time-varying, we should place it inside the second dimension of the $Z$ matrix. We'll do it for demonstration purposes only. However, by setting the variance of the intercept term equal to zero in the $Q$ matrix -- the first diagonal element -- we're making it deterministic. The two main lessons here are: **1. Everything we want to be time-varying should be placed in the** $Z$ matrix and, thus, related to the state process; and **2. We can make a state variable deterministic by setting its variance to zero.**
+It's worth noting that in this case we might have two time-varying coefficients -- the $\beta$ for the lagged inflation and $\alpha$ for the intercept term. If we wanted the intercept term to be time-varying, we should place it inside the second dimension of the $Z$ array. We'll do it for demonstration purposes only. However, by setting the variance of the intercept term equal to zero in the $Q$ matrix -- the first diagonal element -- we're making it deterministic. The two main lessons here are: **1. Everything we want to be time-varying should be placed in the** $Z$ matrix and, thus, related to the state process; and **2. We can make a state variable deterministic by setting its variance to zero.**
 
 ```{r}
 #| warning: false
@@ -113,7 +139,9 @@ out_tidy %>%
     )
 ```
 
-For most of the period, we can't say the time-varying coefficient is statistically different from the static one. However, the value of this approach lies precisely in the timeliness it detects variations in the relationship of interest. Since the prevailing relationship was re-established not so long after the departure was large enough to exceed the confidence bands, it's very likely that this behavior would go unnoticed in the standard approach. On the other hand, has the departure persisted for many periods ahead the likely effect on the static coefficient would be a progressive shift downwards -- which, in turn, would improve the fit in the more recent part of the sample at the expense of a poorer fit elsewhere.
+For most of the period, we can't say the time-varying coefficient is statistically different from the static one. However, the value of this approach lies precisely in the timeliness it detects variations in the relationship of interest. Since the prevailing relationship was re-established not so long after the departure was large enough to exceed the confidence bands, it's very likely that this behavior would go unnoticed in the standard approach. 
+
+On the other hand, has the departure persisted for many periods ahead the likely effect on the static coefficient would be a progressive shift downwards -- which, in turn, would improve the fit in the more recent part of the sample at the expense of a poorer fit elsewhere.
 
 Remember that by using the smoothed values we are, in fact, using the information provided by the entire sample. To see whether this changing behavior of $\beta$ would be spotted in real-time, we should use the filtered values - $xtt$ and $Vtt$.
 

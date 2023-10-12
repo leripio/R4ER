@@ -5,9 +5,9 @@
 Sys.setlocale("LC_TIME", "English")
 ```
 
-We don't always build new econometric or machine learning models to make predictions. More often than not, we have some equation with calibrated coefficients -- from either the literature or a previously estimated model -- that informs us how a variable of interest evolves. Using this information, we can make forecasts conditional on scenarios for the explanatory variables.
+We don't always build new econometric or machine learning models to make predictions. More often than not, we have some equation with calibrated coefficients -- from either the literature or a previously estimated model -- that informs us how a variable of interest evolves. With this information we can make forecasts conditional on scenarios for the explanatory variables.
 
-For example, suppose that it's widely known that the PCI increases by around 0.5p.p for every 10% of exchange rate depreciation in a given country. In this case we can make predictions for the PCI based on what we expect for the exchange rate in different scenarios (all other things being equal): in scenario A, it increases by 5%; in scenario B, it decreases by 7%; and so on.
+For example, suppose that it's widely known that the CPI increases by around 0.5p.p for every 10% of exchange rate depreciation in a given country. In this case we can make predictions for the CPI based on what we expect for the exchange rate in different scenarios (all other things being equal): in scenario A, it increases by 5%; in scenario B, it decreases by 7%; and so on.
 
 This approach is widely used and although very useful it has some limitations. The most important limitation is that it does not provide a complete distribution of predictions from which it would be possible to infer the correct uncertainty around the central value. The common practice is to set scenarios for both the upper and lower bounds and assume that all values fall within this range with the same probability.
 
@@ -47,7 +47,7 @@ variables_sim <- tibble(
 )
 ```
 
-Defining the values of the gamma parameter is largely a matter of trial and error until we get the desired shape of the distribution. I somewhat exaggerated the parameter values to make the asymmetry of the distributions obvious. In addition, we must be cautious about the number of simulations since it's very memory consuming. Below we can check visually the results.
+Defining the values of the gamma parameter is largely a matter of trial and error until we get the desired shape of the distribution. I somewhat exaggerated the parameter values to make the asymmetry of the distributions obvious. In addition, we must be cautious about the number of simulations since it's very memory consuming. Below we can visually check the results.
 
 ```{r}
 #| warning: false
@@ -66,9 +66,9 @@ variables_sim %>%
   )
 ```
 
-Next we'll use the `cross` function from the `purrr` package to create all the combinations of the three variables -- our scenarios under the assumption that they are independent[^fc_simulation-1].
+Next we'll use the `cross` function from the `purrr` package to create all the combinations from the three variables -- our scenarios under the assumption that they are independent[^fc_simulation-1].
 
-[^fc_simulation-1]: It would be more realistic, for example, that the interest rate would assume the 4% value if inflation was above the target. We could create rules to account for this kind of dependency and use them to filter the `variables_sim` data frame -- taking care not to drastically distort the probabilities assigned to each variable at the start.
+[^fc_simulation-1]: It would be more realistic, for example, that the interest rate would assume the 4% value if inflation was above the target. We could create rules to account for this kind of dependency and use them to filter the `variables_sim` data frame.
 
 ```{r}
 #| warning: false
@@ -82,6 +82,8 @@ variables_sim <- variables_sim %>%
 
 ```{r}
 #| cache: true
+#| message: false
+#| warning: false
 scenarios_sim <- cross3(
   .x = variables_sim$CPI,
   .y = variables_sim$GDP,
@@ -109,11 +111,13 @@ debt2gdp_sim <- map_dbl(
 summary(debt2gdp_sim)
 ```
 
-We can check some interesting statistics about the resulting distribution with the `summary` function. In the most extreme scenarios the debt-to-GDP ratio would increase by `summary(debt2gdp_sim)['Max.]`p.p or decrease by `summary(debt2gdp_sim)[Min.]`p.p, while the expected scenario is a more modest drop around `summary(debt2gdp_sim)['Median']` p.p. Also, at least 75% of the values in the distribution are negative.
+We can check some interesting statistics about the resulting distribution with the `summary` function. In the most extreme scenarios the debt-to-GDP ratio would increase by `r round(summary(debt2gdp_sim)['Max.'],2)`p.p or decrease by `r round(summary(debt2gdp_sim)['Min.'],2)`p.p, while the expected scenario is a more modest drop around `r round(summary(debt2gdp_sim)['Median'],2)` p.p. Also, at least 75% of the values in the distribution are negative.
 
 ```{r}
 #| code-fold: true
 #| code-summary: 'Show the code'
+#| warning: false
+#| message: false
 tibble(b1 = debt2gdp_sim) %>% 
   ggplot(aes(x = b1)) +
   geom_histogram(fill = "steelblue3") +

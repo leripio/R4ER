@@ -4,9 +4,9 @@ Windowing operations are typically defined as calculations performed over a slid
 
 ## Rolling means
 
-Rolling operations are routinely employed as a means of smoothing volatile time series or to mitigate the presence of seasonal effects. Take the Google Mobility data for Brazil in 2021 we saw in the first Chapter. Remember that this data has a daily frequency and that mobility in workplaces is higher on weekdays. Therefore, a simple strategy to remove this seasonal pattern is to take the 7-days rolling mean. 
+Rolling operations are routinely employed as a means of smoothing volatile time series or to mitigate the presence of seasonal effects. Take the Google Mobility data for Brazil in 2021 we saw in the first Chapter. Remember that this data has a daily frequency and that mobility in workplaces is higher on weekdays. Therefore, a simple strategy to remove this seasonal pattern is to take the 7-days rolling mean.
 
-For this, we can use the `roll_mean` function from the `RcppRoll` package. In addition to mean, the package provides functions to compute several other rolling functions -- minimum/maximum, median, standard deviations, products and so on. Also, we can use the suffixes **l(eft)/c(enter)/r(ight)** instead of the `align` parameter inside the function call to align the window used in the calculations.    
+For this, we can use the `roll_mean` function from the `RcppRoll` package. In addition to mean, the package provides functions to compute several other rolling functions -- minimum/maximum, median, standard deviations, products and so on. Also, we can use the suffixes **l(eft)/c(enter)/r(ight)** instead of the `align` parameter inside the function call to align the window used in the calculations.
 
 ```{r}
 #| code-fold: true
@@ -29,7 +29,13 @@ gmob_data_br <- read_csv(
 library(RcppRoll)
 gmob_data_br_7dma <- gmob_data_br %>%
   arrange(date) %>% 
-  mutate(mobility_workplaces_7dma = roll_meanr(mobility_workplaces, n = 7, na.rm = TRUE))
+  mutate(
+    mobility_workplaces_7dma = roll_meanr(
+      mobility_workplaces, 
+      n = 7, 
+      na.rm = TRUE
+      )
+    )
 ```
 
 ```{r}
@@ -50,7 +56,7 @@ gmob_data_br_7dma %>%
 
 ## Accumulated in n-periods
 
-Taking the rolling mean to smooth out very volatile time series or to mitigate the seasonal pattern is a natural choice when we are interested in the level of the series. However, when dealing with variation rates the most appropriate procedure is to compute the accumulated values in twelve months for monthly series or in four quarters for quarterly series. For instance, take the monthly US CPI data we saw on the first Chapter.  
+Taking the rolling mean to smooth out very volatile time series or to mitigate the seasonal pattern is a natural choice when we are interested in the level of the series. However, when dealing with ratios the most appropriate procedure is to compute the accumulated values in twelve months for monthly series or in four quarters for quarterly series. For instance, take the monthly US CPI data we saw on the first Chapter.
 
 ```{r}
 #| echo: false
@@ -140,11 +146,11 @@ cpi_level %>%
     )
 ```
 
-Looking at the series in level make it easier for the analyst to conjecture possible scenarios for inflation. For example, it could either remain constant by extrapolating the last values or progressively return to the pre-covid path.
+Looking at the series in level make it easier for the analyst to conjecture possible scenarios for inflation. For example, it could either remain constant by extrapolating the last value or progressively return to the pre-covid path.
 
-## Lagged and leading
+## Lagged and leading values
 
-Leads and Lags of a time series are generally used in regressions, but occasionally appear in graphs that seek to compare two or more series that have a non-contemporary relationship. Also, knowing how to refer to past or future values of a series can be useful for performing calculations -- computing changes from a baseline, for example. Th The `lead` and `lag` functions from `dplyr` package make this task very easy.
+Leads and Lags of a time series are generally used in regressions, but occasionally appear in graphs that seek to compare two or more series that have a non-contemporary relationship. Also, knowing how to refer to past or future values of a series can be useful for performing calculations -- computing changes from a baseline, for example. The `lead` and `lag` functions from `dplyr` package make this task very easy.
 
 ```{r}
 #| warning: false

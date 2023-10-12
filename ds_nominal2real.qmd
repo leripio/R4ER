@@ -6,7 +6,7 @@ To transform nominal data into real data, two things are needed. First, we have 
 
 More importantly, we need to choose an appropriate price index to use as the deflator. The ideal deflator should be the one that best measures the change in prices of the basket of goods or services represented by the series we want to adjust. For instance, it would make no sense to deflate a series of retail sales by a construction price index. In the absence of a specific price index for the basket of goods considered in the retail sales series, we could use a more general consumer price index as a proxy.
 
-Let's see a practical example of how to deflate a series. For this, we will use data on nominal GDP for the United States provided by the Bureau of Economic Analysis (BEA). It's also a good opportunity to introduce how to access data from this relevant source using its APÌ service.
+Let's see a practical example of how to deflate a series. For this, we will use data on nominal GDP for the United States provided by the Bureau of Economic Analysis (BEA). It's also a good opportunity to introduce how to access data from this relevant source using its API.
 
 You'll need to register in order to receive access to the API. This procedure takes a few minutes and requires little information. Since this information is personal, I stored my key as an environmental variable.
 
@@ -102,4 +102,4 @@ gdp_real %>%
   )
 ```
 
-It's clear that ignoring price changes leads to a gross misinterpretation of the GDP growth trajectory. This is precisely the kind of thing we want to avoid when adjusting the series for inflation.
+It's clear that ignoring price changes leads to misinterpretation of the GDP growth trajectory. This is precisely the kind of thing we want to avoid when adjusting the series for inflation.

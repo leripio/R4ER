@@ -5,13 +5,13 @@
 Sys.setlocale("LC_TIME", "English")
 ```
 
-Forecasting is correctly understood as a task of extrapolating historical patterns of a given process in order to infer a plausible range where future values should lie. Sometimes, however, we don't have a historical pattern to rely on. Think of the onset of COVID-19 outbreak in 2020, for example. This event was completely new and, except for some ideas borrowed from the epidemiology literature, we didn't know much about how the virus would spread nor did we have enough data to perform a minimally robust analysis.
+Forecasting is correctly understood as a task of extrapolating historical patterns of a given process in order to infer a plausible range where future values should lie. Sometimes, however, we don't have a historical pattern to rely on. Think of the onset of COVID-19 outbreak in 2020. This event was completely new and, except for some ideas borrowed from the epidemiology literature, we didn't know much about how the virus would spread nor did we have enough data to perform a minimally robust analysis.
 
 In this section, we'll discuss a widely used technique to predict variables for which we have no direct data: **comparison**. The basic idea is that we should look for a similar event somewhere else, either currently going on or in the past, and then assume that our variable of interest will follow closely that pattern. The most important (and difficult) thing here is to choose reasonable units for comparison. Ultimately, this is what guarantees the validity of the exercise. We'll walk through two examples which show that a mix of creativity and statistical concepts can deliver decent answers to complicated questions.
 
 ## The early days of COVID-19 in Brazil
 
-It was the beginning of March, 2020 and we were seeing new cases of COVID spreading rapidly in different countries in Asia and Europe. In Brazil, it would start a few weeks later. At that time I was working at Itau Asset Management, a well-known hedge fund in Brazil. Portfolio managers and analysts needed an accurate yet timely sense of how the situation would evolve domestically in order to make reasoned decisions and keep track of the potential impact on both economic and financial variables. However, Brazil was then stepping into the early days of the epidemic curve so that no more than a handful of observations were available to estimate any model. How could I deliver a reliable answer?
+It was the beginning of March, 2020 and we were seeing new cases of COVID spreading rapidly in different countries in Asia and Europe. In Brazil, it would start a few weeks later. At that time I was working at Itaú Asset Management, a well-known hedge fund in Brazil. Portfolio managers and analysts needed an accurate yet timely sense of how the situation would evolve domestically in order to make reasoned decisions and keep track of the potential impact on both economic and financial variables. However, Brazil was stepping into the early days of the epidemic curve so that no more than a handful of observations were available to estimate any model. How could I deliver a reliable answer?
 
 I started looking for patterns stemming from other countries which were already a couple of weeks ahead in this process. This search brought about some interesting clues. In particular, I noticed that for several countries the daily increase in cumulative cases was very noisy up to the hundredth confirmed case, but then it seemed to decrease slowly -- though not steadily -- as a function of time. We can check it in the plot below.
 
@@ -111,7 +111,7 @@ $$ C_{t+k} = C_t \times \prod_{t}^{k}\left(1+\frac{\hat{r_{it}}}{100}\right) \ (
 
 Let us suppose we are on March 16 (the third day after Brazil exceeded 100 cases) and we wish to compute the path for the next three days. Thus we need $\hat{r}_{it}$ for $t =$ 4, 5 and 6 as well as $C_3 = 235$, the number of total cases recorded in March 16. We dubbed *Iran-like* and *Italy-like* the forecasts for Brazil based on the fitted values using data from these countries.
 
-For example, to produce the *Italy-like* path on March 16 we should first take the (exponentiated) fitted values from the Italy model.
+For example, to produce the *Italy-like* path on March 16 we should first take the (exponential of the) fitted values from the Italy model.
 
 ```{r}
 1+exp(fitted(fit_reg$Italy))/100
@@ -185,11 +185,13 @@ The actual values for Brazil were very close to those recorded by the two countr
 
 ## The second wave in Brazil
 
-Questions shift very rapidly in the financial markets. After some time, we were experiencing the second wave of Covid in Brazil and a set of containing restrictions were in place. As we approached important dates for local retail businesses, the big question was whether those restrictions would be lifted in time not to cause major demage to the economy.
+Questions shift very rapidly in the financial markets. After some time, we were experiencing the second wave of Covid in Brazil and a set of containing restrictions were in place. As we approached important dates for local retail businesses, the big question was whether those restrictions would be lifted in time not to cause major damage to the economy.
 
 Note that it's no more a matter of simply predicting new cases for the next days. This time we needed an estimate for the second wave peak and how fast the subsequent decline would be -- these parameters served as triggers for policy decisions. Once again, Brazil was a latecomer in this process as several countries had already gone through the second wave. So with the appropriate ideas we could benefit from this condition.
 
-In general, how long does it take to reach the peak after the second wave has started? How long does it take to go down to the bottom after reaching the peak? The first challenge here is that the second wave occurred in a non-synchronized way between countries. The number of days around the peak wasn't the same either. However, looking at the plot below we can see a large number of peaks occurring in the period between November 2020 and March 2021. At the time, I assumed it as the typical period where the second wave took place. Note that some countries had started a third wave, but I couldn't rely on these information since this new cycle was not complete yet.
+In general, how long does it take to reach the peak after the second wave has started? How long does it take to go down to the bottom after reaching the peak? The first challenge here is that the second wave occurred in a non-synchronized way between countries. The number of days around the peak wasn't the same either. 
+
+However, looking at the plot below we can see a large number of peaks occurring in the period between November 2020 and March 2021. At the time, I assumed it as the typical period where the second wave took place. Note that some countries had started a third wave, but I couldn't rely on these information since this new cycle was not yet complete.
 
 ```{r}
 #| warning: false
@@ -261,4 +263,4 @@ covid_2nd_wave %>%
   )
 ```
 
-On average, the number of new cases grew rapidly for 20 days until it peaked and then took about the same amount of days to reach the bottom. In addition, there was greater uncertainty about the behavior of the pre-peak period as showed in the shaded area. Once again, the exercise proved to be very helpful as the realized values were in line with expectations.
+On average, the number of new cases grew rapidly for 20 days until it peaked and then took about the same amount of days to reach the bottom. In addition, there was greater uncertainty about the behavior of the pre-peak period as showed in the shaded area. Once again, the exercise proved to be very helpful as the realized values came in line with expectations.
