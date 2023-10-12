@@ -1,8 +1,10 @@
 # Time-varying regression coefficient
 
-When estimating a time series model, we are often questioning whether the relationship of interest has changed over time -- in other words, whether the coefficient $\beta$ is the same over the entire period. For example, there's a vast literature on macroeconomics showing that inflation inertia is affected by several economic and institutional factors. 
+When estimating a time series model, we are often questioning whether the relationship of interest has changed over time -- in other words, whether the coefficient $\beta$ is the same over the entire period. For example, there's a vast literature on macroeconomics showing that inflation inertia is affected by several economic and institutional factors.
 
 We can employ a state-space model to empirically address this concern, by means of a stochastic $\beta$ coefficient in a AR(1) equation for inflation.[^ss_tv_coef-1] In state-space form:
+
+[^ss_tv_coef-1]: We'll use a AR(1) model for simplicity, but the same logic applies to more complex models.
 
 $$
 y_t = 
@@ -13,8 +15,7 @@ y_t =
 \alpha_t \\ \beta_t
 \end{bmatrix} +
 v_t \sim N(0, R)
-$$
-$$
+$$ $$
 \begin{bmatrix}
 \alpha_t \\ \beta_t
 \end{bmatrix} = 
@@ -27,8 +28,6 @@ $$
 + 
 w_t \sim N(0, Q)
 $$
-
-[^ss_tv_coef-1]: We'll use a AR(1) model for simplicity, but the same logic applies to more complex models.
 
 For this exercise we'll use the CPI in Brazil excluding regulated prices such as public transport, energy and others. After importing the series from the Brazilian Central Bank API with the `rbcb` package, we'll compute the seasonally-adjusted series on the original data with the `seasonal` package (see the section on Seasonal Adjustment for details).
 
@@ -139,7 +138,7 @@ out_tidy %>%
     )
 ```
 
-For most of the period, we can't say the time-varying coefficient is statistically different from the static one. However, the value of this approach lies precisely in the timeliness it detects variations in the relationship of interest. Since the prevailing relationship was re-established not so long after the departure was large enough to exceed the confidence bands, it's very likely that this behavior would go unnoticed in the standard approach. 
+For most of the period, we can't say the time-varying coefficient is statistically different from the static one. However, the value of this approach lies precisely in the timeliness it detects variations in the relationship of interest. Since the prevailing relationship was re-established not so long after the departure was large enough to exceed the confidence bands, it's very likely that this behavior would go unnoticed in the standard approach.
 
 On the other hand, has the departure persisted for many periods ahead the likely effect on the static coefficient would be a progressive shift downwards -- which, in turn, would improve the fit in the more recent part of the sample at the expense of a poorer fit elsewhere.
 

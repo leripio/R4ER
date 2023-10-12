@@ -189,7 +189,7 @@ Questions shift very rapidly in the financial markets. After some time, we were 
 
 Note that it's no more a matter of simply predicting new cases for the next days. This time we needed an estimate for the second wave peak and how fast the subsequent decline would be -- these parameters served as triggers for policy decisions. Once again, Brazil was a latecomer in this process as several countries had already gone through the second wave. So with the appropriate ideas we could benefit from this condition.
 
-In general, how long does it take to reach the peak after the second wave has started? How long does it take to go down to the bottom after reaching the peak? The first challenge here is that the second wave occurred in a non-synchronized way between countries. The number of days around the peak wasn't the same either. 
+In general, how long does it take to reach the peak after the second wave has started? How long does it take to go down to the bottom after reaching the peak? The first challenge here is that the second wave occurred in a non-synchronized way between countries. The number of days around the peak wasn't the same either.
 
 However, looking at the plot below we can see a large number of peaks occurring in the period between November 2020 and March 2021. At the time, I assumed it as the typical period where the second wave took place. Note that some countries had started a third wave, but I couldn't rely on these information since this new cycle was not yet complete.
 

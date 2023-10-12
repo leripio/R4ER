@@ -30,6 +30,7 @@ Just for the sake of illustration, let's use `readr` to import the COVID data se
 ```{r}
 #| warning: false
 #| message: false
+#| eval: false
 library(tidyverse)
 data_path  <- 'data/owid-covid-data.csv'
 covid_data <- read_csv(data_path)
@@ -40,7 +41,7 @@ or the URL:
 ```{r}
 #| warning: false
 #| message: false
-#| eval: false
+library(tidyverse)
 data_url   <- 'https://raw.githubusercontent.com/owid/covid-19-data/master/public/data/owid-covid-data.csv'
 covid_data <- read_csv(data_url)
 ```
