@@ -158,7 +158,7 @@ gtag('config', 'G-6T89HT07F5', { 'anonymize_ip': true});
     <div class="pt-lg-2 mt-2 text-left sidebar-header">
     <div class="sidebar-title mb-0 py-0">
       <a href="./">R for Economic Research</a> 
-        <div class="sidebar-tools-main">
+        <div class="sidebar-tools-main tools-wide">
     <a href="https://github.com/leripio/R4ER" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
     <div class="dropdown">
       <a href="" title="Share" id="quarto-navigation-tool-dropdown-0" class="quarto-navigation-tool dropdown-toggle px-1" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Share"><i class="bi bi-share"></i></a>
@@ -183,6 +183,11 @@ gtag('config', 'G-6T89HT07F5', { 'anonymize_ip': true});
           </li>
       </ul>
     </div>
+  <a href="" class="quarto-reader-toggle quarto-navigation-tool px-1" onclick="window.quartoToggleReader(); return false;" title="Toggle reader mode">
+  <div class="quarto-reader-toggle-btn">
+  <i class="bi"></i>
+  </div>
+</a>
 </div>
     </div>
       </div>
@@ -396,9 +401,9 @@ gtag('config', 'G-6T89HT07F5', { 'anonymize_ip': true});
 <p>The purpose of this chapter is to introduce the main functions of the core packages in tidyverse. It’s not intended to be a thorough description of every function, rather the idea is to provide the basic tools so that those who are either base R users or aren’t R users at all can follow along with the rest of the book. For a more detailed approach to tidyverse, the best source is undoubtedly the great <span class="citation" data-cites="r4ds">Grolemund and Wickham (<a href="references.html#ref-r4ds" role="doc-biblioref">2017</a>)</span>. For those who feel comfortable with tidyverse, a quick skim through the chapter might be enough.</p>
 <section id="whats-tidyverse" class="level2" data-number="1.1">
 <h2 data-number="1.1" class="anchored" data-anchor-id="whats-tidyverse"><span class="header-section-number">1.1</span> What’s tidyverse?</h2>
-<p>To start, what’s tidyverse? According to the <a href="https://www.tidyverse.org/">official website</a>:</p>
+<p>To start, what’s tidyverse? According to the official website (https://www.tidyverse.org/):</p>
 <blockquote class="blockquote">
-<p>The tidyverse is an opinionated collection of R packages designed for data science. All packages share an underlying design philosophy, grammar, and data structures.</p>
+<p><em>“The tidyverse is an opinionated collection of R packages designed for data science. All packages share an underlying design philosophy, grammar, and data structures.</em>”</p>
 </blockquote>
 <p>From my own experience I can ensure you that tidyverse is all you need to carry out data analyses as <strong>neat</strong> and <strong>flexible</strong> as possible. By <strong>neat</strong> I mean succinct code without any redundancy, i.e, a single block of code (not a bunch of loose objects) doing all the desired task. <strong>Flexible</strong>, in turn, means the code is general enough. It depends on the nature of the task at hand, so take it more like a philosophy. For example, does the solution still work if the data is updated with new values? Or does it depend on changeable references such as column positions?</p>
 <p>Most of the time writing neat and flexible code takes longer and requires a dose of creativity, but it surely pays off. Moreover, with practice this will become more and more natural and the cost will get significantly lower. In the next sections we’ll review the most used functions to go through all the steps of everyday data analyses using core tidyverse packages designed to <strong>Import</strong>, <strong>Wrangle</strong>, <strong>Program</strong> and <strong>Plot</strong>.</p>
@@ -427,8 +432,8 @@ gtag('config', 'G-6T89HT07F5', { 'anonymize_ip': true});
 <h3 data-number="1.2.2" class="anchored" data-anchor-id="readapi"><span class="header-section-number">1.2.2</span> Reading from API</h3>
 <p>Although the use of traditional flat files are still widespread, organizations are increasingly switching to APIs to make data available to the public. This is a huge improvement since we’re able to customize our demand and import only the data we need for the specific task.</p>
 <p>If you don’t know what an API is, think of it as an interface to a database. However, instead of reading all the content from this database you can inform what columns you want, the desired observations (time range if it’s a time series) and so on. These filters are embedded in a <strong>request</strong> and the right form to specify it is usually available in a documentation provided by the API maintainer.</p>
-<p>For example, the Federal Reserve Bank of St.&nbsp;Louis maintains a huge repository with hundreds of thousands of economic time series and we can import them using an API. The information on how to build the request is available in the <a href="https://fred.stlouisfed.org/docs/api/fred/">documentation</a>, where we can see a link with instructions on how to <strong>‘Get the observations or data values for an economic data series’</strong>. There, we find an example of a request for the US Real Gross National Product:</p>
-<p><a href="https://api.stlouisfed.org/fred/series/observations?series_id=GNPCA&amp;api_key=abcdefghijklmnopqrstuvwxyz123456&amp;file_type=json" class="uri">https://api.stlouisfed.org/fred/series/observations?series_id=GNPCA&amp;api_key=abcdefghijklmnopqrstuvwxyz123456&amp;file_type=json</a></p>
+<p>For example, the Federal Reserve Bank of St.&nbsp;Louis maintains a huge repository with hundreds of thousands of economic time series and we can import them using an API. The information on how to build the request is available in the documentation (https://fred.stlouisfed.org/docs/api/fred/), where we can see a link with instructions on how to <strong>‘Get the observations or data values for an economic data series’</strong>. There, we find an example of a request for the US Real Gross National Product:</p>
+<p><strong>https://api.stlouisfed.org/fred/series/observations?series_id=GNPCA&amp;api_key=abcdefghijklmnopqrstuvwxyz123456&amp;file_type=json</strong></p>
 <p>We can break this request down to see its parts in more detail:</p>
 <ol type="1">
 <li>The main (static) URL to access the <strong>Observations</strong> section:</li>
@@ -455,7 +460,7 @@ gtag('config', 'G-6T89HT07F5', { 'anonymize_ip': true});
 \underbrace{\text{file\_type=json}}_\text{Parameter: File Type}
 \]</span></p>
 <p>Note that all the parameters following the static part are separated by an <strong>&amp;</strong>. Then, if we want to add any extra parameter it should be placed right after this character. Also, the order of the parameters is not relevant.</p>
-<p>Suppose we want to read monthly data for the <a href="https://fred.stlouisfed.org/series/CPALTT01USM657N">US Consumer Price Index (CPI)</a>. The <code>series_id</code> is <strong>CPALTT01USM657N</strong>. Besides, we’d only like to read data between January 2010 and December 2022. How can we do so? There are two parameters – <code>observation_start</code> and <code>observation_end</code> – which set the range of the observation period (YYYY-MM-DD format).</p>
+<p>Suppose we want to read monthly data for the US Consumer Price Index (CPI) (https://fred.stlouisfed.org/series/CPALTT01USM657N). The <code>series_id</code> is <strong>CPALTT01USM657N</strong>. Besides, we’d only like to read data between January 2010 and December 2022. How can we do so? There are two parameters – <code>observation_start</code> and <code>observation_end</code> – which set the range of the observation period (YYYY-MM-DD format).</p>
 <p>The code below creates a separate object for each part of the request. Then, we use the <code>glue</code> function from the homonymous package to merge the pieces into a single string adding the <strong>&amp;</strong> character between parameters. Note that we could create the full string all at once, but setting separate objects makes it easier to find and edit values when necessary as well as to transform this task into a custom function if we had to read data from this source often (more on this later).</p>
 <p>You’ll need to register in order to be granted access to the API. Since this information is personal, I stored my key as an environmental variable named <code>api_fred_key</code> which can be accessed like any other object. If you want to create an environmental variable, the easiest way is through the function <code>edit_r_environ()</code> from the <code>usethis</code> package. This will open your <code>.Renviron</code> file, where you should place the following line: <code>variable_name=variable_value</code>. Then you must save it and restart your R session for changes to take effect. Now you can get the value from your environmental variable using <code>Sys.getenv('variable_name')</code></p>
 <div class="cell">
@@ -466,10 +471,22 @@ gtag('config', 'G-6T89HT07F5', { 'anonymize_ip': true});
 <span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>obs_start     <span class="ot">&lt;-</span> <span class="st">'2010-01-01'</span></span>
 <span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>obs_end       <span class="ot">&lt;-</span> <span class="st">'2022-12-01'</span></span>
 <span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>api_filetype  <span class="ot">&lt;-</span> <span class="st">'json'</span></span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>api_request   <span class="ot">&lt;-</span> <span class="fu">glue</span>(<span class="st">'{api_url}series_id={api_series_id}&amp;observation_start={obs_start}&amp;observation_end={obs_end}&amp;api_key={api_fred_key}&amp;file_type={api_filetype}'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>api_request   <span class="ot">&lt;-</span> <span class="fu">glue</span>(</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>  <span class="st">'{api_url}series_id={</span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a><span class="st">  api_series_id</span></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a><span class="st">  }&amp;observation_start={</span></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a><span class="st">  obs_start</span></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a><span class="st">  }&amp;observation_end={</span></span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a><span class="st">  obs_end</span></span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a><span class="st">  }&amp;api_key={</span></span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a><span class="st">  api_fred_key</span></span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a><span class="st">  }&amp;file_type={</span></span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a><span class="st">  api_filetype</span></span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a><span class="st">  }'</span></span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Now we use the <code>httr</code> package to connect to the API, send the request and get the content. The other steps transform the content from JSON to a standard R object (a list) and then convert it to a tibble (the tidyverse’s improved format for data frames). Notice that the CPI data is stored in the list element named <code>observations</code>. However, this is specific for this API and if we were to import data from another source we’d have to check in which element the data would be stored.</p>
-<div class="cell">
+<div class="cell" data-hash="ds_tidyverse_cache/html/unnamed-chunk-5_85f5182d6101c9ef163b6e88443091cf">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(httr)</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(jsonlite)</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
@@ -477,25 +494,26 @@ gtag('config', 'G-6T89HT07F5', { 'anonymize_ip': true});
 <span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>cpi_content <span class="ot">&lt;-</span> <span class="fu">content</span>(cpi_request, <span class="at">as =</span> <span class="st">'text'</span>)</span>
 <span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>cpi_list    <span class="ot">&lt;-</span> <span class="fu">fromJSON</span>(cpi_content, <span class="at">flatten =</span> <span class="cn">FALSE</span>)</span>
 <span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>cpi_tbl     <span class="ot">&lt;-</span> cpi_list[[<span class="st">'observations'</span>]] <span class="sc">%&gt;%</span> <span class="fu">as_tibble</span>()</span>
-<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>cpi_tbl</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>cpi_tbl</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 156 × 4
    realtime_start realtime_end date       value              
    &lt;chr&gt;          &lt;chr&gt;        &lt;chr&gt;      &lt;chr&gt;              
- 1 2023-10-12     2023-10-12   2010-01-01 0.34174735701485   
- 2 2023-10-12     2023-10-12   2010-02-01 0.024920738207648  
- 3 2023-10-12     2023-10-12   2010-03-01 0.410628353657108  
- 4 2023-10-12     2023-10-12   2010-04-01 0.173688491069743  
- 5 2023-10-12     2023-10-12   2010-05-01 0.0775197354237721 
- 6 2023-10-12     2023-10-12   2010-06-01 -0.0976267084673888
- 7 2023-10-12     2023-10-12   2010-07-01 0.0211043057371509 
- 8 2023-10-12     2023-10-12   2010-08-01 0.138066427840807  
- 9 2023-10-12     2023-10-12   2010-09-01 0.0581736230715569 
-10 2023-10-12     2023-10-12   2010-10-01 0.124519888847696  
+ 1 2023-10-22     2023-10-22   2010-01-01 0.34174735701485   
+ 2 2023-10-22     2023-10-22   2010-02-01 0.024920738207648  
+ 3 2023-10-22     2023-10-22   2010-03-01 0.410628353657108  
+ 4 2023-10-22     2023-10-22   2010-04-01 0.173688491069743  
+ 5 2023-10-22     2023-10-22   2010-05-01 0.0775197354237721 
+ 6 2023-10-22     2023-10-22   2010-06-01 -0.0976267084673888
+ 7 2023-10-22     2023-10-22   2010-07-01 0.0211043057371509 
+ 8 2023-10-22     2023-10-22   2010-08-01 0.138066427840807  
+ 9 2023-10-22     2023-10-22   2010-09-01 0.0581736230715569 
+10 2023-10-22     2023-10-22   2010-10-01 0.124519888847696  
 # ℹ 146 more rows</code></pre>
 </div>
 </div>
-<p>This concludes our section on how to import data. If you’re struggling with other types of data, Tidyverse’s official <a href="https://www.tidyverse.org/packages/#import">website</a> provides a comprehensive list of all the supported file formats and the respective packages used to handle them. Also, you can take a look at the <code>rio</code> package, which makes it easy to import/export data from/to different file extensions.</p>
+<p>This concludes our section on how to import data. If you’re struggling with other types of data, Tidyverse’s official website (https://www.tidyverse.org/packages/#import) provides a comprehensive list of all the supported file formats and the respective packages used to handle them. Also, you can take a look at the <code>rio</code> package, which makes it easy to import/export data from/to different file extensions.</p>
 </section>
 </section>
 <section id="wrangling" class="level2" data-number="1.3">
@@ -558,7 +576,8 @@ gtag('config', 'G-6T89HT07F5', { 'anonymize_ip': true});
 <span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">max_new_cases =</span> <span class="fu">max</span>(new_cases)) <span class="sc">%&gt;%</span> </span>
 <span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>() <span class="sc">%&gt;%</span> </span>
 <span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(max_new_cases))</span>
-<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>covid_data_sub3</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>covid_data_sub3</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 55 × 2
    location       max_new_cases
@@ -589,7 +608,8 @@ gtag('config', 'G-6T89HT07F5', { 'anonymize_ip': true});
 <span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">max_new_cases =</span> <span class="fu">max</span>(new_cases)) <span class="sc">%&gt;%</span> </span>
 <span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>() <span class="sc">%&gt;%</span> </span>
 <span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(max_new_cases))</span>
-<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>covid_data_sub4</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>covid_data_sub4</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 51 × 2
    location       max_new_cases
@@ -624,7 +644,8 @@ gtag('config', 'G-6T89HT07F5', { 'anonymize_ip': true});
 <span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>() <span class="sc">%&gt;%</span> </span>
 <span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(max_new_cases), peak_date) <span class="sc">%&gt;%</span> </span>
 <span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>)</span>
-<span id="cb14-16"><a href="#cb14-16" aria-hidden="true" tabindex="-1"></a>covid_data_sub5</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb14-16"><a href="#cb14-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-17"><a href="#cb14-17" aria-hidden="true" tabindex="-1"></a>covid_data_sub5</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 10 × 3
    location       max_new_cases peak_date 
@@ -667,7 +688,8 @@ gtag('config', 'G-6T89HT07F5', { 'anonymize_ip': true});
 <div class="cell">
 <div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>covid_data_sub5_with_pop <span class="ot">&lt;-</span> covid_data_sub5 <span class="sc">%&gt;%</span> </span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(europe_population, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">'location'</span> <span class="ot">=</span> <span class="st">'Country'</span>))</span>
-<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>covid_data_sub5_with_pop</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>covid_data_sub5_with_pop</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 10 × 4
    location       max_new_cases peak_date   Pop_size
@@ -687,8 +709,12 @@ gtag('config', 'G-6T89HT07F5', { 'anonymize_ip': true});
 <p>We could have been assigned a slightly different task. For example, adding to <code>european_population</code> the information on maximum daily number of new Covid cases and peak dates we have from <code>covid_data_sub5</code>. This can also be achieved with <code>left_join</code> by reversing the order of the data frames (and names of the key column since they’re not the same). An effortless alternative is to replace <code>left_join</code> with <code>right_join</code>, which adds to the second data frame (the one on the right) the information from the first data frame (the one on the left). In this case we don’t need to change the order of the parameters.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>pop_with_covid_info <span class="ot">&lt;-</span> covid_data_sub5 <span class="sc">%&gt;%</span> </span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">right_join</span>(europe_population, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">'location'</span> <span class="ot">=</span> <span class="st">'Country'</span>))</span>
-<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>pop_with_covid_info</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">right_join</span>(</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>    europe_population, </span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">by =</span> <span class="fu">c</span>(<span class="st">'location'</span> <span class="ot">=</span> <span class="st">'Country'</span>)</span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>pop_with_covid_info</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 55 × 4
    location       max_new_cases peak_date   Pop_size
@@ -713,7 +739,7 @@ gtag('config', 'G-6T89HT07F5', { 'anonymize_ip': true});
 <p>We saw that <code>*_join</code> operations are particularly useful to merge data frames horizontally and by their matching rows according to key variables. More often than not we need to stack data vertically by their matching columns. For example, suppose the Covid data set was released as a single file for each country and we needed to perform some comparisons between France and the United Kingdom - <code>covid_fr</code> and <code>covid_uk</code> data sets shown below.</p>
 <div class="cell">
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 1,371 × 3
+<pre><code># A tibble: 1,385 × 3
    date       location       new_cases
    &lt;date&gt;     &lt;chr&gt;              &lt;dbl&gt;
  1 2020-01-03 United Kingdom         0
@@ -726,10 +752,10 @@ gtag('config', 'G-6T89HT07F5', { 'anonymize_ip': true});
  8 2020-01-10 United Kingdom         0
  9 2020-01-11 United Kingdom         0
 10 2020-01-12 United Kingdom         0
-# ℹ 1,361 more rows</code></pre>
+# ℹ 1,375 more rows</code></pre>
 </div>
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 1,371 × 4
+<pre><code># A tibble: 1,385 × 4
    date       location new_cases total_cases
    &lt;date&gt;     &lt;chr&gt;        &lt;dbl&gt;       &lt;dbl&gt;
  1 2020-01-03 France           0          NA
@@ -742,7 +768,7 @@ gtag('config', 'G-6T89HT07F5', { 'anonymize_ip': true});
  8 2020-01-10 France           0          NA
  9 2020-01-11 France           0          NA
 10 2020-01-12 France           0          NA
-# ℹ 1,361 more rows</code></pre>
+# ℹ 1,375 more rows</code></pre>
 </div>
 </div>
 <p>This can be easily accomplished by <code>bind_rows</code> which, unlike the <code>*_join</code> family, allows us to provide several data frames. What’s cool about <code>bind_rows</code> is that non-matching columns are kept with their values filled with <code>NA</code> for the data frames where the column is absent. In the example above, the <code>covid_fr</code> data set has a total cases column which is absent in <code>covid_uk</code>.</p>
@@ -750,7 +776,7 @@ gtag('config', 'G-6T89HT07F5', { 'anonymize_ip': true});
 <div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>covid_fr_uk <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(covid_fr, covid_uk)</span>
 <span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>covid_fr_uk</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 2,742 × 4
+<pre><code># A tibble: 2,770 × 4
    date       location new_cases total_cases
    &lt;date&gt;     &lt;chr&gt;        &lt;dbl&gt;       &lt;dbl&gt;
  1 2020-01-03 France           0          NA
@@ -763,7 +789,7 @@ gtag('config', 'G-6T89HT07F5', { 'anonymize_ip': true});
  8 2020-01-10 France           0          NA
  9 2020-01-11 France           0          NA
 10 2020-01-12 France           0          NA
-# ℹ 2,732 more rows</code></pre>
+# ℹ 2,760 more rows</code></pre>
 </div>
 </div>
 <p>The <code>bind_cols</code> function is more restrictive in this regard. It’s used to merge the columns of data frames, but matching by row position rather than a key variable. For this reason, we can’t have data frames of different lengths. In practice, it’s much more common (and safe) to rely on <code>*_join</code> functions when we need to merge data frames horizontally.</p>
@@ -781,9 +807,10 @@ gtag('config', 'G-6T89HT07F5', { 'anonymize_ip': true});
 <span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">names_from  =</span> <span class="st">'location'</span>, </span>
 <span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">values_from =</span> <span class="st">'new_cases'</span></span>
 <span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>covid_wide_01</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a>covid_wide_01</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 1,380 × 256
+<pre><code># A tibble: 1,390 × 256
    date       Afghanistan Africa Albania Algeria `American Samoa` Andorra Angola
    &lt;date&gt;           &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;            &lt;dbl&gt;   &lt;dbl&gt;  &lt;dbl&gt;
  1 2020-01-03           0      0       0       0                0       0      0
@@ -796,7 +823,7 @@ gtag('config', 'G-6T89HT07F5', { 'anonymize_ip': true});
  8 2020-01-10           0      0       0       0                0       0      0
  9 2020-01-11           0      0       0       0                0       0      0
 10 2020-01-12           0      0       0       0                0       0      0
-# ℹ 1,370 more rows
+# ℹ 1,380 more rows
 # ℹ 248 more variables: Anguilla &lt;dbl&gt;, `Antigua and Barbuda` &lt;dbl&gt;,
 #   Argentina &lt;dbl&gt;, Armenia &lt;dbl&gt;, Aruba &lt;dbl&gt;, Asia &lt;dbl&gt;, Australia &lt;dbl&gt;,
 #   Austria &lt;dbl&gt;, Azerbaijan &lt;dbl&gt;, Bahamas &lt;dbl&gt;, Bahrain &lt;dbl&gt;,
@@ -815,9 +842,10 @@ gtag('config', 'G-6T89HT07F5', { 'anonymize_ip': true});
 <span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">values_from =</span> <span class="fu">c</span>(<span class="st">'new_cases'</span>, <span class="st">'new_deaths'</span>),</span>
 <span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">names_sep   =</span> <span class="st">'__'</span></span>
 <span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a>covid_wide_02</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a>covid_wide_02</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 1,380 × 511
+<pre><code># A tibble: 1,390 × 511
    date       new_cases__Afghanistan new_cases__Africa new_cases__Albania
    &lt;date&gt;                      &lt;dbl&gt;             &lt;dbl&gt;              &lt;dbl&gt;
  1 2020-01-03                      0                 0                  0
@@ -830,7 +858,7 @@ gtag('config', 'G-6T89HT07F5', { 'anonymize_ip': true});
  8 2020-01-10                      0                 0                  0
  9 2020-01-11                      0                 0                  0
 10 2020-01-12                      0                 0                  0
-# ℹ 1,370 more rows
+# ℹ 1,380 more rows
 # ℹ 507 more variables: new_cases__Algeria &lt;dbl&gt;,
 #   `new_cases__American Samoa` &lt;dbl&gt;, new_cases__Andorra &lt;dbl&gt;,
 #   new_cases__Angola &lt;dbl&gt;, new_cases__Anguilla &lt;dbl&gt;,
@@ -850,9 +878,10 @@ gtag('config', 'G-6T89HT07F5', { 'anonymize_ip': true});
 <span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">values_to =</span> <span class="st">'value'</span>,</span>
 <span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">names_sep =</span> <span class="st">'__'</span></span>
 <span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb29-8"><a href="#cb29-8" aria-hidden="true" tabindex="-1"></a>covid_long_01</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb29-8"><a href="#cb29-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-9"><a href="#cb29-9" aria-hidden="true" tabindex="-1"></a>covid_long_01</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 703,800 × 4
+<pre><code># A tibble: 708,900 × 4
    date       variable  location            value
    &lt;date&gt;     &lt;chr&gt;     &lt;chr&gt;               &lt;dbl&gt;
  1 2020-01-03 new_cases Afghanistan             0
@@ -865,14 +894,14 @@ gtag('config', 'G-6T89HT07F5', { 'anonymize_ip': true});
  8 2020-01-03 new_cases Anguilla                0
  9 2020-01-03 new_cases Antigua and Barbuda     0
 10 2020-01-03 new_cases Argentina               0
-# ℹ 703,790 more rows</code></pre>
+# ℹ 708,890 more rows</code></pre>
 </div>
 </div>
 <p>Note that now even the variables (new_cases and new_deaths) are stored in a single column (variable). This is probably an abuse of language, but I call this a complete long format – as opposed to the original format where the data set was only partially in the long format (the variables were indeed in wide format). For most applications, I think this is the best way to organize the data.</p>
 <p>Converting a data set between wide and long formats might not completely solve our problem. Sometimes, two pieces of information are merged in a single column. For example, suppose that the <code>location</code> column had both the continent and country names instead of only the country as in the original data set. We’ll call this data set <code>covid_loc_cont</code>.</p>
 <div class="cell">
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 330,156 × 4
+<pre><code># A tibble: 333,391 × 4
    location         date       new_cases new_deaths
    &lt;chr&gt;            &lt;date&gt;         &lt;dbl&gt;      &lt;dbl&gt;
  1 Afghanistan_Asia 2020-01-03         0          0
@@ -885,7 +914,7 @@ gtag('config', 'G-6T89HT07F5', { 'anonymize_ip': true});
  8 Afghanistan_Asia 2020-01-10         0          0
  9 Afghanistan_Asia 2020-01-11         0          0
 10 Afghanistan_Asia 2020-01-12         0          0
-# ℹ 330,146 more rows</code></pre>
+# ℹ 333,381 more rows</code></pre>
 </div>
 </div>
 <p>This is undesirable since we can no longer use <code>group_by</code> or <code>filter</code> over either country or continents names alone. Hence, the best practice is to have a single column for each variable. This can be easily achieved using the <code>separate</code> function, with a highly self-explanatory syntax. Again, the separator character being unique in the string makes the job much easier.</p>
@@ -896,9 +925,10 @@ gtag('config', 'G-6T89HT07F5', { 'anonymize_ip': true});
 <span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">into =</span> <span class="fu">c</span>(<span class="st">'location'</span>, <span class="st">'continent'</span>),</span>
 <span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">sep  =</span> <span class="st">'_'</span></span>
 <span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a>covid_separate</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-8"><a href="#cb32-8" aria-hidden="true" tabindex="-1"></a>covid_separate</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 330,156 × 5
+<pre><code># A tibble: 333,391 × 5
    location    continent date       new_cases new_deaths
    &lt;chr&gt;       &lt;chr&gt;     &lt;date&gt;         &lt;dbl&gt;      &lt;dbl&gt;
  1 Afghanistan Asia      2020-01-03         0          0
@@ -911,13 +941,13 @@ gtag('config', 'G-6T89HT07F5', { 'anonymize_ip': true});
  8 Afghanistan Asia      2020-01-10         0          0
  9 Afghanistan Asia      2020-01-11         0          0
 10 Afghanistan Asia      2020-01-12         0          0
-# ℹ 330,146 more rows</code></pre>
+# ℹ 333,381 more rows</code></pre>
 </div>
 </div>
 <p>The only caveat to all this simplicity is when we have non-trivial separators. For example, imagine that we had no underscore to separate location from continent.</p>
 <div class="cell">
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 330,156 × 4
+<pre><code># A tibble: 333,391 × 4
    location        date       new_cases new_deaths
    &lt;chr&gt;           &lt;date&gt;         &lt;dbl&gt;      &lt;dbl&gt;
  1 AfghanistanAsia 2020-01-03         0          0
@@ -930,7 +960,7 @@ gtag('config', 'G-6T89HT07F5', { 'anonymize_ip': true});
  8 AfghanistanAsia 2020-01-10         0          0
  9 AfghanistanAsia 2020-01-11         0          0
 10 AfghanistanAsia 2020-01-12         0          0
-# ℹ 330,146 more rows</code></pre>
+# ℹ 333,381 more rows</code></pre>
 </div>
 </div>
 <p>How could we manage to separate them? Ideally, we should provide a regular expression (or simply regex) to match the appropriate pattern to split the string into location and continent (the <code>sep</code> argument works with regex). If you don’t know what regex is, think of it as a code used to match patterns, positions and all kinds of features in a string.</p>
@@ -944,9 +974,10 @@ gtag('config', 'G-6T89HT07F5', { 'anonymize_ip': true});
 <span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">col =</span> <span class="st">'location'</span>, </span>
 <span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">c</span>(<span class="st">'location'</span>, <span class="st">'continent'</span>),</span>
 <span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">sep =</span> <span class="st">'_'</span>)</span>
-<span id="cb35-6"><a href="#cb35-6" aria-hidden="true" tabindex="-1"></a>covid_unite</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb35-6"><a href="#cb35-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-7"><a href="#cb35-7" aria-hidden="true" tabindex="-1"></a>covid_unite</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 330,156 × 4
+<pre><code># A tibble: 333,391 × 4
    location         date       new_cases new_deaths
    &lt;chr&gt;            &lt;date&gt;         &lt;dbl&gt;      &lt;dbl&gt;
  1 Afghanistan_Asia 2020-01-03         0          0
@@ -959,7 +990,7 @@ gtag('config', 'G-6T89HT07F5', { 'anonymize_ip': true});
  8 Afghanistan_Asia 2020-01-10         0          0
  9 Afghanistan_Asia 2020-01-11         0          0
 10 Afghanistan_Asia 2020-01-12         0          0
-# ℹ 330,146 more rows</code></pre>
+# ℹ 333,381 more rows</code></pre>
 </div>
 </div>
 <p>And finally the <code>nest</code> function. The <code>nest</code> function is usually used in conjunction with <code>group_by</code> in order to create a new format of data frame in which every cell is now a list rather than a single observation and, thus, might store any kind of object – data frames, lists, models, plots and so forth.</p>
@@ -969,22 +1000,23 @@ gtag('config', 'G-6T89HT07F5', { 'anonymize_ip': true});
 <span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(continent <span class="sc">==</span> <span class="st">'Europe'</span>) <span class="sc">%&gt;%</span> </span>
 <span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(location) <span class="sc">%&gt;%</span> </span>
 <span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">nest</span>()</span>
-<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a>covid_eu_nest</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-6"><a href="#cb37-6" aria-hidden="true" tabindex="-1"></a>covid_eu_nest</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 55 × 2
 # Groups:   location [55]
    location               data                 
    &lt;chr&gt;                  &lt;list&gt;               
- 1 Albania                &lt;tibble [1,371 × 66]&gt;
- 2 Andorra                &lt;tibble [1,371 × 66]&gt;
- 3 Austria                &lt;tibble [1,371 × 66]&gt;
- 4 Belarus                &lt;tibble [1,371 × 66]&gt;
- 5 Belgium                &lt;tibble [1,371 × 66]&gt;
- 6 Bosnia and Herzegovina &lt;tibble [1,371 × 66]&gt;
- 7 Bulgaria               &lt;tibble [1,378 × 66]&gt;
- 8 Croatia                &lt;tibble [1,377 × 66]&gt;
- 9 Cyprus                 &lt;tibble [1,371 × 66]&gt;
-10 Czechia                &lt;tibble [1,378 × 66]&gt;
+ 1 Albania                &lt;tibble [1,385 × 66]&gt;
+ 2 Andorra                &lt;tibble [1,385 × 66]&gt;
+ 3 Austria                &lt;tibble [1,385 × 66]&gt;
+ 4 Belarus                &lt;tibble [1,385 × 66]&gt;
+ 5 Belgium                &lt;tibble [1,385 × 66]&gt;
+ 6 Bosnia and Herzegovina &lt;tibble [1,385 × 66]&gt;
+ 7 Bulgaria               &lt;tibble [1,388 × 66]&gt;
+ 8 Croatia                &lt;tibble [1,385 × 66]&gt;
+ 9 Cyprus                 &lt;tibble [1,385 × 66]&gt;
+10 Czechia                &lt;tibble [1,388 × 66]&gt;
 # ℹ 45 more rows</code></pre>
 </div>
 </div>
@@ -998,48 +1030,58 @@ gtag('config', 'G-6T89HT07F5', { 'anonymize_ip': true});
 <p>For example, let’s say we want to analyze the Covid data only for North and South Americas. We’ve learned how to do so using <code>dplyr::filter</code>.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>covid_americas <span class="ot">&lt;-</span> covid_data <span class="sc">%&gt;%</span> </span>
-<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(continent <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">'North America'</span>, <span class="st">'South America'</span>)) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(</span>
+<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a>    continent <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">'North America'</span>, <span class="st">'South America'</span>)</span>
+<span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a>    ) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>This one is not cumbersome. But let’s pretend there were, say, 50 continents on Earth with 25 having ‘America’ in their names. Would it still make sense to write all these 25 names in a vector? Absolutely not. Since all of them share a common pattern, we can easily employ <code>str_detect</code> to do the trick.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>covid_americas <span class="ot">&lt;-</span> covid_data <span class="sc">%&gt;%</span> </span>
-<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(stringr<span class="sc">::</span><span class="fu">str_detect</span>(continent, <span class="st">'America'</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(</span>
+<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a>    stringr<span class="sc">::</span><span class="fu">str_detect</span>(continent, <span class="st">'America'</span>)</span>
+<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a>    )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Note that we could have left aside several characters using only, say, ‘Am’ or ‘Ame’. This would have worked fine if there was no other continent with this sequence of characters. Of course, this parsimony makes more sense for lengthy words or long sentences. For short words I recommend you to write the full word in order to prevent any undesirable output. ßIn addition, we can also provide multiple patterns to <code>str_detect</code> by separating them with a <code>|</code>.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>covid_americas <span class="ot">&lt;-</span> covid_data <span class="sc">%&gt;%</span> </span>
-<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(stringr<span class="sc">::</span><span class="fu">str_detect</span>(continent, <span class="st">'South|North'</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(</span>
+<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a>    stringr<span class="sc">::</span><span class="fu">str_detect</span>(continent, <span class="st">'South|North'</span>)</span>
+<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a>    )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Finally, we may use the <code>negate = TRUE</code> argument if we’re interested in the opposite of the pattern we provide – pretty much like <code>!</code> in conditions. It’s specially useful when we want to keep most categories but one (or a few). For example, suppose that now we want to analyze every continent except for Asia. Instead of writing them all, we could simply do the following:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>covid_exAsia <span class="ot">&lt;-</span> covid_data <span class="sc">%&gt;%</span> </span>
-<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">str_detect</span>(continent, <span class="st">'Asia'</span>, <span class="at">negate =</span> <span class="cn">TRUE</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(</span>
+<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">str_detect</span>(continent, <span class="st">'Asia'</span>, <span class="at">negate =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a>    )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Another recurrent task when we’re dealing with strings is to remove a part of it. It’s generally required in order to establish a standard within categories so we can perform further operations. The complexity of this task varies depending on the form of this undesired part.</p>
 <p>The simplest case is when we have to remove a sequence of characters which is fixed both in length and in position. For example, suppose we have a data frame <code>covid_numCont</code> in which the observations in the continent column starts with a random number from 0 to 9 – think of it as a typing error from the source, since the same reasoning applies if those random numbers were present only in a few observations.</p>
 <div class="cell">
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 10 × 4
-   continent       location                        date       new_cases
-   &lt;chr&gt;           &lt;chr&gt;                           &lt;date&gt;         &lt;dbl&gt;
- 1 4.Africa        Congo                           2023-05-28         0
- 2 8.Africa        Madagascar                      2023-07-20         0
- 3 9.North America Bonaire Sint Eustatius and Saba 2023-04-02        38
- 4 2.Europe        Vatican                         2022-07-06         0
- 5 2.Africa        Togo                            2022-01-14       328
- 6 6.Europe        Estonia                         2021-08-24         0
- 7 2.Europe        Romania                         2022-10-05      1419
- 8 1.Africa        Kenya                           2023-05-08         0
- 9 9.Europe        Norway                          2020-03-08        19
-10 7.South America French Guiana                   2021-01-11         0</code></pre>
+   continent       location             date       new_cases
+   &lt;chr&gt;           &lt;chr&gt;                &lt;date&gt;         &lt;dbl&gt;
+ 1 4.Asia          Singapore            2020-06-25       191
+ 2 6.South America Chile                2020-06-18     36179
+ 3 5.Oceania       French Polynesia     2022-05-15        15
+ 4 7.Asia          Turkmenistan         2022-06-21         0
+ 5 5.Europe        Norway               2020-05-25         6
+ 6 1.Africa        Algeria              2021-03-17       130
+ 7 5.Africa        South Sudan          2020-02-19         0
+ 8 4.Africa        Egypt                2023-05-16         0
+ 9 4.Asia          Bangladesh           2020-09-10      1892
+10 1.Asia          United Arab Emirates 2022-02-02      2084</code></pre>
 </div>
 </div>
 <p>To solve this is solely a matter of subsetting the string from position three onwards using <code>str_sub</code>. The <code>end</code> argument defaults to the last character, so we don’t need to make it explicit.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>covid_numCont <span class="sc">%&gt;%</span> </span>
-<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">continent =</span> <span class="fu">str_sub</span>(continent, <span class="at">start =</span> <span class="dv">3</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">continent =</span> <span class="fu">str_sub</span>(continent, <span class="at">start =</span> <span class="dv">3</span>)</span>
+<span id="cb44-4"><a href="#cb44-4" aria-hidden="true" tabindex="-1"></a>    )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 330,156 × 4
+<pre><code># A tibble: 333,391 × 4
    continent location    date       new_cases
    &lt;chr&gt;     &lt;chr&gt;       &lt;date&gt;         &lt;dbl&gt;
  1 Asia      Afghanistan 2020-01-03         0
@@ -1052,25 +1094,25 @@ gtag('config', 'G-6T89HT07F5', { 'anonymize_ip': true});
  8 Asia      Afghanistan 2020-01-10         0
  9 Asia      Afghanistan 2020-01-11         0
 10 Asia      Afghanistan 2020-01-12         0
-# ℹ 330,146 more rows</code></pre>
+# ℹ 333,381 more rows</code></pre>
 </div>
 </div>
 <p>Nice. But what if the random numbers ranged from 0 to 10 as in the data frame below?</p>
 <div class="cell">
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 10 × 4
-   continent       location      date       new_cases
-   &lt;chr&gt;           &lt;chr&gt;         &lt;date&gt;         &lt;dbl&gt;
- 1 2.North America Costa Rica    2021-04-19      1060
- 2 8.Africa        Benin         2023-09-02         0
- 3 8.Europe        Spain         2021-01-20         0
- 4 3.Oceania       Cook Islands  2020-07-09         0
- 5 5.Oceania       Niue          2021-12-07         0
- 6 3.Europe        Moldova       2021-09-19      1031
- 7 9.Asia          Philippines   2021-04-28      6862
- 8 3.Africa        Guinea-Bissau 2022-05-26         0
- 9 10.Europe       Slovakia      2022-03-19      9386
-10 2.Africa        Lesotho       2022-11-21         0</code></pre>
+   continent        location                 date       new_cases
+   &lt;chr&gt;            &lt;chr&gt;                    &lt;date&gt;         &lt;dbl&gt;
+ 1 10.Africa        Sudan                    2021-02-15        46
+ 2 3.South America  Peru                     2022-10-22       291
+ 3 10.North America Belize                   2021-12-20         0
+ 4 6.Oceania        Vanuatu                  2023-08-31         0
+ 5 8.North America  Turks and Caicos Islands 2022-08-06         0
+ 6 10.South America Brazil                   2023-07-14         0
+ 7 10.Europe        San Marino               2022-02-03       103
+ 8 10.North America Saint Lucia              2022-06-10        66
+ 9 6.Asia           Iran                     2020-12-06     12151
+10 10.Oceania       Papua New Guinea         2023-02-19         0</code></pre>
 </div>
 </div>
 <p>With an extra digit, we could no longer resort to the previous solution. I don’t intend to dedicate an exclusive section to regular expressions, but simple examples will eventually show up throughout the book. In this case, we could use a simple regular expression inside <code>str_remove</code> to get rid of everything before and up to the <code>.</code>, <code>.*\\.</code>.</p>
@@ -1078,7 +1120,7 @@ gtag('config', 'G-6T89HT07F5', { 'anonymize_ip': true});
 <div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a>covid_numCont <span class="sc">%&gt;%</span> </span>
 <span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">continent =</span> <span class="fu">str_remove</span>(continent, <span class="st">".*</span><span class="sc">\\</span><span class="st">."</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 330,156 × 4
+<pre><code># A tibble: 333,391 × 4
    continent location    date       new_cases
    &lt;chr&gt;     &lt;chr&gt;       &lt;date&gt;         &lt;dbl&gt;
  1 Asia      Afghanistan 2020-01-03         0
@@ -1091,13 +1133,13 @@ gtag('config', 'G-6T89HT07F5', { 'anonymize_ip': true});
  8 Asia      Afghanistan 2020-01-10         0
  9 Asia      Afghanistan 2020-01-11         0
 10 Asia      Afghanistan 2020-01-12         0
-# ℹ 330,146 more rows</code></pre>
+# ℹ 333,381 more rows</code></pre>
 </div>
 </div>
 <p>Typing errors may arise under different forms along the character column. These cases usually require a more thorough evaluation and, more often than not, the solution is to manually replace the wrong words by the correct ones. For instance, in the data frame below (named <code>covid_typo</code>) we can find two different typos for North America: there’s a missing <strong>h</strong> in rows 1 and 5; whereas there’s an extra <strong>h</strong> in rows 3 and 8.</p>
 <div class="cell">
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 56,221 × 4
+<pre><code># A tibble: 56,788 × 4
    continent      location date       new_cases
    &lt;chr&gt;          &lt;chr&gt;    &lt;date&gt;         &lt;dbl&gt;
  1 Nort America   Anguilla 2020-01-03         0
@@ -1110,16 +1152,24 @@ gtag('config', 'G-6T89HT07F5', { 'anonymize_ip': true});
  8 Northh America Anguilla 2020-01-10         0
  9 North America  Anguilla 2020-01-11         0
 10 North America  Anguilla 2020-01-12         0
-# ℹ 56,211 more rows</code></pre>
+# ℹ 56,778 more rows</code></pre>
 </div>
 </div>
 <p>Since the data frame contains a huge number of observations, it may be present in other positions as well. We can use <code>str_replace</code> to fix it for the whole column.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a>covid_typo <span class="sc">%&gt;%</span> </span>
 <span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
-<span id="cb50-3"><a href="#cb50-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">continent =</span> <span class="fu">str_replace</span>(continent, <span class="st">'Nort America'</span>, <span class="st">'North America'</span>),</span>
-<span id="cb50-4"><a href="#cb50-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">continent =</span> <span class="fu">str_replace</span>(continent, <span class="st">'Northh America'</span>, <span class="st">'North America'</span>)</span>
-<span id="cb50-5"><a href="#cb50-5" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb50-3"><a href="#cb50-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">continent =</span> <span class="fu">str_replace</span>(</span>
+<span id="cb50-4"><a href="#cb50-4" aria-hidden="true" tabindex="-1"></a>      continent, </span>
+<span id="cb50-5"><a href="#cb50-5" aria-hidden="true" tabindex="-1"></a>      <span class="st">'Nort America'</span>, </span>
+<span id="cb50-6"><a href="#cb50-6" aria-hidden="true" tabindex="-1"></a>      <span class="st">'North America'</span></span>
+<span id="cb50-7"><a href="#cb50-7" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb50-8"><a href="#cb50-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">continent =</span> <span class="fu">str_replace</span>(</span>
+<span id="cb50-9"><a href="#cb50-9" aria-hidden="true" tabindex="-1"></a>      continent, </span>
+<span id="cb50-10"><a href="#cb50-10" aria-hidden="true" tabindex="-1"></a>      <span class="st">'Northh America'</span>, </span>
+<span id="cb50-11"><a href="#cb50-11" aria-hidden="true" tabindex="-1"></a>      <span class="st">'North America'</span></span>
+<span id="cb50-12"><a href="#cb50-12" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb50-13"><a href="#cb50-13" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Or we can simply pass a vector with all the replacements to the <code>str_replace_all</code> function.</p>
 <div class="cell">
@@ -1127,16 +1177,18 @@ gtag('config', 'G-6T89HT07F5', { 'anonymize_ip': true});
 <span id="cb51-2"><a href="#cb51-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
 <span id="cb51-3"><a href="#cb51-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">continent =</span> <span class="fu">str_replace_all</span>(</span>
 <span id="cb51-4"><a href="#cb51-4" aria-hidden="true" tabindex="-1"></a>      continent, </span>
-<span id="cb51-5"><a href="#cb51-5" aria-hidden="true" tabindex="-1"></a>      <span class="fu">c</span>(<span class="st">'Nort America'</span>   <span class="ot">=</span> <span class="st">'North America'</span>,</span>
-<span id="cb51-6"><a href="#cb51-6" aria-hidden="true" tabindex="-1"></a>        <span class="st">'Northh America'</span> <span class="ot">=</span> <span class="st">'North America'</span>)</span>
-<span id="cb51-7"><a href="#cb51-7" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb51-8"><a href="#cb51-8" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb51-5"><a href="#cb51-5" aria-hidden="true" tabindex="-1"></a>      <span class="fu">c</span>(</span>
+<span id="cb51-6"><a href="#cb51-6" aria-hidden="true" tabindex="-1"></a>        <span class="st">'Nort America'</span>   <span class="ot">=</span> <span class="st">'North America'</span>,</span>
+<span id="cb51-7"><a href="#cb51-7" aria-hidden="true" tabindex="-1"></a>        <span class="st">'Northh America'</span> <span class="ot">=</span> <span class="st">'North America'</span></span>
+<span id="cb51-8"><a href="#cb51-8" aria-hidden="true" tabindex="-1"></a>      )</span>
+<span id="cb51-9"><a href="#cb51-9" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb51-10"><a href="#cb51-10" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>There’s one last kind of typo we can’t help but mention: whitespace. Whitespaces are particularly troublesome when they’re misplaced in the start/end of string or repeated inside it. Because they’re very easy to go unnoticed the <code>stringr</code> package contains two functions to cope with them: <code>str_trim</code> and <code>str_squish</code>. The former removes whitespaces from start/end of the string, whereas the later removes them from inside of a string.</p>
 <p>The data frame below (named <code>covid_ws</code>) uses the same example as above, but now with a whitespace in the end of observations 1 and 5; and a repeated whitespace inside the observations 3 and 8. Note that <code>tibble</code> automatically adds quotation marks around the strings to highlight the extra whitespaces. This is awesome!</p>
 <div class="cell">
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 56,221 × 4
+<pre><code># A tibble: 56,788 × 4
    continent        location date       new_cases
    &lt;chr&gt;            &lt;chr&gt;    &lt;date&gt;         &lt;dbl&gt;
  1 "North America " Anguilla 2020-01-03         0
@@ -1149,7 +1201,7 @@ gtag('config', 'G-6T89HT07F5', { 'anonymize_ip': true});
  8 "North  America" Anguilla 2020-01-10         0
  9 "North America"  Anguilla 2020-01-11         0
 10 "North America"  Anguilla 2020-01-12         0
-# ℹ 56,211 more rows</code></pre>
+# ℹ 56,778 more rows</code></pre>
 </div>
 </div>
 <p>We can easily get rid of the whitespaces using those functions. It’s advisable to use them as a preprocessing step whenever we’re working with character columns that should not have these extra whitespaces.</p>
@@ -1164,7 +1216,7 @@ gtag('config', 'G-6T89HT07F5', { 'anonymize_ip': true});
 <p>To finish up, let’s use the tools we’ve just learned to solve the problem we’ve left over from the previous subsection. To recap, we wanted to separate the column <code>location</code> into country and continent. The issue was that with no separator character between the two names, we should resort to any kind of complicated regular expression to do the trick.</p>
 <div class="cell" data-opts.label="data_lay_example">
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 330,156 × 4
+<pre><code># A tibble: 333,391 × 4
    location        date       new_cases new_deaths
    &lt;chr&gt;           &lt;date&gt;         &lt;dbl&gt;      &lt;dbl&gt;
  1 AfghanistanAsia 2020-01-03         0          0
@@ -1177,7 +1229,7 @@ gtag('config', 'G-6T89HT07F5', { 'anonymize_ip': true});
  8 AfghanistanAsia 2020-01-10         0          0
  9 AfghanistanAsia 2020-01-11         0          0
 10 AfghanistanAsia 2020-01-12         0          0
-# ℹ 330,146 more rows</code></pre>
+# ℹ 333,381 more rows</code></pre>
 </div>
 </div>
 <p>As I said earlier, data science is all about finding workarounds. Of course we’re often interested in general approaches, but sometimes we have to settle for a lower level solution which gets the job done. For example, in this case we could waste a long time figuring out the best possible solution whereas a simpler one is at hand.</p>
@@ -1192,19 +1244,20 @@ gtag('config', 'G-6T89HT07F5', { 'anonymize_ip': true});
 <span id="cb55-7"><a href="#cb55-7" aria-hidden="true" tabindex="-1"></a>  <span class="st">'Oceania'</span></span>
 <span id="cb55-8"><a href="#cb55-8" aria-hidden="true" tabindex="-1"></a>) <span class="sc">%&gt;%</span> </span>
 <span id="cb55-9"><a href="#cb55-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">paste0</span>(<span class="at">collapse =</span> <span class="st">'|'</span>)</span>
-<span id="cb55-10"><a href="#cb55-10" aria-hidden="true" tabindex="-1"></a>covid_loc_cont2 <span class="sc">%&gt;%</span> </span>
-<span id="cb55-11"><a href="#cb55-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
-<span id="cb55-12"><a href="#cb55-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">continent =</span> <span class="fu">str_extract</span>(</span>
-<span id="cb55-13"><a href="#cb55-13" aria-hidden="true" tabindex="-1"></a>      location,</span>
-<span id="cb55-14"><a href="#cb55-14" aria-hidden="true" tabindex="-1"></a>      continents</span>
-<span id="cb55-15"><a href="#cb55-15" aria-hidden="true" tabindex="-1"></a>    ),</span>
-<span id="cb55-16"><a href="#cb55-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">location =</span> <span class="fu">str_remove</span>(</span>
-<span id="cb55-17"><a href="#cb55-17" aria-hidden="true" tabindex="-1"></a>      location,</span>
-<span id="cb55-18"><a href="#cb55-18" aria-hidden="true" tabindex="-1"></a>      continents</span>
-<span id="cb55-19"><a href="#cb55-19" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb55-20"><a href="#cb55-20" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb55-10"><a href="#cb55-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb55-11"><a href="#cb55-11" aria-hidden="true" tabindex="-1"></a>covid_loc_cont2 <span class="sc">%&gt;%</span> </span>
+<span id="cb55-12"><a href="#cb55-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb55-13"><a href="#cb55-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">continent =</span> <span class="fu">str_extract</span>(</span>
+<span id="cb55-14"><a href="#cb55-14" aria-hidden="true" tabindex="-1"></a>      location,</span>
+<span id="cb55-15"><a href="#cb55-15" aria-hidden="true" tabindex="-1"></a>      continents</span>
+<span id="cb55-16"><a href="#cb55-16" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb55-17"><a href="#cb55-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">location =</span> <span class="fu">str_remove</span>(</span>
+<span id="cb55-18"><a href="#cb55-18" aria-hidden="true" tabindex="-1"></a>      location,</span>
+<span id="cb55-19"><a href="#cb55-19" aria-hidden="true" tabindex="-1"></a>      continents</span>
+<span id="cb55-20"><a href="#cb55-20" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb55-21"><a href="#cb55-21" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 330,156 × 5
+<pre><code># A tibble: 333,391 × 5
    location    date       new_cases new_deaths continent
    &lt;chr&gt;       &lt;date&gt;         &lt;dbl&gt;      &lt;dbl&gt; &lt;chr&gt;    
  1 Afghanistan 2020-01-03         0          0 Asia     
@@ -1217,7 +1270,7 @@ gtag('config', 'G-6T89HT07F5', { 'anonymize_ip': true});
  8 Afghanistan 2020-01-10         0          0 Asia     
  9 Afghanistan 2020-01-11         0          0 Asia     
 10 Afghanistan 2020-01-12         0          0 Asia     
-# ℹ 330,146 more rows</code></pre>
+# ℹ 333,381 more rows</code></pre>
 </div>
 </div>
 <p>Job done! Next we turn to dates, which is a special form of string. Handling them properly is essential to analyze time series data.</p>
@@ -1270,7 +1323,8 @@ gtag('config', 'G-6T89HT07F5', { 'anonymize_ip': true});
 <div class="cell">
 <div class="sourceCode cell-code" id="cb66"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb66-1"><a href="#cb66-1" aria-hidden="true" tabindex="-1"></a>brl_usd_aux <span class="ot">&lt;-</span> brl_usd <span class="sc">%&gt;%</span> </span>
 <span id="cb66-2"><a href="#cb66-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">date =</span> <span class="fu">dmy</span>(date))</span>
-<span id="cb66-3"><a href="#cb66-3" aria-hidden="true" tabindex="-1"></a>brl_usd_aux</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb66-3"><a href="#cb66-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb66-4"><a href="#cb66-4" aria-hidden="true" tabindex="-1"></a>brl_usd_aux</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 3,014 × 2
    date         brl
@@ -1297,7 +1351,8 @@ gtag('config', 'G-6T89HT07F5', { 'anonymize_ip': true});
 <span id="cb68-5"><a href="#cb68-5" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span> </span>
 <span id="cb68-6"><a href="#cb68-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(year, month) <span class="sc">%&gt;%</span> </span>
 <span id="cb68-7"><a href="#cb68-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">brl_monthly =</span> <span class="fu">mean</span>(brl))</span>
-<span id="cb68-8"><a href="#cb68-8" aria-hidden="true" tabindex="-1"></a>brl_usd_monthly</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb68-8"><a href="#cb68-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb68-9"><a href="#cb68-9" aria-hidden="true" tabindex="-1"></a>brl_usd_monthly</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 144 × 3
 # Groups:   year [12]
@@ -1352,10 +1407,13 @@ gtag('config', 'G-6T89HT07F5', { 'anonymize_ip': true});
 <p>The same procedure applies if we want to get quarterly means. It’s just a matter of creating a column with quarters. Be aware, however, that the <code>quarter</code> function has a parameter named <code>with_year</code> that when set to <code>TRUE</code> eliminates the need to create a separate column for the year.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb72"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb72-1"><a href="#cb72-1" aria-hidden="true" tabindex="-1"></a>brl_usd_quarterly <span class="ot">&lt;-</span> brl_usd_aux <span class="sc">%&gt;%</span> </span>
-<span id="cb72-2"><a href="#cb72-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">quarter =</span> <span class="fu">quarter</span>(date, <span class="at">with_year =</span> <span class="cn">TRUE</span>)) <span class="sc">%&gt;%</span> </span>
-<span id="cb72-3"><a href="#cb72-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(quarter) <span class="sc">%&gt;%</span> </span>
-<span id="cb72-4"><a href="#cb72-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">brl_quarterly =</span> <span class="fu">mean</span>(brl))</span>
-<span id="cb72-5"><a href="#cb72-5" aria-hidden="true" tabindex="-1"></a>brl_usd_quarterly</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb72-2"><a href="#cb72-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb72-3"><a href="#cb72-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">quarter =</span> <span class="fu">quarter</span>(date, <span class="at">with_year =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb72-4"><a href="#cb72-4" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span> </span>
+<span id="cb72-5"><a href="#cb72-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(quarter) <span class="sc">%&gt;%</span> </span>
+<span id="cb72-6"><a href="#cb72-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">brl_quarterly =</span> <span class="fu">mean</span>(brl))</span>
+<span id="cb72-7"><a href="#cb72-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb72-8"><a href="#cb72-8" aria-hidden="true" tabindex="-1"></a>brl_usd_quarterly</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 48 × 2
    quarter brl_quarterly
@@ -1441,7 +1499,8 @@ gtag('config', 'G-6T89HT07F5', { 'anonymize_ip': true});
 <p>I couldn’t help but mention two useful functions used to round dates: <code>floor_date</code> and <code>ceiling_date</code>. They take a date object and rounds it down or up, respectively, to the nearest boundary of the specified time unit.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb92"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb92-1"><a href="#cb92-1" aria-hidden="true" tabindex="-1"></a>d3 <span class="ot">&lt;-</span> <span class="fu">ymd</span>(<span class="st">'2021-03-13'</span>)</span>
-<span id="cb92-2"><a href="#cb92-2" aria-hidden="true" tabindex="-1"></a><span class="fu">floor_date</span>(d3,   <span class="at">unit =</span> <span class="st">'month'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb92-2"><a href="#cb92-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb92-3"><a href="#cb92-3" aria-hidden="true" tabindex="-1"></a><span class="fu">floor_date</span>(d3,   <span class="at">unit =</span> <span class="st">'month'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "2021-03-01"</code></pre>
 </div>
@@ -1462,10 +1521,13 @@ gtag('config', 'G-6T89HT07F5', { 'anonymize_ip': true});
 <p>I use them very often as a simpler way to perform temporal aggregation. Remember that earlier in this section we computed monthly averages by creating two grouping columns, year and month. The logic was simply to treat every day in the same year/month as belonging to the same group. We can easily accomplish the same result by rounding dates down, with the great benefit of preserving the date column.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb100"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb100-1"><a href="#cb100-1" aria-hidden="true" tabindex="-1"></a>brl_usd_monthly2 <span class="ot">&lt;-</span> brl_usd_aux <span class="sc">%&gt;%</span> </span>
-<span id="cb100-2"><a href="#cb100-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">date =</span> <span class="fu">floor_date</span>(date, <span class="at">unit =</span> <span class="st">'month'</span>)) <span class="sc">%&gt;%</span> </span>
-<span id="cb100-3"><a href="#cb100-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(date) <span class="sc">%&gt;%</span> </span>
-<span id="cb100-4"><a href="#cb100-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">brl_monthly =</span> <span class="fu">mean</span>(brl))</span>
-<span id="cb100-5"><a href="#cb100-5" aria-hidden="true" tabindex="-1"></a>brl_usd_monthly2</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb100-2"><a href="#cb100-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb100-3"><a href="#cb100-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">date =</span> <span class="fu">floor_date</span>(date, <span class="at">unit =</span> <span class="st">'month'</span>)</span>
+<span id="cb100-4"><a href="#cb100-4" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span> </span>
+<span id="cb100-5"><a href="#cb100-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(date) <span class="sc">%&gt;%</span> </span>
+<span id="cb100-6"><a href="#cb100-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">brl_monthly =</span> <span class="fu">mean</span>(brl))</span>
+<span id="cb100-7"><a href="#cb100-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb100-8"><a href="#cb100-8" aria-hidden="true" tabindex="-1"></a>brl_usd_monthly2</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 144 × 2
    date       brl_monthly
@@ -1542,19 +1604,30 @@ gtag('config', 'G-6T89HT07F5', { 'anonymize_ip': true});
 <p>Remember (or scroll up if necessary) that we created an object called <code>api_series_id</code> with the ID of the CPI time series and that was the only specific parameter – everything else would be the same for any other series we wanted. Therefore, our first task here is to create a function whose only parameter is the series ID. Then, we create a vector (or list) with the desired IDs and – guess what? – use them inside the <code>map</code> function.</p>
 <p>I’ll create the <code>get_series</code> function using the same content we already saw up there, but leaving the <code>api_series_id</code> as a parameter (<code>series_id</code>). Note that I’ll keep some objects with their original names – starting with <em>cpi_</em> – just to avoid confusion. This has no practical effect, though.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb114"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb114-1"><a href="#cb114-1" aria-hidden="true" tabindex="-1"></a>get_series <span class="ot">&lt;-</span> <span class="cf">function</span>(series_id){</span>
-<span id="cb114-2"><a href="#cb114-2" aria-hidden="true" tabindex="-1"></a>  api_url       <span class="ot">&lt;-</span> <span class="st">'https://api.stlouisfed.org/fred/series/observations?'</span></span>
-<span id="cb114-3"><a href="#cb114-3" aria-hidden="true" tabindex="-1"></a>  api_key       <span class="ot">&lt;-</span> api_fred_key</span>
-<span id="cb114-4"><a href="#cb114-4" aria-hidden="true" tabindex="-1"></a>  api_series_id <span class="ot">&lt;-</span> series_id</span>
-<span id="cb114-5"><a href="#cb114-5" aria-hidden="true" tabindex="-1"></a>  obs_start     <span class="ot">&lt;-</span> <span class="st">'2010-01-01'</span></span>
-<span id="cb114-6"><a href="#cb114-6" aria-hidden="true" tabindex="-1"></a>  api_filetype  <span class="ot">&lt;-</span> <span class="st">'json'</span></span>
-<span id="cb114-7"><a href="#cb114-7" aria-hidden="true" tabindex="-1"></a>  api_request   <span class="ot">&lt;-</span> glue<span class="sc">::</span><span class="fu">glue</span>(<span class="st">'{api_url}series_id={api_series_id}&amp;observation_start={obs_start}&amp;api_key={api_key}&amp;file_type={api_filetype}'</span>)</span>
-<span id="cb114-8"><a href="#cb114-8" aria-hidden="true" tabindex="-1"></a>  cpi_request   <span class="ot">&lt;-</span> httr<span class="sc">::</span><span class="fu">GET</span>(<span class="at">url =</span> api_request)</span>
-<span id="cb114-9"><a href="#cb114-9" aria-hidden="true" tabindex="-1"></a>  cpi_content   <span class="ot">&lt;-</span> httr<span class="sc">::</span><span class="fu">content</span>(cpi_request, <span class="at">as =</span> <span class="st">'text'</span>)</span>
-<span id="cb114-10"><a href="#cb114-10" aria-hidden="true" tabindex="-1"></a>  cpi_list      <span class="ot">&lt;-</span> jsonlite<span class="sc">::</span><span class="fu">fromJSON</span>(cpi_content, <span class="at">flatten =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb114-11"><a href="#cb114-11" aria-hidden="true" tabindex="-1"></a>  cpi_tbl       <span class="ot">&lt;-</span> cpi_list[[<span class="st">'observations'</span>]] <span class="sc">%&gt;%</span> tibble<span class="sc">::</span><span class="fu">as_tibble</span>()</span>
-<span id="cb114-12"><a href="#cb114-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(cpi_tbl)</span>
-<span id="cb114-13"><a href="#cb114-13" aria-hidden="true" tabindex="-1"></a>} </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb114"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb114-1"><a href="#cb114-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(glue)</span>
+<span id="cb114-2"><a href="#cb114-2" aria-hidden="true" tabindex="-1"></a>get_series <span class="ot">&lt;-</span> <span class="cf">function</span>(series_id){</span>
+<span id="cb114-3"><a href="#cb114-3" aria-hidden="true" tabindex="-1"></a>  api_url       <span class="ot">&lt;-</span> <span class="st">'https://api.stlouisfed.org/fred/series/observations?'</span></span>
+<span id="cb114-4"><a href="#cb114-4" aria-hidden="true" tabindex="-1"></a>  api_key       <span class="ot">&lt;-</span> api_fred_key</span>
+<span id="cb114-5"><a href="#cb114-5" aria-hidden="true" tabindex="-1"></a>  api_series_id <span class="ot">&lt;-</span> series_id</span>
+<span id="cb114-6"><a href="#cb114-6" aria-hidden="true" tabindex="-1"></a>  obs_start     <span class="ot">&lt;-</span> <span class="st">'2010-01-01'</span></span>
+<span id="cb114-7"><a href="#cb114-7" aria-hidden="true" tabindex="-1"></a>  api_filetype  <span class="ot">&lt;-</span> <span class="st">'json'</span></span>
+<span id="cb114-8"><a href="#cb114-8" aria-hidden="true" tabindex="-1"></a>  api_request   <span class="ot">&lt;-</span> <span class="fu">glue</span>(</span>
+<span id="cb114-9"><a href="#cb114-9" aria-hidden="true" tabindex="-1"></a>    <span class="st">'{api_url}series_id={</span></span>
+<span id="cb114-10"><a href="#cb114-10" aria-hidden="true" tabindex="-1"></a><span class="st">    api_series_id</span></span>
+<span id="cb114-11"><a href="#cb114-11" aria-hidden="true" tabindex="-1"></a><span class="st">    }&amp;observation_start={</span></span>
+<span id="cb114-12"><a href="#cb114-12" aria-hidden="true" tabindex="-1"></a><span class="st">    obs_start</span></span>
+<span id="cb114-13"><a href="#cb114-13" aria-hidden="true" tabindex="-1"></a><span class="st">    }&amp;api_key={</span></span>
+<span id="cb114-14"><a href="#cb114-14" aria-hidden="true" tabindex="-1"></a><span class="st">    api_key</span></span>
+<span id="cb114-15"><a href="#cb114-15" aria-hidden="true" tabindex="-1"></a><span class="st">    }&amp;file_type={</span></span>
+<span id="cb114-16"><a href="#cb114-16" aria-hidden="true" tabindex="-1"></a><span class="st">    api_filetype</span></span>
+<span id="cb114-17"><a href="#cb114-17" aria-hidden="true" tabindex="-1"></a><span class="st">    }'</span></span>
+<span id="cb114-18"><a href="#cb114-18" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb114-19"><a href="#cb114-19" aria-hidden="true" tabindex="-1"></a>  cpi_request   <span class="ot">&lt;-</span> httr<span class="sc">::</span><span class="fu">GET</span>(<span class="at">url =</span> api_request)</span>
+<span id="cb114-20"><a href="#cb114-20" aria-hidden="true" tabindex="-1"></a>  cpi_content   <span class="ot">&lt;-</span> httr<span class="sc">::</span><span class="fu">content</span>(cpi_request, <span class="at">as =</span> <span class="st">'text'</span>)</span>
+<span id="cb114-21"><a href="#cb114-21" aria-hidden="true" tabindex="-1"></a>  cpi_list      <span class="ot">&lt;-</span> jsonlite<span class="sc">::</span><span class="fu">fromJSON</span>(cpi_content, <span class="at">flatten =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb114-22"><a href="#cb114-22" aria-hidden="true" tabindex="-1"></a>  cpi_tbl       <span class="ot">&lt;-</span> cpi_list[[<span class="st">'observations'</span>]] <span class="sc">%&gt;%</span> tibble<span class="sc">::</span><span class="fu">as_tibble</span>()</span>
+<span id="cb114-23"><a href="#cb114-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(cpi_tbl)</span>
+<span id="cb114-24"><a href="#cb114-24" aria-hidden="true" tabindex="-1"></a>} </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>We can test our function using the ID for CPI we used before.</p>
 <div class="cell">
@@ -1563,16 +1636,16 @@ gtag('config', 'G-6T89HT07F5', { 'anonymize_ip': true});
 <pre><code># A tibble: 164 × 4
    realtime_start realtime_end date       value              
    &lt;chr&gt;          &lt;chr&gt;        &lt;chr&gt;      &lt;chr&gt;              
- 1 2023-10-12     2023-10-12   2010-01-01 0.34174735701485   
- 2 2023-10-12     2023-10-12   2010-02-01 0.024920738207648  
- 3 2023-10-12     2023-10-12   2010-03-01 0.410628353657108  
- 4 2023-10-12     2023-10-12   2010-04-01 0.173688491069743  
- 5 2023-10-12     2023-10-12   2010-05-01 0.0775197354237721 
- 6 2023-10-12     2023-10-12   2010-06-01 -0.0976267084673888
- 7 2023-10-12     2023-10-12   2010-07-01 0.0211043057371509 
- 8 2023-10-12     2023-10-12   2010-08-01 0.138066427840807  
- 9 2023-10-12     2023-10-12   2010-09-01 0.0581736230715569 
-10 2023-10-12     2023-10-12   2010-10-01 0.124519888847696  
+ 1 2023-10-22     2023-10-22   2010-01-01 0.34174735701485   
+ 2 2023-10-22     2023-10-22   2010-02-01 0.024920738207648  
+ 3 2023-10-22     2023-10-22   2010-03-01 0.410628353657108  
+ 4 2023-10-22     2023-10-22   2010-04-01 0.173688491069743  
+ 5 2023-10-22     2023-10-22   2010-05-01 0.0775197354237721 
+ 6 2023-10-22     2023-10-22   2010-06-01 -0.0976267084673888
+ 7 2023-10-22     2023-10-22   2010-07-01 0.0211043057371509 
+ 8 2023-10-22     2023-10-22   2010-08-01 0.138066427840807  
+ 9 2023-10-22     2023-10-22   2010-09-01 0.0581736230715569 
+10 2023-10-22     2023-10-22   2010-10-01 0.124519888847696  
 # ℹ 154 more rows</code></pre>
 </div>
 </div>
@@ -1583,80 +1656,102 @@ gtag('config', 'G-6T89HT07F5', { 'anonymize_ip': true});
 <span id="cb117-3"><a href="#cb117-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">'GDP'</span>   <span class="ot">=</span> <span class="st">'GDPC1'</span>,</span>
 <span id="cb117-4"><a href="#cb117-4" aria-hidden="true" tabindex="-1"></a>  <span class="st">'Unemp'</span> <span class="ot">=</span> <span class="st">'UNRATE'</span></span>
 <span id="cb117-5"><a href="#cb117-5" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb117-6"><a href="#cb117-6" aria-hidden="true" tabindex="-1"></a>fred_data <span class="ot">&lt;-</span> purrr<span class="sc">::</span><span class="fu">map</span>(<span class="at">.x =</span> id_list, <span class="at">.f =</span> get_series)</span>
-<span id="cb117-7"><a href="#cb117-7" aria-hidden="true" tabindex="-1"></a>fred_data</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb117-6"><a href="#cb117-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb117-7"><a href="#cb117-7" aria-hidden="true" tabindex="-1"></a>fred_data <span class="ot">&lt;-</span> purrr<span class="sc">::</span><span class="fu">map</span>(</span>
+<span id="cb117-8"><a href="#cb117-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">.x =</span> id_list, </span>
+<span id="cb117-9"><a href="#cb117-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">.f =</span> get_series</span>
+<span id="cb117-10"><a href="#cb117-10" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb117-11"><a href="#cb117-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb117-12"><a href="#cb117-12" aria-hidden="true" tabindex="-1"></a>fred_data</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>$CPI
 # A tibble: 164 × 4
    realtime_start realtime_end date       value              
    &lt;chr&gt;          &lt;chr&gt;        &lt;chr&gt;      &lt;chr&gt;              
- 1 2023-10-12     2023-10-12   2010-01-01 0.34174735701485   
- 2 2023-10-12     2023-10-12   2010-02-01 0.024920738207648  
- 3 2023-10-12     2023-10-12   2010-03-01 0.410628353657108  
- 4 2023-10-12     2023-10-12   2010-04-01 0.173688491069743  
- 5 2023-10-12     2023-10-12   2010-05-01 0.0775197354237721 
- 6 2023-10-12     2023-10-12   2010-06-01 -0.0976267084673888
- 7 2023-10-12     2023-10-12   2010-07-01 0.0211043057371509 
- 8 2023-10-12     2023-10-12   2010-08-01 0.138066427840807  
- 9 2023-10-12     2023-10-12   2010-09-01 0.0581736230715569 
-10 2023-10-12     2023-10-12   2010-10-01 0.124519888847696  
+ 1 2023-10-22     2023-10-22   2010-01-01 0.34174735701485   
+ 2 2023-10-22     2023-10-22   2010-02-01 0.024920738207648  
+ 3 2023-10-22     2023-10-22   2010-03-01 0.410628353657108  
+ 4 2023-10-22     2023-10-22   2010-04-01 0.173688491069743  
+ 5 2023-10-22     2023-10-22   2010-05-01 0.0775197354237721 
+ 6 2023-10-22     2023-10-22   2010-06-01 -0.0976267084673888
+ 7 2023-10-22     2023-10-22   2010-07-01 0.0211043057371509 
+ 8 2023-10-22     2023-10-22   2010-08-01 0.138066427840807  
+ 9 2023-10-22     2023-10-22   2010-09-01 0.0581736230715569 
+10 2023-10-22     2023-10-22   2010-10-01 0.124519888847696  
 # ℹ 154 more rows
 
 $GDP
 # A tibble: 54 × 4
    realtime_start realtime_end date       value    
    &lt;chr&gt;          &lt;chr&gt;        &lt;chr&gt;      &lt;chr&gt;    
- 1 2023-10-12     2023-10-12   2010-01-01 16582.71 
- 2 2023-10-12     2023-10-12   2010-04-01 16743.162
- 3 2023-10-12     2023-10-12   2010-07-01 16872.266
- 4 2023-10-12     2023-10-12   2010-10-01 16960.864
- 5 2023-10-12     2023-10-12   2011-01-01 16920.632
- 6 2023-10-12     2023-10-12   2011-04-01 17035.114
- 7 2023-10-12     2023-10-12   2011-07-01 17031.313
- 8 2023-10-12     2023-10-12   2011-10-01 17222.583
- 9 2023-10-12     2023-10-12   2012-01-01 17367.01 
-10 2023-10-12     2023-10-12   2012-04-01 17444.525
+ 1 2023-10-22     2023-10-22   2010-01-01 16582.71 
+ 2 2023-10-22     2023-10-22   2010-04-01 16743.162
+ 3 2023-10-22     2023-10-22   2010-07-01 16872.266
+ 4 2023-10-22     2023-10-22   2010-10-01 16960.864
+ 5 2023-10-22     2023-10-22   2011-01-01 16920.632
+ 6 2023-10-22     2023-10-22   2011-04-01 17035.114
+ 7 2023-10-22     2023-10-22   2011-07-01 17031.313
+ 8 2023-10-22     2023-10-22   2011-10-01 17222.583
+ 9 2023-10-22     2023-10-22   2012-01-01 17367.01 
+10 2023-10-22     2023-10-22   2012-04-01 17444.525
 # ℹ 44 more rows
 
 $Unemp
 # A tibble: 165 × 4
    realtime_start realtime_end date       value
    &lt;chr&gt;          &lt;chr&gt;        &lt;chr&gt;      &lt;chr&gt;
- 1 2023-10-12     2023-10-12   2010-01-01 9.8  
- 2 2023-10-12     2023-10-12   2010-02-01 9.8  
- 3 2023-10-12     2023-10-12   2010-03-01 9.9  
- 4 2023-10-12     2023-10-12   2010-04-01 9.9  
- 5 2023-10-12     2023-10-12   2010-05-01 9.6  
- 6 2023-10-12     2023-10-12   2010-06-01 9.4  
- 7 2023-10-12     2023-10-12   2010-07-01 9.4  
- 8 2023-10-12     2023-10-12   2010-08-01 9.5  
- 9 2023-10-12     2023-10-12   2010-09-01 9.5  
-10 2023-10-12     2023-10-12   2010-10-01 9.4  
+ 1 2023-10-22     2023-10-22   2010-01-01 9.8  
+ 2 2023-10-22     2023-10-22   2010-02-01 9.8  
+ 3 2023-10-22     2023-10-22   2010-03-01 9.9  
+ 4 2023-10-22     2023-10-22   2010-04-01 9.9  
+ 5 2023-10-22     2023-10-22   2010-05-01 9.6  
+ 6 2023-10-22     2023-10-22   2010-06-01 9.4  
+ 7 2023-10-22     2023-10-22   2010-07-01 9.4  
+ 8 2023-10-22     2023-10-22   2010-08-01 9.5  
+ 9 2023-10-22     2023-10-22   2010-09-01 9.5  
+10 2023-10-22     2023-10-22   2010-10-01 9.4  
 # ℹ 155 more rows</code></pre>
 </div>
 </div>
 <p>We could make our function more general by allowing more parameters to vary. For example, we could have a different time span for each series (the <code>obs_start</code> object). The procedure would be almost the same: we would add an extra parameter in the function, create two vectors (lists) with the parameters values and use <code>map2</code> instead of <code>map</code>.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb119"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb119-1"><a href="#cb119-1" aria-hidden="true" tabindex="-1"></a>get_series2par <span class="ot">&lt;-</span> <span class="cf">function</span>(series_id, series_start){</span>
-<span id="cb119-2"><a href="#cb119-2" aria-hidden="true" tabindex="-1"></a>  api_url       <span class="ot">&lt;-</span> <span class="st">'https://api.stlouisfed.org/fred/series/observations?'</span></span>
-<span id="cb119-3"><a href="#cb119-3" aria-hidden="true" tabindex="-1"></a>  api_key       <span class="ot">&lt;-</span> api_fred_key</span>
-<span id="cb119-4"><a href="#cb119-4" aria-hidden="true" tabindex="-1"></a>  api_series_id <span class="ot">&lt;-</span> series_id</span>
-<span id="cb119-5"><a href="#cb119-5" aria-hidden="true" tabindex="-1"></a>  obs_start     <span class="ot">&lt;-</span> series_start</span>
-<span id="cb119-6"><a href="#cb119-6" aria-hidden="true" tabindex="-1"></a>  api_filetype  <span class="ot">&lt;-</span> <span class="st">'json'</span></span>
-<span id="cb119-7"><a href="#cb119-7" aria-hidden="true" tabindex="-1"></a>  api_request   <span class="ot">&lt;-</span> glue<span class="sc">::</span><span class="fu">glue</span>(<span class="st">'{api_url}series_id={api_series_id}&amp;observation_start={obs_start}&amp;api_key={api_key}&amp;file_type={api_filetype}'</span>)</span>
-<span id="cb119-8"><a href="#cb119-8" aria-hidden="true" tabindex="-1"></a>  cpi_request   <span class="ot">&lt;-</span> httr<span class="sc">::</span><span class="fu">GET</span>(<span class="at">url =</span> api_request)</span>
-<span id="cb119-9"><a href="#cb119-9" aria-hidden="true" tabindex="-1"></a>  cpi_content   <span class="ot">&lt;-</span> httr<span class="sc">::</span><span class="fu">content</span>(cpi_request, <span class="at">as =</span> <span class="st">'text'</span>)</span>
-<span id="cb119-10"><a href="#cb119-10" aria-hidden="true" tabindex="-1"></a>  cpi_list      <span class="ot">&lt;-</span> jsonlite<span class="sc">::</span><span class="fu">fromJSON</span>(cpi_content, <span class="at">flatten =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb119-11"><a href="#cb119-11" aria-hidden="true" tabindex="-1"></a>  cpi_tbl       <span class="ot">&lt;-</span> cpi_list[[<span class="st">'observations'</span>]] <span class="sc">%&gt;%</span> tibble<span class="sc">::</span><span class="fu">as_tibble</span>()</span>
-<span id="cb119-12"><a href="#cb119-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(cpi_tbl)</span>
-<span id="cb119-13"><a href="#cb119-13" aria-hidden="true" tabindex="-1"></a>} </span>
-<span id="cb119-14"><a href="#cb119-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb119-15"><a href="#cb119-15" aria-hidden="true" tabindex="-1"></a>time_list <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
-<span id="cb119-16"><a href="#cb119-16" aria-hidden="true" tabindex="-1"></a>  <span class="st">'CPI'</span>   <span class="ot">=</span> <span class="st">'2010-01-01'</span>,</span>
-<span id="cb119-17"><a href="#cb119-17" aria-hidden="true" tabindex="-1"></a>  <span class="st">'GDP'</span>   <span class="ot">=</span> <span class="st">'2012-04-01'</span>,</span>
-<span id="cb119-18"><a href="#cb119-18" aria-hidden="true" tabindex="-1"></a>  <span class="st">'Unemp'</span> <span class="ot">=</span> <span class="st">'2014-06-01'</span></span>
-<span id="cb119-19"><a href="#cb119-19" aria-hidden="true" tabindex="-1"></a>  )  </span>
-<span id="cb119-20"><a href="#cb119-20" aria-hidden="true" tabindex="-1"></a>fred_data2 <span class="ot">&lt;-</span> purrr<span class="sc">::</span><span class="fu">map2</span>(<span class="at">.x =</span> id_list, <span class="at">.y =</span> time_list, <span class="at">.f =</span> get_series2par)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb119"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb119-1"><a href="#cb119-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(glue)</span>
+<span id="cb119-2"><a href="#cb119-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb119-3"><a href="#cb119-3" aria-hidden="true" tabindex="-1"></a>get_series2par <span class="ot">&lt;-</span> <span class="cf">function</span>(series_id, series_start){</span>
+<span id="cb119-4"><a href="#cb119-4" aria-hidden="true" tabindex="-1"></a>  api_url       <span class="ot">&lt;-</span> <span class="st">'https://api.stlouisfed.org/fred/series/observations?'</span></span>
+<span id="cb119-5"><a href="#cb119-5" aria-hidden="true" tabindex="-1"></a>  api_key       <span class="ot">&lt;-</span> api_fred_key</span>
+<span id="cb119-6"><a href="#cb119-6" aria-hidden="true" tabindex="-1"></a>  api_series_id <span class="ot">&lt;-</span> series_id</span>
+<span id="cb119-7"><a href="#cb119-7" aria-hidden="true" tabindex="-1"></a>  obs_start     <span class="ot">&lt;-</span> series_start</span>
+<span id="cb119-8"><a href="#cb119-8" aria-hidden="true" tabindex="-1"></a>  api_filetype  <span class="ot">&lt;-</span> <span class="st">'json'</span></span>
+<span id="cb119-9"><a href="#cb119-9" aria-hidden="true" tabindex="-1"></a>  api_request   <span class="ot">&lt;-</span> <span class="fu">glue</span>(</span>
+<span id="cb119-10"><a href="#cb119-10" aria-hidden="true" tabindex="-1"></a>    <span class="st">'{api_url}series_id={</span></span>
+<span id="cb119-11"><a href="#cb119-11" aria-hidden="true" tabindex="-1"></a><span class="st">    api_series_id</span></span>
+<span id="cb119-12"><a href="#cb119-12" aria-hidden="true" tabindex="-1"></a><span class="st">    }&amp;observation_start={</span></span>
+<span id="cb119-13"><a href="#cb119-13" aria-hidden="true" tabindex="-1"></a><span class="st">    obs_start</span></span>
+<span id="cb119-14"><a href="#cb119-14" aria-hidden="true" tabindex="-1"></a><span class="st">    }&amp;api_key={</span></span>
+<span id="cb119-15"><a href="#cb119-15" aria-hidden="true" tabindex="-1"></a><span class="st">    api_key</span></span>
+<span id="cb119-16"><a href="#cb119-16" aria-hidden="true" tabindex="-1"></a><span class="st">    }&amp;file_type={</span></span>
+<span id="cb119-17"><a href="#cb119-17" aria-hidden="true" tabindex="-1"></a><span class="st">    api_filetype</span></span>
+<span id="cb119-18"><a href="#cb119-18" aria-hidden="true" tabindex="-1"></a><span class="st">    }'</span></span>
+<span id="cb119-19"><a href="#cb119-19" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb119-20"><a href="#cb119-20" aria-hidden="true" tabindex="-1"></a>  cpi_request   <span class="ot">&lt;-</span> httr<span class="sc">::</span><span class="fu">GET</span>(<span class="at">url =</span> api_request)</span>
+<span id="cb119-21"><a href="#cb119-21" aria-hidden="true" tabindex="-1"></a>  cpi_content   <span class="ot">&lt;-</span> httr<span class="sc">::</span><span class="fu">content</span>(cpi_request, <span class="at">as =</span> <span class="st">'text'</span>)</span>
+<span id="cb119-22"><a href="#cb119-22" aria-hidden="true" tabindex="-1"></a>  cpi_list      <span class="ot">&lt;-</span> jsonlite<span class="sc">::</span><span class="fu">fromJSON</span>(cpi_content, <span class="at">flatten =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb119-23"><a href="#cb119-23" aria-hidden="true" tabindex="-1"></a>  cpi_tbl       <span class="ot">&lt;-</span> cpi_list[[<span class="st">'observations'</span>]] <span class="sc">%&gt;%</span> tibble<span class="sc">::</span><span class="fu">as_tibble</span>()</span>
+<span id="cb119-24"><a href="#cb119-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(cpi_tbl)</span>
+<span id="cb119-25"><a href="#cb119-25" aria-hidden="true" tabindex="-1"></a>} </span>
+<span id="cb119-26"><a href="#cb119-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb119-27"><a href="#cb119-27" aria-hidden="true" tabindex="-1"></a>time_list <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
+<span id="cb119-28"><a href="#cb119-28" aria-hidden="true" tabindex="-1"></a>  <span class="st">'CPI'</span>   <span class="ot">=</span> <span class="st">'2010-01-01'</span>,</span>
+<span id="cb119-29"><a href="#cb119-29" aria-hidden="true" tabindex="-1"></a>  <span class="st">'GDP'</span>   <span class="ot">=</span> <span class="st">'2012-04-01'</span>,</span>
+<span id="cb119-30"><a href="#cb119-30" aria-hidden="true" tabindex="-1"></a>  <span class="st">'Unemp'</span> <span class="ot">=</span> <span class="st">'2014-06-01'</span></span>
+<span id="cb119-31"><a href="#cb119-31" aria-hidden="true" tabindex="-1"></a>  )  </span>
+<span id="cb119-32"><a href="#cb119-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb119-33"><a href="#cb119-33" aria-hidden="true" tabindex="-1"></a>fred_data2 <span class="ot">&lt;-</span> purrr<span class="sc">::</span><span class="fu">map2</span>(</span>
+<span id="cb119-34"><a href="#cb119-34" aria-hidden="true" tabindex="-1"></a>  <span class="at">.x =</span> id_list,</span>
+<span id="cb119-35"><a href="#cb119-35" aria-hidden="true" tabindex="-1"></a>  <span class="at">.y =</span> time_list, </span>
+<span id="cb119-36"><a href="#cb119-36" aria-hidden="true" tabindex="-1"></a>  <span class="at">.f =</span> get_series2par</span>
+<span id="cb119-37"><a href="#cb119-37" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>We must be careful with the example above because it may give the impression that <code>map2</code> takes into account the variables names in the process. It doesn’t! It actually considers how elements are sorted in each list. So if we changed the CPI to the second position in <code>time_list</code>, then we would end up with GDP data with CPI time span.</p>
 <p>A safer, thus preferable, alternative is to use names rather than positions as indexes. Since we can use <code>list[['element_name']]</code> to access an element in a list, we may reduce our problem to a single dimension by looping over variables names which are the same in both lists.</p>
@@ -1680,16 +1775,16 @@ $Unemp
 # Groups:   location [55]
    location               data                 
    &lt;chr&gt;                  &lt;list&gt;               
- 1 Albania                &lt;tibble [1,371 × 66]&gt;
- 2 Andorra                &lt;tibble [1,371 × 66]&gt;
- 3 Austria                &lt;tibble [1,371 × 66]&gt;
- 4 Belarus                &lt;tibble [1,371 × 66]&gt;
- 5 Belgium                &lt;tibble [1,371 × 66]&gt;
- 6 Bosnia and Herzegovina &lt;tibble [1,371 × 66]&gt;
- 7 Bulgaria               &lt;tibble [1,378 × 66]&gt;
- 8 Croatia                &lt;tibble [1,377 × 66]&gt;
- 9 Cyprus                 &lt;tibble [1,371 × 66]&gt;
-10 Czechia                &lt;tibble [1,378 × 66]&gt;
+ 1 Albania                &lt;tibble [1,385 × 66]&gt;
+ 2 Andorra                &lt;tibble [1,385 × 66]&gt;
+ 3 Austria                &lt;tibble [1,385 × 66]&gt;
+ 4 Belarus                &lt;tibble [1,385 × 66]&gt;
+ 5 Belgium                &lt;tibble [1,385 × 66]&gt;
+ 6 Bosnia and Herzegovina &lt;tibble [1,385 × 66]&gt;
+ 7 Bulgaria               &lt;tibble [1,388 × 66]&gt;
+ 8 Croatia                &lt;tibble [1,385 × 66]&gt;
+ 9 Cyprus                 &lt;tibble [1,385 × 66]&gt;
+10 Czechia                &lt;tibble [1,388 × 66]&gt;
 # ℹ 45 more rows</code></pre>
 </div>
 </div>
@@ -1717,16 +1812,16 @@ $Unemp
 # Groups:   location [55]
    location               data                  max_total_cases min_total_cases
    &lt;chr&gt;                  &lt;list&gt;                          &lt;dbl&gt;           &lt;dbl&gt;
- 1 Albania                &lt;tibble [1,371 × 66]&gt;          334090               2
- 2 Andorra                &lt;tibble [1,371 × 66]&gt;           48015               1
- 3 Austria                &lt;tibble [1,371 × 66]&gt;         6081287               1
- 4 Belarus                &lt;tibble [1,371 × 66]&gt;          994037               1
- 5 Belgium                &lt;tibble [1,371 × 66]&gt;         4817196               1
- 6 Bosnia and Herzegovina &lt;tibble [1,371 × 66]&gt;          403155               2
- 7 Bulgaria               &lt;tibble [1,378 × 66]&gt;         1302188               4
- 8 Croatia                &lt;tibble [1,377 × 66]&gt;         1275337               1
- 9 Cyprus                 &lt;tibble [1,371 × 66]&gt;          660854               2
-10 Czechia                &lt;tibble [1,378 × 66]&gt;         4651538               3
+ 1 Albania                &lt;tibble [1,385 × 66]&gt;          334090               2
+ 2 Andorra                &lt;tibble [1,385 × 66]&gt;           48015               1
+ 3 Austria                &lt;tibble [1,385 × 66]&gt;         6081287               1
+ 4 Belarus                &lt;tibble [1,385 × 66]&gt;          994037               1
+ 5 Belgium                &lt;tibble [1,385 × 66]&gt;         4817196               1
+ 6 Bosnia and Herzegovina &lt;tibble [1,385 × 66]&gt;          403203               2
+ 7 Bulgaria               &lt;tibble [1,388 × 66]&gt;         1302188               4
+ 8 Croatia                &lt;tibble [1,385 × 66]&gt;         1275762               1
+ 9 Cyprus                 &lt;tibble [1,385 × 66]&gt;          660854               2
+10 Czechia                &lt;tibble [1,388 × 66]&gt;         4657581               3
 # ℹ 45 more rows</code></pre>
 </div>
 </div>
@@ -1749,8 +1844,8 @@ $Unemp
 <div class="cell-output cell-output-stdout">
 <pre><code>Rows: 156
 Columns: 4
-$ realtime_start &lt;chr&gt; "2023-10-12", "2023-10-12", "2023-10-12", "2023-10-12",…
-$ realtime_end   &lt;chr&gt; "2023-10-12", "2023-10-12", "2023-10-12", "2023-10-12",…
+$ realtime_start &lt;chr&gt; "2023-10-22", "2023-10-22", "2023-10-22", "2023-10-22",…
+$ realtime_end   &lt;chr&gt; "2023-10-22", "2023-10-22", "2023-10-22", "2023-10-22",…
 $ date           &lt;chr&gt; "2010-01-01", "2010-02-01", "2010-03-01", "2010-04-01",…
 $ value          &lt;chr&gt; "0.34174735701485", "0.024920738207648", "0.41062835365…</code></pre>
 </div>
@@ -1765,7 +1860,12 @@ $ value          &lt;chr&gt; "0.34174735701485", "0.024920738207648", "0.4106283
 <span id="cb127-6"><a href="#cb127-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>() <span class="sc">+</span> </span>
 <span id="cb127-7"><a href="#cb127-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">x =</span> date, <span class="at">y =</span> value))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="ds_tidyverse_files/figure-html/unnamed-chunk-64-1.png" class="img-fluid" width="672"></p>
+<div id="fig-us-cpi-first-draft" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="ds_tidyverse_files/figure-html/fig-us-cpi-first-draft-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption class="figure-caption">Figure&nbsp;1.1: US CPI (%MoM) - The first draft of a plot.</figcaption>
+</figure>
+</div>
 </div>
 </div>
 <p>What should we care about this plot? Well, every plot must contain a meaningful title and labels for both x and y axes. We can set them using the <code>labs</code> layer. Additionally, we might want to have shorter intervals for dates (x-axis) and values (y-axis). There are also specific layers to control axes settings.</p>
@@ -1782,10 +1882,15 @@ $ value          &lt;chr&gt; "0.34174735701485", "0.024920738207648", "0.4106283
 <span id="cb128-10"><a href="#cb128-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">x     =</span> <span class="st">'Date'</span>,</span>
 <span id="cb128-11"><a href="#cb128-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">y     =</span> <span class="st">'US Monthly CPI (%)'</span></span>
 <span id="cb128-12"><a href="#cb128-12" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
-<span id="cb128-13"><a href="#cb128-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_date</span>(<span class="at">date_breaks =</span> <span class="st">'1 year'</span>, <span class="at">date_labels =</span> <span class="st">'%Y'</span>) <span class="sc">+</span></span>
+<span id="cb128-13"><a href="#cb128-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_date</span>(<span class="at">date_breaks =</span> <span class="st">'2 years'</span>, <span class="at">date_labels =</span> <span class="st">'%Y'</span>) <span class="sc">+</span></span>
 <span id="cb128-14"><a href="#cb128-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">breaks =</span> <span class="fu">seq</span>(<span class="sc">-</span><span class="dv">1</span>, <span class="fl">1.5</span>, <span class="fl">0.25</span>), <span class="at">limits =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>,<span class="fl">1.5</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="ds_tidyverse_files/figure-html/unnamed-chunk-65-1.png" class="img-fluid" width="672"></p>
+<div id="fig-us-cpi-nice-plot" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="ds_tidyverse_files/figure-html/fig-us-cpi-nice-plot-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption class="figure-caption">Figure&nbsp;1.2: US CPI (%MoM) - Plot with all the mandatory features.</figcaption>
+</figure>
+</div>
 </div>
 </div>
 <p>Finally, we could be interested in adding some feature to the plot in order to highlight the upward trend in CPI as of 2021. Either the 12-month-accumulated CPI or the 3-months-accumulated seasonally-adjusted CPI would be common choices for this task and we’ll see examples of how to perform this kind of computation later. For now, just to keep things simple we’ll use the average CPI from 2010 to 2019 (the pre-COVID period) as a measure of ‘normal’ CPI.</p>
@@ -1795,20 +1900,29 @@ $ value          &lt;chr&gt; "0.34174735701485", "0.024920738207648", "0.4106283
 <span id="cb129-3"><a href="#cb129-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">date =</span> <span class="fu">ymd</span>(date),</span>
 <span id="cb129-4"><a href="#cb129-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">value =</span> <span class="fu">as.numeric</span>(value)</span>
 <span id="cb129-5"><a href="#cb129-5" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span> </span>
-<span id="cb129-6"><a href="#cb129-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">value_avg =</span> <span class="fu">mean</span>(value[<span class="fu">which</span>(<span class="fu">year</span>(date) <span class="sc">%in%</span> <span class="dv">2010</span><span class="sc">:</span><span class="dv">2019</span>)])) <span class="sc">%&gt;%</span> </span>
-<span id="cb129-7"><a href="#cb129-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>() <span class="sc">+</span> </span>
-<span id="cb129-8"><a href="#cb129-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">x =</span> date, <span class="at">y =</span> value)) <span class="sc">+</span></span>
-<span id="cb129-9"><a href="#cb129-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">x =</span> date, <span class="at">y =</span> value_avg), <span class="at">color =</span> <span class="st">'red'</span>, <span class="at">lwd =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
-<span id="cb129-10"><a href="#cb129-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
-<span id="cb129-11"><a href="#cb129-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">title    =</span> <span class="st">'US CPI showing an upward trend as of 2021'</span>,</span>
-<span id="cb129-12"><a href="#cb129-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="st">'Red line is the 2010-2019 average'</span>,</span>
-<span id="cb129-13"><a href="#cb129-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">x        =</span> <span class="st">'Date'</span>,</span>
-<span id="cb129-14"><a href="#cb129-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">y        =</span> <span class="st">'US Monthly CPI (%)'</span></span>
-<span id="cb129-15"><a href="#cb129-15" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
-<span id="cb129-16"><a href="#cb129-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_date</span>(<span class="at">date_breaks =</span> <span class="st">'1 year'</span>, <span class="at">date_labels =</span> <span class="st">'%Y'</span>) <span class="sc">+</span></span>
-<span id="cb129-17"><a href="#cb129-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">breaks =</span> <span class="fu">seq</span>(<span class="sc">-</span><span class="dv">1</span>, <span class="dv">1</span>, <span class="fl">0.25</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb129-6"><a href="#cb129-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb129-7"><a href="#cb129-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">value_avg =</span> <span class="fu">mean</span>(</span>
+<span id="cb129-8"><a href="#cb129-8" aria-hidden="true" tabindex="-1"></a>      value[<span class="fu">which</span>(<span class="fu">year</span>(date) <span class="sc">%in%</span> <span class="dv">2010</span><span class="sc">:</span><span class="dv">2019</span>)]</span>
+<span id="cb129-9"><a href="#cb129-9" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb129-10"><a href="#cb129-10" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span> </span>
+<span id="cb129-11"><a href="#cb129-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>() <span class="sc">+</span> </span>
+<span id="cb129-12"><a href="#cb129-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">x =</span> date, <span class="at">y =</span> value)) <span class="sc">+</span></span>
+<span id="cb129-13"><a href="#cb129-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">x =</span> date, <span class="at">y =</span> value_avg), <span class="at">color =</span> <span class="st">'red'</span>, <span class="at">lwd =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb129-14"><a href="#cb129-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb129-15"><a href="#cb129-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">title    =</span> <span class="st">'US CPI showing an upward trend as of 2021'</span>,</span>
+<span id="cb129-16"><a href="#cb129-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="st">'Red line is the 2010-2019 average'</span>,</span>
+<span id="cb129-17"><a href="#cb129-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">x        =</span> <span class="st">'Date'</span>,</span>
+<span id="cb129-18"><a href="#cb129-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">y        =</span> <span class="st">'US Monthly CPI (%)'</span></span>
+<span id="cb129-19"><a href="#cb129-19" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb129-20"><a href="#cb129-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_date</span>(<span class="at">date_breaks =</span> <span class="st">'2 years'</span>, <span class="at">date_labels =</span> <span class="st">'%Y'</span>) <span class="sc">+</span></span>
+<span id="cb129-21"><a href="#cb129-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">breaks =</span> <span class="fu">seq</span>(<span class="sc">-</span><span class="dv">1</span>, <span class="dv">1</span>, <span class="fl">0.25</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="ds_tidyverse_files/figure-html/unnamed-chunk-66-1.png" class="img-fluid" width="672"></p>
+<div id="fig-us-cpi-nice-plot-mean" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="ds_tidyverse_files/figure-html/fig-us-cpi-nice-plot-mean-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption class="figure-caption">Figure&nbsp;1.3: US CPI (%MoM) - Adding horizontal line for the mean value.</figcaption>
+</figure>
+</div>
 </div>
 </div>
 <p>Since the parameter <code>x = date</code> appears in both <code>geom_line</code> layers, we could make the code more compact by moving this parameter to <code>ggplot()</code> function. All the parameters inside <code>ggplot()</code> are carried forward to every subsequent layer. It saves a lot of effort when we’re adding <code>geom_*</code>’s to a graphic with fixed features. In this graphic, <code>x</code> will always be the date variable regardless of any layer I insert on it.</p>
@@ -1818,18 +1932,22 @@ $ value          &lt;chr&gt; "0.34174735701485", "0.024920738207648", "0.4106283
 <span id="cb130-3"><a href="#cb130-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">date =</span> <span class="fu">ymd</span>(date),</span>
 <span id="cb130-4"><a href="#cb130-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">value =</span> <span class="fu">as.numeric</span>(value)</span>
 <span id="cb130-5"><a href="#cb130-5" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span> </span>
-<span id="cb130-6"><a href="#cb130-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">value_avg =</span> <span class="fu">mean</span>(value[<span class="fu">which</span>(<span class="fu">year</span>(date) <span class="sc">%in%</span> <span class="dv">2010</span><span class="sc">:</span><span class="dv">2019</span>)])) <span class="sc">%&gt;%</span> </span>
-<span id="cb130-7"><a href="#cb130-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> date)) <span class="sc">+</span> </span>
-<span id="cb130-8"><a href="#cb130-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">y =</span> value)) <span class="sc">+</span></span>
-<span id="cb130-9"><a href="#cb130-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">y =</span> value_avg), <span class="at">color =</span> <span class="st">'red'</span>, <span class="at">lwd =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
-<span id="cb130-10"><a href="#cb130-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
-<span id="cb130-11"><a href="#cb130-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">title    =</span> <span class="st">'US CPI showing an upward trend as of 2021'</span>,</span>
-<span id="cb130-12"><a href="#cb130-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="st">'Red line is the 2010-2019 average'</span>,</span>
-<span id="cb130-13"><a href="#cb130-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">x        =</span> <span class="st">'Date'</span>,</span>
-<span id="cb130-14"><a href="#cb130-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">y        =</span> <span class="st">'US Monthly CPI (%)'</span></span>
-<span id="cb130-15"><a href="#cb130-15" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
-<span id="cb130-16"><a href="#cb130-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_date</span>(<span class="at">date_breaks =</span> <span class="st">'1 year'</span>, <span class="at">date_labels =</span> <span class="st">'%Y'</span>) <span class="sc">+</span></span>
-<span id="cb130-17"><a href="#cb130-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">breaks =</span> <span class="fu">seq</span>(<span class="sc">-</span><span class="dv">1</span>, <span class="fl">1.5</span>, <span class="fl">0.25</span>), <span class="at">limits =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>, <span class="fl">1.5</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb130-6"><a href="#cb130-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb130-7"><a href="#cb130-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">value_avg =</span> <span class="fu">mean</span>(</span>
+<span id="cb130-8"><a href="#cb130-8" aria-hidden="true" tabindex="-1"></a>      value[<span class="fu">which</span>(<span class="fu">year</span>(date) <span class="sc">%in%</span> <span class="dv">2010</span><span class="sc">:</span><span class="dv">2019</span>)]</span>
+<span id="cb130-9"><a href="#cb130-9" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb130-10"><a href="#cb130-10" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span> </span>
+<span id="cb130-11"><a href="#cb130-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> date)) <span class="sc">+</span> </span>
+<span id="cb130-12"><a href="#cb130-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">y =</span> value)) <span class="sc">+</span></span>
+<span id="cb130-13"><a href="#cb130-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">y =</span> value_avg), <span class="at">color =</span> <span class="st">'red'</span>, <span class="at">lwd =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb130-14"><a href="#cb130-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb130-15"><a href="#cb130-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">title    =</span> <span class="st">'US CPI showing an upward trend as of 2021'</span>,</span>
+<span id="cb130-16"><a href="#cb130-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="st">'Red line is the 2010-2019 average'</span>,</span>
+<span id="cb130-17"><a href="#cb130-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">x        =</span> <span class="st">'Date'</span>,</span>
+<span id="cb130-18"><a href="#cb130-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">y        =</span> <span class="st">'US Monthly CPI (%)'</span></span>
+<span id="cb130-19"><a href="#cb130-19" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb130-20"><a href="#cb130-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_date</span>(<span class="at">date_breaks =</span> <span class="st">'1 year'</span>, <span class="at">date_labels =</span> <span class="st">'%Y'</span>) <span class="sc">+</span></span>
+<span id="cb130-21"><a href="#cb130-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">breaks =</span> <span class="fu">seq</span>(<span class="sc">-</span><span class="dv">1</span>, <span class="fl">1.5</span>, <span class="fl">0.25</span>), <span class="at">limits =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>, <span class="fl">1.5</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>You may be wondering why <code>x</code> and <code>y</code> parameters went inside the <code>aes</code> function whereas <code>color</code> went outside it. First of all, the parameters which set the graphic axes always go inside <code>aes</code>. Other parameters have a special role whether they appear either inside or outside <code>aes</code>. According to the documentation, <em>aesthetic mappings describe how variables in the data are mapped to visual properties (aesthetics) of geoms</em>. It’s much easier to understand through an example.</p>
 <p>In the graphic above, we used <code>color</code> outside <code>aes</code> to define which color we wanted for the graphic line. However, if we were to use <code>color</code> as an attribute to highlight different groups from the data, <code>color</code> should go inside <code>aes</code>. In addition, we should pass a variable onto it instead of color names. This variable might be discrete, in which case we would have one color per group; or it might be continuous, in which case we would have a color gradient according to its magnitude.</p>
@@ -1839,19 +1957,32 @@ $ value          &lt;chr&gt; "0.34174735701485", "0.024920738207648", "0.4106283
 <span id="cb131-2"><a href="#cb131-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
 <span id="cb131-3"><a href="#cb131-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">date  =</span> <span class="fu">ymd</span>(date),</span>
 <span id="cb131-4"><a href="#cb131-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">value =</span> <span class="fu">as.numeric</span>(value),</span>
-<span id="cb131-5"><a href="#cb131-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">covid =</span> <span class="fu">if_else</span>(<span class="fu">between</span>(date, <span class="fu">ymd</span>(<span class="st">'2020-03-01'</span>), <span class="fu">ymd</span>(<span class="st">'2022-12-01'</span>)), <span class="st">'Yes'</span>, <span class="st">'No'</span>)</span>
-<span id="cb131-6"><a href="#cb131-6" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">%&gt;%</span></span>
-<span id="cb131-7"><a href="#cb131-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>() <span class="sc">+</span> </span>
-<span id="cb131-8"><a href="#cb131-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">x =</span> date, <span class="at">y =</span> value, <span class="at">color =</span> covid), <span class="at">lwd =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
-<span id="cb131-9"><a href="#cb131-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
-<span id="cb131-10"><a href="#cb131-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">title    =</span> <span class="st">'US CPI showing an upward trend as of 2021'</span>,</span>
-<span id="cb131-11"><a href="#cb131-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">x        =</span> <span class="st">'Date'</span>,</span>
-<span id="cb131-12"><a href="#cb131-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">y        =</span> <span class="st">'US Monthly CPI (%)'</span></span>
-<span id="cb131-13"><a href="#cb131-13" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">+</span></span>
-<span id="cb131-14"><a href="#cb131-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_date</span>(<span class="at">date_breaks =</span> <span class="st">'1 year'</span>, <span class="at">date_labels =</span> <span class="st">'%Y'</span>) <span class="sc">+</span></span>
-<span id="cb131-15"><a href="#cb131-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">breaks =</span> <span class="fu">seq</span>(<span class="sc">-</span><span class="dv">1</span>, <span class="fl">1.5</span>, <span class="fl">0.25</span>), <span class="at">limits =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>, <span class="fl">1.5</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb131-5"><a href="#cb131-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">covid =</span> <span class="fu">if_else</span>(</span>
+<span id="cb131-6"><a href="#cb131-6" aria-hidden="true" tabindex="-1"></a>      <span class="fu">between</span>(</span>
+<span id="cb131-7"><a href="#cb131-7" aria-hidden="true" tabindex="-1"></a>        date, </span>
+<span id="cb131-8"><a href="#cb131-8" aria-hidden="true" tabindex="-1"></a>        <span class="fu">ymd</span>(<span class="st">'2020-03-01'</span>), </span>
+<span id="cb131-9"><a href="#cb131-9" aria-hidden="true" tabindex="-1"></a>        <span class="fu">ymd</span>(<span class="st">'2022-12-01'</span>)</span>
+<span id="cb131-10"><a href="#cb131-10" aria-hidden="true" tabindex="-1"></a>      ), </span>
+<span id="cb131-11"><a href="#cb131-11" aria-hidden="true" tabindex="-1"></a>      <span class="st">'Yes'</span>, </span>
+<span id="cb131-12"><a href="#cb131-12" aria-hidden="true" tabindex="-1"></a>      <span class="st">'No'</span></span>
+<span id="cb131-13"><a href="#cb131-13" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb131-14"><a href="#cb131-14" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb131-15"><a href="#cb131-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>() <span class="sc">+</span> </span>
+<span id="cb131-16"><a href="#cb131-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">x =</span> date, <span class="at">y =</span> value, <span class="at">color =</span> covid), <span class="at">lwd =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb131-17"><a href="#cb131-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb131-18"><a href="#cb131-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">title    =</span> <span class="st">'US CPI showing an upward trend as of 2021'</span>,</span>
+<span id="cb131-19"><a href="#cb131-19" aria-hidden="true" tabindex="-1"></a>    <span class="at">x        =</span> <span class="st">'Date'</span>,</span>
+<span id="cb131-20"><a href="#cb131-20" aria-hidden="true" tabindex="-1"></a>    <span class="at">y        =</span> <span class="st">'US Monthly CPI (%)'</span></span>
+<span id="cb131-21"><a href="#cb131-21" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb131-22"><a href="#cb131-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_date</span>(<span class="at">date_breaks =</span> <span class="st">'2 year'</span>, <span class="at">date_labels =</span> <span class="st">'%Y'</span>) <span class="sc">+</span></span>
+<span id="cb131-23"><a href="#cb131-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">breaks =</span> <span class="fu">seq</span>(<span class="sc">-</span><span class="dv">1</span>, <span class="fl">1.5</span>, <span class="fl">0.25</span>), <span class="at">limits =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>, <span class="fl">1.5</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="ds_tidyverse_files/figure-html/unnamed-chunk-68-1.png" class="img-fluid" width="672"></p>
+<div id="fig-us-cpi-nice-plot-covid" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="ds_tidyverse_files/figure-html/fig-us-cpi-nice-plot-covid-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption class="figure-caption">Figure&nbsp;1.4: US CPI (%MoM) - Using colors to distinguish between regimes.</figcaption>
+</figure>
+</div>
 </div>
 </div>
 <p>Note that <code>ggplot</code> automatically assigns colors for the attributes and adds a legend. So we could be interested in customize both the attributes’ colors and legend position. Again, this might be achieved by adding two specific layers. The logic will always be the same: <strong>parameters inside <code>aes</code> turn a variable into an attribute which might then be customized by specific layers</strong>.</p>
@@ -1860,20 +1991,33 @@ $ value          &lt;chr&gt; "0.34174735701485", "0.024920738207648", "0.4106283
 <span id="cb132-2"><a href="#cb132-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
 <span id="cb132-3"><a href="#cb132-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">date  =</span> <span class="fu">ymd</span>(date),</span>
 <span id="cb132-4"><a href="#cb132-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">value =</span> <span class="fu">as.numeric</span>(value),</span>
-<span id="cb132-5"><a href="#cb132-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">covid =</span> <span class="fu">if_else</span>(<span class="fu">between</span>(date, <span class="fu">ymd</span>(<span class="st">'2020-03-01'</span>), <span class="fu">ymd</span>(<span class="st">'2022-12-01'</span>)), <span class="st">'Yes'</span>, <span class="st">'No'</span>)</span>
-<span id="cb132-6"><a href="#cb132-6" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">%&gt;%</span> </span>
-<span id="cb132-7"><a href="#cb132-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>() <span class="sc">+</span> </span>
-<span id="cb132-8"><a href="#cb132-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">x =</span> date, <span class="at">y =</span> value, <span class="at">color =</span> covid), <span class="at">lwd =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
-<span id="cb132-9"><a href="#cb132-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
-<span id="cb132-10"><a href="#cb132-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">title    =</span> <span class="st">'US CPI showing an upward trend as of 2021'</span>,</span>
-<span id="cb132-11"><a href="#cb132-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">x        =</span> <span class="st">'Date'</span>,</span>
-<span id="cb132-12"><a href="#cb132-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">y        =</span> <span class="st">'US Monthly CPI (%)'</span>) <span class="sc">+</span></span>
-<span id="cb132-13"><a href="#cb132-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_date</span>(<span class="at">date_breaks =</span> <span class="st">'1 year'</span>, <span class="at">date_labels =</span> <span class="st">'%Y'</span>) <span class="sc">+</span></span>
-<span id="cb132-14"><a href="#cb132-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">breaks =</span> <span class="fu">seq</span>(<span class="sc">-</span><span class="dv">1</span>, <span class="fl">1.5</span>, <span class="fl">0.25</span>), <span class="at">limits =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>, <span class="fl">1.5</span>)) <span class="sc">+</span></span>
-<span id="cb132-15"><a href="#cb132-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">'darkgreen'</span>, <span class="st">'orange'</span>)) <span class="sc">+</span></span>
-<span id="cb132-16"><a href="#cb132-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">'top'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb132-5"><a href="#cb132-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">covid =</span> <span class="fu">if_else</span>(</span>
+<span id="cb132-6"><a href="#cb132-6" aria-hidden="true" tabindex="-1"></a>      <span class="fu">between</span>(</span>
+<span id="cb132-7"><a href="#cb132-7" aria-hidden="true" tabindex="-1"></a>        date, </span>
+<span id="cb132-8"><a href="#cb132-8" aria-hidden="true" tabindex="-1"></a>        <span class="fu">ymd</span>(<span class="st">'2020-03-01'</span>), </span>
+<span id="cb132-9"><a href="#cb132-9" aria-hidden="true" tabindex="-1"></a>        <span class="fu">ymd</span>(<span class="st">'2022-12-01'</span>)</span>
+<span id="cb132-10"><a href="#cb132-10" aria-hidden="true" tabindex="-1"></a>      ), </span>
+<span id="cb132-11"><a href="#cb132-11" aria-hidden="true" tabindex="-1"></a>      <span class="st">'Yes'</span>, </span>
+<span id="cb132-12"><a href="#cb132-12" aria-hidden="true" tabindex="-1"></a>      <span class="st">'No'</span></span>
+<span id="cb132-13"><a href="#cb132-13" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb132-14"><a href="#cb132-14" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span> </span>
+<span id="cb132-15"><a href="#cb132-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>() <span class="sc">+</span> </span>
+<span id="cb132-16"><a href="#cb132-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">x =</span> date, <span class="at">y =</span> value, <span class="at">color =</span> covid), <span class="at">lwd =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb132-17"><a href="#cb132-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb132-18"><a href="#cb132-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">title    =</span> <span class="st">'US CPI showing an upward trend as of 2021'</span>,</span>
+<span id="cb132-19"><a href="#cb132-19" aria-hidden="true" tabindex="-1"></a>    <span class="at">x        =</span> <span class="st">'Date'</span>,</span>
+<span id="cb132-20"><a href="#cb132-20" aria-hidden="true" tabindex="-1"></a>    <span class="at">y        =</span> <span class="st">'US Monthly CPI (%)'</span>) <span class="sc">+</span></span>
+<span id="cb132-21"><a href="#cb132-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_date</span>(<span class="at">date_breaks =</span> <span class="st">'2 years'</span>, <span class="at">date_labels =</span> <span class="st">'%Y'</span>) <span class="sc">+</span></span>
+<span id="cb132-22"><a href="#cb132-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">breaks =</span> <span class="fu">seq</span>(<span class="sc">-</span><span class="dv">1</span>, <span class="fl">1.5</span>, <span class="fl">0.25</span>), <span class="at">limits =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>, <span class="fl">1.5</span>)) <span class="sc">+</span></span>
+<span id="cb132-23"><a href="#cb132-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">'darkgreen'</span>, <span class="st">'orange'</span>)) <span class="sc">+</span></span>
+<span id="cb132-24"><a href="#cb132-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">'top'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="ds_tidyverse_files/figure-html/unnamed-chunk-69-1.png" class="img-fluid" width="672"></p>
+<div id="fig-us-cpi-nice-plot-covid-colors" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="ds_tidyverse_files/figure-html/fig-us-cpi-nice-plot-covid-colors-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption class="figure-caption">Figure&nbsp;1.5: US CPI (%MoM) - Changing the color of the lines.</figcaption>
+</figure>
+</div>
 </div>
 </div>
 <p>As a final example, we’ll see how to build a scatter plot and explore some additional features from <code>ggplot</code>. Scatter plots are usually employed to highlight the relationship between two variables in a given point in time. For this task, let’s use again the Covid data set. We’ll first filter the data to a given point in time, say 2021-07-31. Next, we’ll plot <code>people_fully_vaccinated_per_hundred</code> and <code>new_deaths_smoothed_per_million</code> on the <code>x</code> and <code>y</code> axes, respectively.<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a></p>
@@ -1887,16 +2031,47 @@ $ value          &lt;chr&gt; "0.34174735701485", "0.024920738207648", "0.4106283
 <span id="cb133-7"><a href="#cb133-7" aria-hidden="true" tabindex="-1"></a>      <span class="at">y =</span> new_deaths_smoothed_per_million</span>
 <span id="cb133-8"><a href="#cb133-8" aria-hidden="true" tabindex="-1"></a>    )</span>
 <span id="cb133-9"><a href="#cb133-9" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: Removed 160 rows containing missing values (`geom_point()`).</code></pre>
-</div>
 <div class="cell-output-display">
-<p><img src="ds_tidyverse_files/figure-html/unnamed-chunk-70-1.png" class="img-fluid" width="672"></p>
+<div id="fig-people-vaccinated" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="ds_tidyverse_files/figure-html/fig-people-vaccinated-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption class="figure-caption">Figure&nbsp;1.6: Scatter plot of people fully vaccinated (x-axis) vs.&nbsp;new deaths per million (y-axis)</figcaption>
+</figure>
+</div>
 </div>
 </div>
 <p>We saw earlier how to manually set the color to each group. It’s worth emphasizing that we’re by no means bounded to using colors names as <code>ggplot</code> also works with other tools such as HEX codes and the awesome ColorBrewer. ColorBrewer is an amazing source for color schemes carefully designed to improve visual communication. You can check this out at <a href="https://colorbrewer2.org/" class="uri">https://colorbrewer2.org/</a>.</p>
 <p>We’ll stick with ColorBrewer since it makes it effortless to assign a different color to each of the six continents. Notice that after choosing your desired pattern and palette in the website, you get some meta data (type and scheme) that will be used here.</p>
 <p>In addition, we’ll use <code>theme_light()</code> to make our plot cleaner. Basically, a theme is a set of pre-defined features for a graph. You can check other built-in themes, including <code>theme_dark()</code>, <code>theme_minimal()</code>, <code>theme_classic()</code> and so on.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb134"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb134-1"><a href="#cb134-1" aria-hidden="true" tabindex="-1"></a>covid_data <span class="sc">%&gt;%</span> </span>
+<span id="cb134-2"><a href="#cb134-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(</span>
+<span id="cb134-3"><a href="#cb134-3" aria-hidden="true" tabindex="-1"></a>    date <span class="sc">==</span> <span class="st">'2021-07-31'</span>,</span>
+<span id="cb134-4"><a href="#cb134-4" aria-hidden="true" tabindex="-1"></a>    <span class="sc">!</span><span class="fu">is.na</span>(continent)</span>
+<span id="cb134-5"><a href="#cb134-5" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span> </span>
+<span id="cb134-6"><a href="#cb134-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>() <span class="sc">+</span></span>
+<span id="cb134-7"><a href="#cb134-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(</span>
+<span id="cb134-8"><a href="#cb134-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">aes</span>(</span>
+<span id="cb134-9"><a href="#cb134-9" aria-hidden="true" tabindex="-1"></a>      <span class="at">x =</span> people_fully_vaccinated_per_hundred,</span>
+<span id="cb134-10"><a href="#cb134-10" aria-hidden="true" tabindex="-1"></a>      <span class="at">y =</span> new_deaths_smoothed_per_million,</span>
+<span id="cb134-11"><a href="#cb134-11" aria-hidden="true" tabindex="-1"></a>      <span class="at">color =</span> continent</span>
+<span id="cb134-12"><a href="#cb134-12" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb134-13"><a href="#cb134-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">size =</span> <span class="dv">3</span></span>
+<span id="cb134-14"><a href="#cb134-14" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb134-15"><a href="#cb134-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb134-16"><a href="#cb134-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">'New deaths in late July were above 5 per million people in </span><span class="sc">\n</span><span class="st"> countries where vaccination falls below 30% of population'</span>) <span class="sc">+</span></span>
+<span id="cb134-17"><a href="#cb134-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_brewer</span>(<span class="at">type =</span> <span class="st">'qual'</span>, <span class="at">palette =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb134-18"><a href="#cb134-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_light</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div id="fig-people-vaccinated-color" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="ds_tidyverse_files/figure-html/fig-people-vaccinated-color-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption class="figure-caption">Figure&nbsp;1.7: Scatter plot of people fully vaccinated (x-axis) vs.&nbsp;new deaths per million (y-axis) by continent.</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>To finish, instead of showing all the continents in a single plot we could separate them in multiple panels using <code>facet_wrap</code>. This feature is very useful when the range of values across the groups differ greatly in magnitude.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb135"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb135-1"><a href="#cb135-1" aria-hidden="true" tabindex="-1"></a>covid_data <span class="sc">%&gt;%</span> </span>
 <span id="cb135-2"><a href="#cb135-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(</span>
@@ -1907,50 +2082,29 @@ $ value          &lt;chr&gt; "0.34174735701485", "0.024920738207648", "0.4106283
 <span id="cb135-7"><a href="#cb135-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(</span>
 <span id="cb135-8"><a href="#cb135-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">aes</span>(</span>
 <span id="cb135-9"><a href="#cb135-9" aria-hidden="true" tabindex="-1"></a>      <span class="at">x =</span> people_fully_vaccinated_per_hundred,</span>
-<span id="cb135-10"><a href="#cb135-10" aria-hidden="true" tabindex="-1"></a>      <span class="at">y =</span> new_deaths_smoothed_per_million,</span>
-<span id="cb135-11"><a href="#cb135-11" aria-hidden="true" tabindex="-1"></a>      <span class="at">color =</span> continent</span>
-<span id="cb135-12"><a href="#cb135-12" aria-hidden="true" tabindex="-1"></a>    ),</span>
-<span id="cb135-13"><a href="#cb135-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">size =</span> <span class="dv">3</span></span>
-<span id="cb135-14"><a href="#cb135-14" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
-<span id="cb135-15"><a href="#cb135-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">'New deaths in late July were above 5 per million people in countries where </span><span class="sc">\n</span><span class="st"> vaccination falls below 30% of population'</span>) <span class="sc">+</span></span>
-<span id="cb135-16"><a href="#cb135-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_brewer</span>(<span class="at">type =</span> <span class="st">'qual'</span>, <span class="at">palette =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
-<span id="cb135-17"><a href="#cb135-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_light</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: Removed 160 rows containing missing values (`geom_point()`).</code></pre>
-</div>
+<span id="cb135-10"><a href="#cb135-10" aria-hidden="true" tabindex="-1"></a>      <span class="at">y =</span> new_deaths_smoothed_per_million</span>
+<span id="cb135-11"><a href="#cb135-11" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb135-12"><a href="#cb135-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">size =</span> <span class="dv">3</span></span>
+<span id="cb135-13"><a href="#cb135-13" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb135-14"><a href="#cb135-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb135-15"><a href="#cb135-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">'New deaths in late July were above 5 per million people in </span><span class="sc">\n</span><span class="st"> countries where vaccination falls below 30% of population'</span></span>
+<span id="cb135-16"><a href="#cb135-16" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">+</span></span>
+<span id="cb135-17"><a href="#cb135-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_light</span>() <span class="sc">+</span></span>
+<span id="cb135-18"><a href="#cb135-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span> continent)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="ds_tidyverse_files/figure-html/unnamed-chunk-71-1.png" class="img-fluid" width="672"></p>
+<div id="fig-people-vaccinated-facet" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="ds_tidyverse_files/figure-html/fig-people-vaccinated-facet-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption class="figure-caption">Figure&nbsp;1.8: Scatter plot of people fully vaccinated (x-axis) vs.&nbsp;new deaths per million (y-axis) by continent using facets</figcaption>
+</figure>
 </div>
-</div>
-<p>To finish, instead of showing all the continents in a single plot we could separate them in multiple panels using <code>facet_wrap</code>. This feature is very useful when the range of values across the groups differ greatly in magnitude.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb137"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb137-1"><a href="#cb137-1" aria-hidden="true" tabindex="-1"></a>covid_data <span class="sc">%&gt;%</span> </span>
-<span id="cb137-2"><a href="#cb137-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(</span>
-<span id="cb137-3"><a href="#cb137-3" aria-hidden="true" tabindex="-1"></a>    date <span class="sc">==</span> <span class="st">'2021-07-31'</span>,</span>
-<span id="cb137-4"><a href="#cb137-4" aria-hidden="true" tabindex="-1"></a>    <span class="sc">!</span><span class="fu">is.na</span>(continent)</span>
-<span id="cb137-5"><a href="#cb137-5" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span> </span>
-<span id="cb137-6"><a href="#cb137-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>() <span class="sc">+</span></span>
-<span id="cb137-7"><a href="#cb137-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(</span>
-<span id="cb137-8"><a href="#cb137-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">aes</span>(</span>
-<span id="cb137-9"><a href="#cb137-9" aria-hidden="true" tabindex="-1"></a>      <span class="at">x =</span> people_fully_vaccinated_per_hundred,</span>
-<span id="cb137-10"><a href="#cb137-10" aria-hidden="true" tabindex="-1"></a>      <span class="at">y =</span> new_deaths_smoothed_per_million</span>
-<span id="cb137-11"><a href="#cb137-11" aria-hidden="true" tabindex="-1"></a>    ),</span>
-<span id="cb137-12"><a href="#cb137-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">size =</span> <span class="dv">3</span></span>
-<span id="cb137-13"><a href="#cb137-13" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
-<span id="cb137-14"><a href="#cb137-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
-<span id="cb137-15"><a href="#cb137-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">'New deaths in late July were above 5 per million people in countries where </span><span class="sc">\n</span><span class="st"> vaccination falls below 30% of population'</span></span>
-<span id="cb137-16"><a href="#cb137-16" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">+</span></span>
-<span id="cb137-17"><a href="#cb137-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_light</span>() <span class="sc">+</span></span>
-<span id="cb137-18"><a href="#cb137-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span> continent)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-display">
-<p><img src="ds_tidyverse_files/figure-html/unnamed-chunk-72-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 <p>Since we have a separate panel for each continent, it’s no longer necessary to assign a different color for each of them. As you go through the next Chapters, you’ll see more plotting features and tips on how to improve data visualization.</p>
 </section>
 <section id="tables" class="level2" data-number="1.6">
 <h2 data-number="1.6" class="anchored" data-anchor-id="tables"><span class="header-section-number">1.6</span> Tables</h2>
-<p>Graphs are the right tool to show historical data or relationship between variables. Nonetheless, we often need to send reports with detailed data from the latest release of a certain variable. Tables are much better suited for this type of task and the <code>gt</code> package is awesome when it comes to customizing tables. It’s worth taking a look at the package’s <a href="https://gt.rstudio.com/">website</a> to get a better sense of the syntax.</p>
+<p>Graphs are the right tool to show historical data or relationship between variables. Nonetheless, we often need to send reports with detailed data from the latest release of a certain variable. Tables are much better suited for this type of task and the <code>gt</code> package is awesome when it comes to customizing tables. It’s worth taking a look at the package’s website (https://gt.rstudio.com/) to get a better sense of the syntax.</p>
 <p>In the following example, we will see how to organize the data properly to convert it into a nice-looking table. The data frame <code>us_gdp</code> below contains data on the contributions to percent change in real gross domestic product (annual rates) for the US economy released by the Bureau of Economic Analysis of the U.S Department of Commerce (BEA).</p>
 <div class="cell">
 <div class="cell-output cell-output-stdout">
@@ -1975,17 +2129,43 @@ $ value          &lt;chr&gt; "0.34174735701485", "0.024920738207648", "0.4106283
 </div>
 </div>
 <p>The data frame is in long format, which is not suitable for a table. So, we’ll start by pivoting our data frame so as the dates goes across the columns and the variables (the breakdown of the contributions to the US GDP) goes across the rows. Then, we’ll transform it in a <code>gt</code> object.</p>
+<div>
+<div class="sourceCode cell-code" id="cb137"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb137-1"><a href="#cb137-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gt)</span>
+<span id="cb137-2"><a href="#cb137-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb137-3"><a href="#cb137-3" aria-hidden="true" tabindex="-1"></a>us_gdp_gt <span class="ot">&lt;-</span> us_gdp <span class="sc">%&gt;%</span></span>
+<span id="cb137-4"><a href="#cb137-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(</span>
+<span id="cb137-5"><a href="#cb137-5" aria-hidden="true" tabindex="-1"></a>    <span class="sc">-</span>Quarter, </span>
+<span id="cb137-6"><a href="#cb137-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">names_to =</span> <span class="st">'var'</span>, </span>
+<span id="cb137-7"><a href="#cb137-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">values_to =</span> <span class="st">'value'</span></span>
+<span id="cb137-8"><a href="#cb137-8" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span> </span>
+<span id="cb137-9"><a href="#cb137-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Quarter <span class="sc">&gt;=</span> <span class="st">'2021 Q1'</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb137-10"><a href="#cb137-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(</span>
+<span id="cb137-11"><a href="#cb137-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">names_from  =</span> Quarter, </span>
+<span id="cb137-12"><a href="#cb137-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">values_from =</span> value</span>
+<span id="cb137-13"><a href="#cb137-13" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">%&gt;%</span> </span>
+<span id="cb137-14"><a href="#cb137-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gt</span>(</span>
+<span id="cb137-15"><a href="#cb137-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">rowname_col =</span> <span class="st">"var"</span></span>
+<span id="cb137-16"><a href="#cb137-16" aria-hidden="true" tabindex="-1"></a>    ) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="tbl-gdp-us" class="cell tbl-parent quarto-layout-panel anchored" data-tbl-cap="US GDP components (%YoY) - First draft of a table.">
+<div class="panel-caption table-caption">
+<p><strong>?(caption)</strong></p>
+</div>
+</div>
+</div>
+<p>Okay, we have a rough draft of a table. Now, we can add some labs such as title, subtitle and source note.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb139"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb139-1"><a href="#cb139-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gt)</span>
-<span id="cb139-2"><a href="#cb139-2" aria-hidden="true" tabindex="-1"></a>us_gdp_gt <span class="ot">&lt;-</span> us_gdp <span class="sc">%&gt;%</span></span>
-<span id="cb139-3"><a href="#cb139-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="sc">-</span>Quarter, <span class="at">names_to =</span> <span class="st">'var'</span>, <span class="at">values_to =</span> <span class="st">'value'</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb139-4"><a href="#cb139-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Quarter <span class="sc">&gt;=</span> <span class="st">'2021 Q1'</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb139-5"><a href="#cb139-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(<span class="at">names_from =</span> Quarter, <span class="at">values_from =</span> value) <span class="sc">%&gt;%</span> </span>
-<span id="cb139-6"><a href="#cb139-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gt</span>(</span>
-<span id="cb139-7"><a href="#cb139-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">rowname_col =</span> <span class="st">"var"</span></span>
-<span id="cb139-8"><a href="#cb139-8" aria-hidden="true" tabindex="-1"></a>    ) </span>
-<span id="cb139-9"><a href="#cb139-9" aria-hidden="true" tabindex="-1"></a>us_gdp_gt</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb138"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb138-1"><a href="#cb138-1" aria-hidden="true" tabindex="-1"></a>us_gdp_gt <span class="ot">&lt;-</span> us_gdp_gt <span class="sc">%&gt;%</span> </span>
+<span id="cb138-2"><a href="#cb138-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tab_header</span>(</span>
+<span id="cb138-3"><a href="#cb138-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Contributions to percent change in real gross domestic product"</span>,</span>
+<span id="cb138-4"><a href="#cb138-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="st">"Annual rates"</span></span>
+<span id="cb138-5"><a href="#cb138-5" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span> </span>
+<span id="cb138-6"><a href="#cb138-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tab_source_note</span>(</span>
+<span id="cb138-7"><a href="#cb138-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">source_note =</span> <span class="st">"Source: U.S Bureau of Economic Analysis (BEA)"</span></span>
+<span id="cb138-8"><a href="#cb138-8" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb138-9"><a href="#cb138-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb138-10"><a href="#cb138-10" aria-hidden="true" tabindex="-1"></a>us_gdp_gt</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
+<div id="tbl-gdp-us-nice" class="anchored">
 
 <div id="osncjrvket" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>#osncjrvket table {
@@ -2427,9 +2607,14 @@ $ value          &lt;chr&gt; "0.34174735701485", "0.024920738207648", "0.4106283
   text-indent: 25px;
 }
 </style>
-<table class="gt_table" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
+<table class="gt_table" data-quarto-disable-processing="false" data-quarto-bootstrap="false"><caption>Table&nbsp;1.1:  <p>US GDP components (%YoY) - Table with the mandatory features.</p> </caption>
   <thead>
-    
+    <tr class="gt_heading">
+      <td colspan="9" class="gt_heading gt_title gt_font_normal" style="">Contributions to percent change in real gross domestic product</td>
+    </tr>
+    <tr class="gt_heading">
+      <td colspan="9" class="gt_heading gt_subtitle gt_font_normal gt_bottom_border" style="">Annual rates</td>
+    </tr>
     <tr class="gt_col_headings">
       <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id=""></th>
       <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="2021 Q1">2021 Q1</th>
@@ -2480,24 +2665,28 @@ $ value          &lt;chr&gt; "0.34174735701485", "0.024920738207648", "0.4106283
 <td headers="stub_1_4 2022 Q3" class="gt_row gt_right">0.07</td>
 <td headers="stub_1_4 2022 Q4" class="gt_row gt_right">0.26</td></tr>
   </tbody>
-  
+  <tfoot class="gt_sourcenotes">
+    <tr>
+      <td class="gt_sourcenote" colspan="9">Source: U.S Bureau of Economic Analysis (BEA)</td>
+    </tr>
+  </tfoot>
   
 </table>
 </div>
 </div>
 </div>
-<p>Okay, we have a rough draft of a table. Now, we can add some labs such as title, subtitle and source note.</p>
+</div>
+<p>The <code>tab_spanner</code> feature allows us to organize columns under a common label. We can use one of its variation (<code>tab_spanner_delim</code>) to organize the quarters under the respective year in order to make our table more compact and nice-looking.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb140"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb140-1"><a href="#cb140-1" aria-hidden="true" tabindex="-1"></a>us_gdp_gt <span class="ot">&lt;-</span> us_gdp_gt <span class="sc">%&gt;%</span> </span>
-<span id="cb140-2"><a href="#cb140-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tab_header</span>(</span>
-<span id="cb140-3"><a href="#cb140-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Contributions to percent change in real gross domestic product"</span>,</span>
-<span id="cb140-4"><a href="#cb140-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="st">"Annual rates"</span></span>
-<span id="cb140-5"><a href="#cb140-5" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span> </span>
-<span id="cb140-6"><a href="#cb140-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tab_source_note</span>(</span>
-<span id="cb140-7"><a href="#cb140-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">source_note =</span> <span class="st">"Source: U.S Bureau of Economic Analysis (BEA)"</span></span>
-<span id="cb140-8"><a href="#cb140-8" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb140-9"><a href="#cb140-9" aria-hidden="true" tabindex="-1"></a>us_gdp_gt</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb139"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb139-1"><a href="#cb139-1" aria-hidden="true" tabindex="-1"></a>us_gdp_gt <span class="ot">&lt;-</span> us_gdp_gt <span class="sc">%&gt;%</span> </span>
+<span id="cb139-2"><a href="#cb139-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tab_spanner_delim</span>(</span>
+<span id="cb139-3"><a href="#cb139-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">columns =</span> <span class="sc">-</span>var,</span>
+<span id="cb139-4"><a href="#cb139-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">delim =</span> <span class="st">' '</span> </span>
+<span id="cb139-5"><a href="#cb139-5" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb139-6"><a href="#cb139-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb139-7"><a href="#cb139-7" aria-hidden="true" tabindex="-1"></a>us_gdp_gt</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
+<div id="tbl-gdp-us-nice-tidy" class="anchored">
 
 <div id="nvyzesyyic" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>#nvyzesyyic table {
@@ -2939,525 +3128,7 @@ $ value          &lt;chr&gt; "0.34174735701485", "0.024920738207648", "0.4106283
   text-indent: 25px;
 }
 </style>
-<table class="gt_table" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
-  <thead>
-    <tr class="gt_heading">
-      <td colspan="9" class="gt_heading gt_title gt_font_normal" style="">Contributions to percent change in real gross domestic product</td>
-    </tr>
-    <tr class="gt_heading">
-      <td colspan="9" class="gt_heading gt_subtitle gt_font_normal gt_bottom_border" style="">Annual rates</td>
-    </tr>
-    <tr class="gt_col_headings">
-      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id=""></th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="2021 Q1">2021 Q1</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="2021 Q2">2021 Q2</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="2021 Q3">2021 Q3</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="2021 Q4">2021 Q4</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="2022 Q1">2022 Q1</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="2022 Q2">2022 Q2</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="2022 Q3">2022 Q3</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="2022 Q4">2022 Q4</th>
-    </tr>
-  </thead>
-  <tbody class="gt_table_body">
-    <tr><th id="stub_1_1" scope="row" class="gt_row gt_left gt_stub">Goods</th>
-<td headers="stub_1_1 2021 Q1" class="gt_row gt_right">2.50</td>
-<td headers="stub_1_1 2021 Q2" class="gt_row gt_right">3.01</td>
-<td headers="stub_1_1 2021 Q3" class="gt_row gt_right">-0.02</td>
-<td headers="stub_1_1 2021 Q4" class="gt_row gt_right">5.52</td>
-<td headers="stub_1_1 2022 Q1" class="gt_row gt_right">-1.76</td>
-<td headers="stub_1_1 2022 Q2" class="gt_row gt_right">-0.96</td>
-<td headers="stub_1_1 2022 Q3" class="gt_row gt_right">2.28</td>
-<td headers="stub_1_1 2022 Q4" class="gt_row gt_right">1.83</td></tr>
-    <tr><th id="stub_1_2" scope="row" class="gt_row gt_left gt_stub">Services</th>
-<td headers="stub_1_2 2021 Q1" class="gt_row gt_right">3.46</td>
-<td headers="stub_1_2 2021 Q2" class="gt_row gt_right">4.54</td>
-<td headers="stub_1_2 2021 Q3" class="gt_row gt_right">3.16</td>
-<td headers="stub_1_2 2021 Q4" class="gt_row gt_right">1.91</td>
-<td headers="stub_1_2 2022 Q1" class="gt_row gt_right">0.57</td>
-<td headers="stub_1_2 2022 Q2" class="gt_row gt_right">1.83</td>
-<td headers="stub_1_2 2022 Q3" class="gt_row gt_right">2.30</td>
-<td headers="stub_1_2 2022 Q4" class="gt_row gt_right">1.44</td></tr>
-    <tr><th id="stub_1_3" scope="row" class="gt_row gt_left gt_stub">Structures</th>
-<td headers="stub_1_3 2021 Q1" class="gt_row gt_right">0.35</td>
-<td headers="stub_1_3 2021 Q2" class="gt_row gt_right">-0.55</td>
-<td headers="stub_1_3 2021 Q3" class="gt_row gt_right">-0.49</td>
-<td headers="stub_1_3 2021 Q4" class="gt_row gt_right">-0.47</td>
-<td headers="stub_1_3 2022 Q1" class="gt_row gt_right">-0.44</td>
-<td headers="stub_1_3 2022 Q2" class="gt_row gt_right">-1.44</td>
-<td headers="stub_1_3 2022 Q3" class="gt_row gt_right">-1.34</td>
-<td headers="stub_1_3 2022 Q4" class="gt_row gt_right">-0.70</td></tr>
-    <tr><th id="stub_1_4" scope="row" class="gt_row gt_left gt_stub">Motor vehicle output</th>
-<td headers="stub_1_4 2021 Q1" class="gt_row gt_right">0.12</td>
-<td headers="stub_1_4 2021 Q2" class="gt_row gt_right">-0.22</td>
-<td headers="stub_1_4 2021 Q3" class="gt_row gt_right">-1.42</td>
-<td headers="stub_1_4 2021 Q4" class="gt_row gt_right">0.98</td>
-<td headers="stub_1_4 2022 Q1" class="gt_row gt_right">-0.10</td>
-<td headers="stub_1_4 2022 Q2" class="gt_row gt_right">-0.10</td>
-<td headers="stub_1_4 2022 Q3" class="gt_row gt_right">0.07</td>
-<td headers="stub_1_4 2022 Q4" class="gt_row gt_right">0.26</td></tr>
-  </tbody>
-  <tfoot class="gt_sourcenotes">
-    <tr>
-      <td class="gt_sourcenote" colspan="9">Source: U.S Bureau of Economic Analysis (BEA)</td>
-    </tr>
-  </tfoot>
-  
-</table>
-</div>
-</div>
-</div>
-<p>The <code>tab_spanner</code> feature allows us to organize columns under a common label. We can use one of its variation (<code>tab_spanner_delim</code>) to organize the quarters under the respective year in order to make our table more compact and nice-looking.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb141"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb141-1"><a href="#cb141-1" aria-hidden="true" tabindex="-1"></a>us_gdp_gt <span class="ot">&lt;-</span> us_gdp_gt <span class="sc">%&gt;%</span> </span>
-<span id="cb141-2"><a href="#cb141-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tab_spanner_delim</span>(</span>
-<span id="cb141-3"><a href="#cb141-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">columns =</span> <span class="sc">-</span>var,</span>
-<span id="cb141-4"><a href="#cb141-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">delim =</span> <span class="st">' '</span> </span>
-<span id="cb141-5"><a href="#cb141-5" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb141-6"><a href="#cb141-6" aria-hidden="true" tabindex="-1"></a>us_gdp_gt</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-display">
-
-<div id="hzgjisdnqk" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#hzgjisdnqk table {
-  font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-#hzgjisdnqk thead, #hzgjisdnqk tbody, #hzgjisdnqk tfoot, #hzgjisdnqk tr, #hzgjisdnqk td, #hzgjisdnqk th {
-  border-style: none;
-}
-
-#hzgjisdnqk p {
-  margin: 0;
-  padding: 0;
-}
-
-#hzgjisdnqk .gt_table {
-  display: table;
-  border-collapse: collapse;
-  line-height: normal;
-  margin-left: auto;
-  margin-right: auto;
-  color: #333333;
-  font-size: 16px;
-  font-weight: normal;
-  font-style: normal;
-  background-color: #FFFFFF;
-  width: auto;
-  border-top-style: solid;
-  border-top-width: 2px;
-  border-top-color: #A8A8A8;
-  border-right-style: none;
-  border-right-width: 2px;
-  border-right-color: #D3D3D3;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #A8A8A8;
-  border-left-style: none;
-  border-left-width: 2px;
-  border-left-color: #D3D3D3;
-}
-
-#hzgjisdnqk .gt_caption {
-  padding-top: 4px;
-  padding-bottom: 4px;
-}
-
-#hzgjisdnqk .gt_title {
-  color: #333333;
-  font-size: 125%;
-  font-weight: initial;
-  padding-top: 4px;
-  padding-bottom: 4px;
-  padding-left: 5px;
-  padding-right: 5px;
-  border-bottom-color: #FFFFFF;
-  border-bottom-width: 0;
-}
-
-#hzgjisdnqk .gt_subtitle {
-  color: #333333;
-  font-size: 85%;
-  font-weight: initial;
-  padding-top: 3px;
-  padding-bottom: 5px;
-  padding-left: 5px;
-  padding-right: 5px;
-  border-top-color: #FFFFFF;
-  border-top-width: 0;
-}
-
-#hzgjisdnqk .gt_heading {
-  background-color: #FFFFFF;
-  text-align: center;
-  border-bottom-color: #FFFFFF;
-  border-left-style: none;
-  border-left-width: 1px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 1px;
-  border-right-color: #D3D3D3;
-}
-
-#hzgjisdnqk .gt_bottom_border {
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-}
-
-#hzgjisdnqk .gt_col_headings {
-  border-top-style: solid;
-  border-top-width: 2px;
-  border-top-color: #D3D3D3;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  border-left-style: none;
-  border-left-width: 1px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 1px;
-  border-right-color: #D3D3D3;
-}
-
-#hzgjisdnqk .gt_col_heading {
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: normal;
-  text-transform: inherit;
-  border-left-style: none;
-  border-left-width: 1px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 1px;
-  border-right-color: #D3D3D3;
-  vertical-align: bottom;
-  padding-top: 5px;
-  padding-bottom: 6px;
-  padding-left: 5px;
-  padding-right: 5px;
-  overflow-x: hidden;
-}
-
-#hzgjisdnqk .gt_column_spanner_outer {
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: normal;
-  text-transform: inherit;
-  padding-top: 0;
-  padding-bottom: 0;
-  padding-left: 4px;
-  padding-right: 4px;
-}
-
-#hzgjisdnqk .gt_column_spanner_outer:first-child {
-  padding-left: 0;
-}
-
-#hzgjisdnqk .gt_column_spanner_outer:last-child {
-  padding-right: 0;
-}
-
-#hzgjisdnqk .gt_column_spanner {
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  vertical-align: bottom;
-  padding-top: 5px;
-  padding-bottom: 5px;
-  overflow-x: hidden;
-  display: inline-block;
-  width: 100%;
-}
-
-#hzgjisdnqk .gt_spanner_row {
-  border-bottom-style: hidden;
-}
-
-#hzgjisdnqk .gt_group_heading {
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: initial;
-  text-transform: inherit;
-  border-top-style: solid;
-  border-top-width: 2px;
-  border-top-color: #D3D3D3;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  border-left-style: none;
-  border-left-width: 1px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 1px;
-  border-right-color: #D3D3D3;
-  vertical-align: middle;
-  text-align: left;
-}
-
-#hzgjisdnqk .gt_empty_group_heading {
-  padding: 0.5px;
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: initial;
-  border-top-style: solid;
-  border-top-width: 2px;
-  border-top-color: #D3D3D3;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  vertical-align: middle;
-}
-
-#hzgjisdnqk .gt_from_md > :first-child {
-  margin-top: 0;
-}
-
-#hzgjisdnqk .gt_from_md > :last-child {
-  margin-bottom: 0;
-}
-
-#hzgjisdnqk .gt_row {
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-  margin: 10px;
-  border-top-style: solid;
-  border-top-width: 1px;
-  border-top-color: #D3D3D3;
-  border-left-style: none;
-  border-left-width: 1px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 1px;
-  border-right-color: #D3D3D3;
-  vertical-align: middle;
-  overflow-x: hidden;
-}
-
-#hzgjisdnqk .gt_stub {
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: initial;
-  text-transform: inherit;
-  border-right-style: solid;
-  border-right-width: 2px;
-  border-right-color: #D3D3D3;
-  padding-left: 5px;
-  padding-right: 5px;
-}
-
-#hzgjisdnqk .gt_stub_row_group {
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: initial;
-  text-transform: inherit;
-  border-right-style: solid;
-  border-right-width: 2px;
-  border-right-color: #D3D3D3;
-  padding-left: 5px;
-  padding-right: 5px;
-  vertical-align: top;
-}
-
-#hzgjisdnqk .gt_row_group_first td {
-  border-top-width: 2px;
-}
-
-#hzgjisdnqk .gt_row_group_first th {
-  border-top-width: 2px;
-}
-
-#hzgjisdnqk .gt_summary_row {
-  color: #333333;
-  background-color: #FFFFFF;
-  text-transform: inherit;
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-}
-
-#hzgjisdnqk .gt_first_summary_row {
-  border-top-style: solid;
-  border-top-color: #D3D3D3;
-}
-
-#hzgjisdnqk .gt_first_summary_row.thick {
-  border-top-width: 2px;
-}
-
-#hzgjisdnqk .gt_last_summary_row {
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-}
-
-#hzgjisdnqk .gt_grand_summary_row {
-  color: #333333;
-  background-color: #FFFFFF;
-  text-transform: inherit;
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-}
-
-#hzgjisdnqk .gt_first_grand_summary_row {
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-  border-top-style: double;
-  border-top-width: 6px;
-  border-top-color: #D3D3D3;
-}
-
-#hzgjisdnqk .gt_last_grand_summary_row_top {
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-  border-bottom-style: double;
-  border-bottom-width: 6px;
-  border-bottom-color: #D3D3D3;
-}
-
-#hzgjisdnqk .gt_striped {
-  background-color: rgba(128, 128, 128, 0.05);
-}
-
-#hzgjisdnqk .gt_table_body {
-  border-top-style: solid;
-  border-top-width: 2px;
-  border-top-color: #D3D3D3;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-}
-
-#hzgjisdnqk .gt_footnotes {
-  color: #333333;
-  background-color: #FFFFFF;
-  border-bottom-style: none;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  border-left-style: none;
-  border-left-width: 2px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 2px;
-  border-right-color: #D3D3D3;
-}
-
-#hzgjisdnqk .gt_footnote {
-  margin: 0px;
-  font-size: 90%;
-  padding-top: 4px;
-  padding-bottom: 4px;
-  padding-left: 5px;
-  padding-right: 5px;
-}
-
-#hzgjisdnqk .gt_sourcenotes {
-  color: #333333;
-  background-color: #FFFFFF;
-  border-bottom-style: none;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  border-left-style: none;
-  border-left-width: 2px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 2px;
-  border-right-color: #D3D3D3;
-}
-
-#hzgjisdnqk .gt_sourcenote {
-  font-size: 90%;
-  padding-top: 4px;
-  padding-bottom: 4px;
-  padding-left: 5px;
-  padding-right: 5px;
-}
-
-#hzgjisdnqk .gt_left {
-  text-align: left;
-}
-
-#hzgjisdnqk .gt_center {
-  text-align: center;
-}
-
-#hzgjisdnqk .gt_right {
-  text-align: right;
-  font-variant-numeric: tabular-nums;
-}
-
-#hzgjisdnqk .gt_font_normal {
-  font-weight: normal;
-}
-
-#hzgjisdnqk .gt_font_bold {
-  font-weight: bold;
-}
-
-#hzgjisdnqk .gt_font_italic {
-  font-style: italic;
-}
-
-#hzgjisdnqk .gt_super {
-  font-size: 65%;
-}
-
-#hzgjisdnqk .gt_footnote_marks {
-  font-size: 75%;
-  vertical-align: 0.4em;
-  position: initial;
-}
-
-#hzgjisdnqk .gt_asterisk {
-  font-size: 100%;
-  vertical-align: 0;
-}
-
-#hzgjisdnqk .gt_indent_1 {
-  text-indent: 5px;
-}
-
-#hzgjisdnqk .gt_indent_2 {
-  text-indent: 10px;
-}
-
-#hzgjisdnqk .gt_indent_3 {
-  text-indent: 15px;
-}
-
-#hzgjisdnqk .gt_indent_4 {
-  text-indent: 20px;
-}
-
-#hzgjisdnqk .gt_indent_5 {
-  text-indent: 25px;
-}
-</style>
-<table class="gt_table" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
+<table class="gt_table" data-quarto-disable-processing="false" data-quarto-bootstrap="false"><caption>Table&nbsp;1.2:  <p>US GDP components (%YoY) - A good-looking formatting scheme.</p> </caption>
   <thead>
     <tr class="gt_heading">
       <td colspan="9" class="gt_heading gt_title gt_font_normal" style="">Contributions to percent change in real gross domestic product</td>
@@ -3530,6 +3201,7 @@ $ value          &lt;chr&gt; "0.34174735701485", "0.024920738207648", "0.4106283
   </tfoot>
   
 </table>
+</div>
 </div>
 </div>
 </div>

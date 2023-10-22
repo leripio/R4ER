@@ -139,7 +139,7 @@ gtag('config', 'G-6T89HT07F5', { 'anonymize_ip': true});
     <div class="pt-lg-2 mt-2 text-left sidebar-header">
     <div class="sidebar-title mb-0 py-0">
       <a href="./">R for Economic Research</a> 
-        <div class="sidebar-tools-main">
+        <div class="sidebar-tools-main tools-wide">
     <a href="https://github.com/leripio/R4ER" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
     <div class="dropdown">
       <a href="" title="Share" id="quarto-navigation-tool-dropdown-0" class="quarto-navigation-tool dropdown-toggle px-1" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Share"><i class="bi bi-share"></i></a>
@@ -164,6 +164,11 @@ gtag('config', 'G-6T89HT07F5', { 'anonymize_ip': true});
           </li>
       </ul>
     </div>
+  <a href="" class="quarto-reader-toggle quarto-navigation-tool px-1" onclick="window.quartoToggleReader(); return false;" title="Toggle reader mode">
+  <div class="quarto-reader-toggle-btn">
+  <i class="bi"></i>
+  </div>
+</a>
 </div>
     </div>
       </div>
@@ -359,25 +364,29 @@ gtag('config', 'G-6T89HT07F5', { 'anonymize_ip': true});
 <p><span class="math display">\[ \pi_t = \beta_1\pi_{t-1} + \beta_2\pi^{e}_{t,t+4|t} + \beta_3\Delta e_{t-1} + \beta_4\tilde{y}_{t-1} + \epsilon_t \]</span> where <span class="math inline">\(\pi_t\)</span> is a measure of inflation; <span class="math inline">\(\pi^{e}_{t,t+4|t}\)</span> is the expected inflation in <span class="math inline">\(t\)</span> for <span class="math inline">\(t+4\)</span>; <span class="math inline">\(e\)</span> is a measure of exchange rate or imported inflation; and <span class="math inline">\(\tilde{y}\)</span> is a measure of output gap. In this exercise, <span class="math inline">\(\pi_t\)</span> is a measure of core inflation which excludes food-at-home and regulated prices (CPI_CORE); <span class="math inline">\(\pi^{e}\)</span> is the market expectations compiled by the Brazilian Central Bank (CPI_EXP); <span class="math inline">\(e\)</span> is an index of commodities prices in USD (CI_USD); and <span class="math inline">\(\tilde{y}\)</span> is the cycle component obtained from the HP Filter on the GDP series (YGAP).</p>
 <p>Let’s start by importing the data set and visualizing the variables of interest.</p>
 <div class="cell">
-<details>
-<summary>Show the code</summary>
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lubridate)</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>cp_data <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="st">'data/ch12_cp_data.rds'</span>)</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>cp_data <span class="sc">%&gt;%</span> </span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="sc">-</span>date, <span class="at">names_to =</span> <span class="st">'var'</span>, <span class="at">values_to =</span> <span class="st">'value'</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> date, <span class="at">y =</span> value)) <span class="sc">+</span></span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">lwd =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_light</span>() <span class="sc">+</span></span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span> var, <span class="at">scales =</span> <span class="st">'free_y'</span>) <span class="sc">+</span></span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">'Phillips Curve variables'</span>,</span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">''</span>,</span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">''</span></span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>cp_data <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="st">'data/ch12_cp_data.rds'</span>)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>cp_data <span class="sc">%&gt;%</span> </span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="sc">-</span>date, <span class="at">names_to =</span> <span class="st">'var'</span>, <span class="at">values_to =</span> <span class="st">'value'</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> date, <span class="at">y =</span> value)) <span class="sc">+</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">lwd =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_light</span>() <span class="sc">+</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span> var, <span class="at">scales =</span> <span class="st">'free_y'</span>) <span class="sc">+</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">'Phillips Curve variables'</span>,</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">''</span>,</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">''</span></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="single_equation_files/figure-html/unnamed-chunk-1-1.png" class="img-fluid" width="672"></p>
+<div id="fig-br-cp-curve" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="single_equation_files/figure-html/fig-br-cp-curve-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption class="figure-caption">Figure&nbsp;10.1: Phillips Curve variables</figcaption>
+</figure>
+</div>
 </div>
 </div>
 <p>Next, we need to create the appropriate variables for lagged <code>CPI</code> and <code>YGAP</code> and the percentage change of <code>CI_USD</code>. Then, we fit the model to the data. Note that we are imposing no restrictions on the coefficients at this point, although the structural version of the Phillips curve does (we’ll see how to do so in the next section). In addition, we are using OLS to estimate the coefficients, although an endogeneity-robust method such as the Generalized Method of Moments (GMM) is more suitable.</p>
@@ -389,8 +398,13 @@ gtag('config', 'G-6T89HT07F5', { 'anonymize_ip': true});
 <span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">YGAP_lag     =</span> dplyr<span class="sc">::</span><span class="fu">lag</span>(YGAP, <span class="dv">1</span>),</span>
 <span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">dlog_CI_USD  =</span> <span class="fu">log</span>(CI_USD<span class="sc">/</span>dplyr<span class="sc">::</span><span class="fu">lag</span>(CI_USD))<span class="sc">*</span><span class="dv">100</span></span>
 <span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>cp_fit <span class="ot">&lt;-</span> <span class="fu">lm</span>(CPI_CORE <span class="sc">~</span> CPI_CORE_lag <span class="sc">+</span> CPI_EXP <span class="sc">+</span> YGAP_lag <span class="sc">+</span> dlog_CI_USD <span class="sc">-</span><span class="dv">1</span>, cp_reg_data)</span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(cp_fit)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>cp_fit <span class="ot">&lt;-</span> <span class="fu">lm</span>(</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>  CPI_CORE <span class="sc">~</span> CPI_CORE_lag <span class="sc">+</span> CPI_EXP <span class="sc">+</span> YGAP_lag <span class="sc">+</span> dlog_CI_USD <span class="sc">-</span><span class="dv">1</span>, </span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>  cp_reg_data</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(cp_fit)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 Call:
@@ -417,11 +431,8 @@ F-statistic: 377.6 on 4 and 71 DF,  p-value: &lt; 2.2e-16</code></pre>
 </div>
 </div>
 <p>The coefficients are highly significant and show the expected signs. To check the model validity, it’s crucial that the residuals are zero-mean and exhibit no clear trend. The <code>checkresiduals</code> functions from the <code>forecast</code> package provides a handy summary of the model residuals.</p>
-<div class="cell" data-warnings="false">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>forecast<span class="sc">::</span><span class="fu">checkresiduals</span>(cp_fit)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-display">
-<p><img src="single_equation_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid" width="672"></p>
-</div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
     Breusch-Godfrey test for serial correlation of order up to 10
@@ -429,39 +440,53 @@ F-statistic: 377.6 on 4 and 71 DF,  p-value: &lt; 2.2e-16</code></pre>
 data:  Residuals
 LM test = 24.948, df = 10, p-value = 0.005445</code></pre>
 </div>
+<div class="cell-output-display">
+<div id="fig-br-cp-curve-resid" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="single_equation_files/figure-html/fig-br-cp-curve-resid-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption class="figure-caption">Figure&nbsp;10.2: Phillips Curve Model Residuals</figcaption>
+</figure>
+</div>
+</div>
 </div>
 <p>We can see that the residuals are well-behaved: mean around zero, no outliers and no clear trend. There is an autocorrelation signal in the third lag evidenced by the ACF, but given that it is relatively small and far enough away, I believe it can be overlooked.</p>
 <p>After confirming the validity of the model, we can use it for various purposes. The estimated coefficients provide interesting rules of thumb for everyday use. For example, the <code>dlog_CI_USD</code> coefficient measures the pass-through from imported prices to inflation. According to the model, a 10% increase in imported prices adds 0.17p.p to inflation in the current quarter.</p>
 <p>Plotting the model fit is a good way to check deviations of the target variable from its fundamentals (at least those that are taken into account in the model). We can use the <code>augment</code> function from the <code>broom</code> package, which returns a data frame with the fitted values, residuals, etc. The <code>broom</code> package also provides other functions that greatly facilitate the manipulation of the regression results, as we’ll see later.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(broom)</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>cp_fit_plot <span class="ot">&lt;-</span> cp_fit <span class="sc">%&gt;%</span> </span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">augment</span>() <span class="sc">%&gt;%</span> </span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(</span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>    cp_reg_data <span class="sc">%&gt;%</span> </span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>      <span class="fu">select</span>(date) <span class="sc">%&gt;%</span> </span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>      <span class="fu">rowid_to_column</span>(<span class="at">var =</span> <span class="st">'.rownames'</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>      <span class="fu">mutate</span>(<span class="at">.rownames =</span> <span class="fu">as.character</span>(.rownames))</span>
-<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span> </span>
-<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">deviation =</span> CPI_CORE <span class="sc">-</span> .fitted)</span>
-<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>cp_fit_plot <span class="sc">%&gt;%</span> </span>
-<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> date)) <span class="sc">+</span></span>
-<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">y =</span> CPI_CORE, <span class="at">color =</span> <span class="st">'Actual'</span>), <span class="at">lwd =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
-<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">y =</span> .fitted, <span class="at">color =</span> <span class="st">'Model'</span>), <span class="at">lwd =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
-<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>(<span class="fu">aes</span>(<span class="at">y =</span> deviation, <span class="at">fill =</span> <span class="st">'Deviation (Actual - Fitted)'</span>)) <span class="sc">+</span></span>
-<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_light</span>() <span class="sc">+</span></span>
-<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">'top'</span>) <span class="sc">+</span></span>
-<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> <span class="st">'darkgrey'</span>) <span class="sc">+</span></span>
-<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
-<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">'CPI Core: Actual vs. Fitted (%QoQ SA)'</span>,</span>
-<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">''</span>,</span>
-<span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">'%'</span>,</span>
-<span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a>    <span class="at">color =</span> <span class="st">''</span>,</span>
-<span id="cb6-25"><a href="#cb6-25" aria-hidden="true" tabindex="-1"></a>    <span class="at">fill =</span> <span class="st">''</span></span>
-<span id="cb6-26"><a href="#cb6-26" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>cp_fit_plot <span class="ot">&lt;-</span> cp_fit <span class="sc">%&gt;%</span> </span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">augment</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>    cp_reg_data <span class="sc">%&gt;%</span> </span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>      <span class="fu">select</span>(date) <span class="sc">%&gt;%</span> </span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>      <span class="fu">rowid_to_column</span>(<span class="at">var =</span> <span class="st">'.rownames'</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>      <span class="fu">mutate</span>(<span class="at">.rownames =</span> <span class="fu">as.character</span>(.rownames))</span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span> </span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">deviation =</span> CPI_CORE <span class="sc">-</span> .fitted)</span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>cp_fit_plot <span class="sc">%&gt;%</span> </span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> date)) <span class="sc">+</span></span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">y =</span> CPI_CORE, <span class="at">color =</span> <span class="st">'Actual'</span>), <span class="at">lwd =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">y =</span> .fitted, <span class="at">color =</span> <span class="st">'Model'</span>), <span class="at">lwd =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>(<span class="fu">aes</span>(<span class="at">y =</span> deviation, <span class="at">fill =</span> <span class="st">'Deviation (Actual - Fitted)'</span>)) <span class="sc">+</span></span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_light</span>() <span class="sc">+</span></span>
+<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">'top'</span>) <span class="sc">+</span></span>
+<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> <span class="st">'darkgrey'</span>) <span class="sc">+</span></span>
+<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">'CPI Core: Actual vs. Fitted (%QoQ SA)'</span>,</span>
+<span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">''</span>,</span>
+<span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">'%'</span>,</span>
+<span id="cb6-25"><a href="#cb6-25" aria-hidden="true" tabindex="-1"></a>    <span class="at">color =</span> <span class="st">''</span>,</span>
+<span id="cb6-26"><a href="#cb6-26" aria-hidden="true" tabindex="-1"></a>    <span class="at">fill =</span> <span class="st">''</span></span>
+<span id="cb6-27"><a href="#cb6-27" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="single_equation_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid" width="672"></p>
+<div id="fig-br-cp-curve-fit" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="single_equation_files/figure-html/fig-br-cp-curve-fit-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption class="figure-caption">Figure&nbsp;10.3: Phillips Curve - Actual vs.&nbsp;fitted values</figcaption>
+</figure>
+</div>
 </div>
 </div>
 <p>What is the role of economic activity in inflation in recent quarters? What about external factors, have they played a significant role in the overall result? It’s a common practice to quantify the contribution of each variable to the observed value in a given period. This kind of decomposition is obtained by multiplying the value of each variable in the period by the respective model coefficient.</p>
@@ -494,20 +519,27 @@ LM test = 24.948, df = 10, p-value = 0.005445</code></pre>
 <span id="cb7-25"><a href="#cb7-25" aria-hidden="true" tabindex="-1"></a>    <span class="at">fill =</span> <span class="st">'Variable'</span></span>
 <span id="cb7-26"><a href="#cb7-26" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="single_equation_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid" width="672"></p>
+<div id="fig-br-cp-curve-decomp" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="single_equation_files/figure-html/fig-br-cp-curve-decomp-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption class="figure-caption">Figure&nbsp;10.4: Contribution of each variable to Core CPI (p.p)</figcaption>
+</figure>
+</div>
 </div>
 </div>
 <p>We can see that inertia and expectations are the main drivers of inflation throughout the sample, although for specific periods economic activity and imported inflation played a significant role. I also included the residual term because it’s also important to know when factors other than those incorporated into the model are relevant to the outcome and the magnitude of its contribution to the overall result.</p>
 <p>Obviously, the model can be used to produce forecasts. For this, we need to provide values for the exogenous variables including the lagged CPI. In the next section we’ll see a more complete approach on how to provide scenarios for future values. For now, I’ll only take the last value of each variable and add a small random variation.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>new_values <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">CPI_CORE_lag =</span> <span class="fu">last</span>(cp_reg_data<span class="sc">$</span>CPI_CORE),</span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">CPI_EXP      =</span> <span class="fu">last</span>(cp_reg_data<span class="sc">$</span>CPI_EXP)<span class="sc">+</span><span class="fu">rnorm</span>(<span class="dv">1</span>),</span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">YGAP_lag     =</span> <span class="fu">last</span>(cp_reg_data<span class="sc">$</span>YGAP)<span class="sc">+</span><span class="fu">rnorm</span>(<span class="dv">1</span>),</span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">dlog_CI_USD  =</span> <span class="fu">last</span>(cp_reg_data<span class="sc">$</span>dlog_CI_USD)<span class="sc">+</span><span class="fu">rnorm</span>(<span class="dv">1</span>)</span>
-<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a><span class="fu">predict</span>(cp_fit, new_values)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>new_values <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">CPI_CORE_lag =</span> <span class="fu">last</span>(cp_reg_data<span class="sc">$</span>CPI_CORE),</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">CPI_EXP      =</span> <span class="fu">last</span>(cp_reg_data<span class="sc">$</span>CPI_EXP)<span class="sc">+</span><span class="fu">rnorm</span>(<span class="dv">1</span>),</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">YGAP_lag     =</span> <span class="fu">last</span>(cp_reg_data<span class="sc">$</span>YGAP)<span class="sc">+</span><span class="fu">rnorm</span>(<span class="dv">1</span>),</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">dlog_CI_USD  =</span> <span class="fu">last</span>(cp_reg_data<span class="sc">$</span>dlog_CI_USD)<span class="sc">+</span><span class="fu">rnorm</span>(<span class="dv">1</span>)</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a><span class="fu">predict</span>(cp_fit, new_values)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>       1 
 1.341488 </code></pre>

@@ -139,7 +139,7 @@ gtag('config', 'G-6T89HT07F5', { 'anonymize_ip': true});
     <div class="pt-lg-2 mt-2 text-left sidebar-header">
     <div class="sidebar-title mb-0 py-0">
       <a href="./">R for Economic Research</a> 
-        <div class="sidebar-tools-main">
+        <div class="sidebar-tools-main tools-wide">
     <a href="https://github.com/leripio/R4ER" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
     <div class="dropdown">
       <a href="" title="Share" id="quarto-navigation-tool-dropdown-0" class="quarto-navigation-tool dropdown-toggle px-1" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Share"><i class="bi bi-share"></i></a>
@@ -164,6 +164,11 @@ gtag('config', 'G-6T89HT07F5', { 'anonymize_ip': true});
           </li>
       </ul>
     </div>
+  <a href="" class="quarto-reader-toggle quarto-navigation-tool px-1" onclick="window.quartoToggleReader(); return false;" title="Toggle reader mode">
+  <div class="quarto-reader-toggle-btn">
+  <i class="bi"></i>
+  </div>
+</a>
 </div>
     </div>
       </div>
@@ -356,11 +361,14 @@ gtag('config', 'G-6T89HT07F5', { 'anonymize_ip': true});
 <p>In the previous section, we saw how to estimate single equations to analyze the effect of exogenous variables on the outcome. However, economic relationships are often treated as a system of endogenous variables. This kind of framework allows us to analyze the effect of each variable on the whole system and the resulting feedbacks.</p>
 <p>For example, interest rate hikes are expected to lower inflation through their contractionary impact on economic activity. In addition, the more restrictive monetary policy stance should lead to an appreciation of the exchange rate through greater capital inflows – this is especially true for emerging markets.</p>
 <p>In the Phillips Curve we saw in the previous section, all these links were present but implicit. We could make all these links explicit by creating specific equations for both the exchange rate and capital inflows. In summary, working with systems of endogenous equations makes it possible to greatly expand the scope of the analysis by incorporating any conceived relationship.</p>
-<p>This can be cumbersome to do manually, but it becomes quite simple with the <code>bimets</code> package. It provides a very concise and friendly interface to write down the whole system of equations, estimate its parameters and forecast based on scenarios for the exogenous variables. Those who want to delve deeper into all the features available in the package can refer to the <a href="https://cran.r-project.org/web/packages/bimets/vignettes/bimets.pdf">vignette</a>. For the purpose of this section, it will suffice to present a variation of the standard three-equation macroeconomic model composed of an IS curve, a Phillips Curve and a Monetary policy rule. The model is described as follows.</p>
+<p>This can be cumbersome to do manually, but it becomes quite simple with the <code>bimets</code> package. It provides a very concise and friendly interface to write down the whole system of equations, estimate its parameters and forecast based on scenarios for the exogenous variables. Those who want to delve deeper into all the features available in the package can refer to the vignette (https://cran.r-project.org/web/packages/bimets/vignettes/bimets.pdf). For the purpose of this section, it will suffice to present a variation of the standard three-equation macroeconomic model composed of an IS curve, a Phillips Curve and a Monetary policy rule. The model is described as follows.</p>
 <p>The IS curve relates the output gap to its own lag, the deviation of the real ex-ante interest rate from its equilibrium and the deviation of the terms of trade from its trend.</p>
-<p><span class="math display">\[ \tilde{y_t} = \beta_1\tilde{y}_{t-1} + \beta_2(i_t - \pi^{e}_{t,t+4|t} - i^{eq}_t)_{t-3} + \beta_3\tilde{ToT}_t + \epsilon^{\tilde{y}}_t \]</span> The Phillips Curve is the same from the previous section and relates the core CPI to its own lag, the expectation for the next twelve months, the percentage change in imported prices and output gap.</p>
-<p><span class="math display">\[ \pi_t = \beta_4\pi_{t-1} + \beta_5\pi^{e}_{t,t+4|t} + (1-\beta_4 - \beta_5)\Delta e_{t-1} + \beta_7\tilde{y}_{t-1} + \epsilon_t^{\pi} \]</span> Lastly, the monetary policy rule relates the nominal interest rate to its own lags, the deviation of expected inflation from the target and the nominal equilibrium rate.</p>
-<p><span class="math display">\[ i_t = \beta_8i_{t-1} + \beta_9i_{t-2} + (1-\beta_8-\beta_9)(\pi^{e}_{t,t+4|t} - \bar{\pi_t}) + \beta_{11}(i_t^{eq} + \bar{\pi}_t) + \epsilon_t^{i} \]</span> The first step is to write down the system of equations according to the standard adopted by the package. A careful look at the equations blocks below should be enough to understand how they work.</p>
+<p><span class="math display">\[ \tilde{y_t} = \beta_1\tilde{y}_{t-1} + \beta_2(i_t - \pi^{e}_{t,t+4|t} - i^{eq}_t)_{t-3} + \beta_3\tilde{ToT}_t + \epsilon^{\tilde{y}}_t \]</span></p>
+<p>The Phillips Curve is the same from the previous section and relates the core CPI to its own lag, the expectation for the next twelve months, the percentage change in imported prices and output gap.</p>
+<p><span class="math display">\[ \pi_t = \beta_4\pi_{t-1} + \beta_5\pi^{e}_{t,t+4|t} + (1-\beta_4 - \beta_5)\Delta e_{t-1} + \beta_7\tilde{y}_{t-1} + \epsilon_t^{\pi} \]</span></p>
+<p>Lastly, the monetary policy rule relates the nominal interest rate to its own lags, the deviation of expected inflation from the target and the nominal equilibrium rate.</p>
+<p><span class="math display">\[ i_t = \beta_8i_{t-1} + \beta_9i_{t-2} + (1-\beta_8-\beta_9)(\pi^{e}_{t,t+4|t} - \bar{\pi_t}) + \beta_{11}(i_t^{eq} + \bar{\pi}_t) + \epsilon_t^{i} \]</span></p>
+<p>The first step is to write down the system of equations according to the standard adopted by the package. A careful look at the equations blocks below should be enough to understand how they work.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>model_spec <span class="ot">&lt;-</span> <span class="st">"</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="st">MODEL</span></span>
@@ -392,8 +400,9 @@ gtag('config', 'G-6T89HT07F5', { 'anonymize_ip': true});
 <div class="cell">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(bimets)</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>br_economy_data <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="st">'data/ch13_br_economy_data.rds'</span>) </span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>macro_model     <span class="ot">&lt;-</span> <span class="fu">LOAD_MODEL</span>(<span class="at">modelText =</span> model_spec)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>br_economy_data <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="st">'data/ch13_br_economy_data.rds'</span>) </span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>macro_model     <span class="ot">&lt;-</span> <span class="fu">LOAD_MODEL</span>(<span class="at">modelText =</span> model_spec)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Analyzing behaviorals...
 Analyzing identities...
@@ -412,10 +421,11 @@ Loaded model "model_spec":
 <span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>      <span class="fu">TIMESERIES</span>(x<span class="sc">$</span>value, <span class="at">START =</span> <span class="fu">c</span>(<span class="dv">2004</span>,<span class="dv">1</span>), <span class="at">FREQ =</span> <span class="dv">4</span>)</span>
 <span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>    }</span>
 <span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>macro_model <span class="ot">&lt;-</span> <span class="fu">LOAD_MODEL_DATA</span>(</span>
-<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>  macro_model, </span>
-<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>  model_data_ts</span>
-<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>macro_model <span class="ot">&lt;-</span> <span class="fu">LOAD_MODEL_DATA</span>(</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>  macro_model, </span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>  model_data_ts</span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Load model data "model_data_ts" into model "model_spec"...
 ...LOAD MODEL DATA OK</code></pre>
@@ -434,18 +444,42 @@ Loaded model "model_spec":
 <div class="cell">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>model_fit<span class="sc">$</span>modelData <span class="ot">&lt;-</span>  <span class="fu">within</span>(</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  model_fit<span class="sc">$</span>modelData, {</span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>    CPI_TARGET_ADJ <span class="ot">=</span> <span class="fu">TSEXTEND</span>(CPI_TARGET_ADJ, <span class="at">UPTO=</span><span class="fu">c</span>(<span class="dv">2026</span>,<span class="dv">1</span>),<span class="at">EXTMODE=</span><span class="st">'CONSTANT'</span>)</span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>    CPI_EXP        <span class="ot">=</span> <span class="fu">TSEXTEND</span>(CPI_EXP,        <span class="at">UPTO=</span><span class="fu">c</span>(<span class="dv">2026</span>,<span class="dv">1</span>),<span class="at">EXTMODE=</span><span class="st">'LINEAR'</span>)</span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>    CI_USD         <span class="ot">=</span> <span class="fu">TSEXTEND</span>(CI_USD,         <span class="at">UPTO=</span><span class="fu">c</span>(<span class="dv">2026</span>,<span class="dv">1</span>),<span class="at">EXTMODE=</span><span class="st">'MYRATE'</span>, <span class="at">FACTOR =</span> (<span class="dv">1</span><span class="fl">-0.02</span>))</span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>    IR_EQ          <span class="ot">=</span> <span class="fu">TSEXTEND</span>(IR_EQ,          <span class="at">UPTO=</span><span class="fu">c</span>(<span class="dv">2026</span>,<span class="dv">1</span>),<span class="at">EXTMODE=</span><span class="st">'CONSTANT'</span>)</span>
-<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>    TOT_GAP        <span class="ot">=</span> <span class="fu">TSEXTEND</span>(TOT_GAP,        <span class="at">UPTO=</span><span class="fu">c</span>(<span class="dv">2026</span>,<span class="dv">1</span>),<span class="at">EXTMODE=</span><span class="st">'MYCONST'</span>, <span class="at">FACTOR =</span> <span class="sc">-</span><span class="fl">2.4</span>)</span>
-<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>    CPI_TARGET_ADJ <span class="ot">=</span> <span class="fu">TSEXTEND</span>(</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>      CPI_TARGET_ADJ, </span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>      <span class="at">UPTO =</span> <span class="fu">c</span>(<span class="dv">2026</span>,<span class="dv">1</span>),</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>      <span class="at">EXTMODE =</span> <span class="st">'CONSTANT'</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>    CPI_EXP <span class="ot">=</span> <span class="fu">TSEXTEND</span>(</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>      CPI_EXP,        </span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>      <span class="at">UPTO =</span> <span class="fu">c</span>(<span class="dv">2026</span>,<span class="dv">1</span>),</span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>      <span class="at">EXTMODE =</span> <span class="st">'LINEAR'</span></span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>    CI_USD <span class="ot">=</span> <span class="fu">TSEXTEND</span>(</span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>      CI_USD, </span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>      <span class="at">UPTO =</span> <span class="fu">c</span>(<span class="dv">2026</span>,<span class="dv">1</span>),</span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a>      <span class="at">EXTMODE =</span> <span class="st">'MYRATE'</span>, </span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a>      <span class="at">FACTOR =</span> (<span class="dv">1</span><span class="fl">-0.02</span>)</span>
+<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a>    IR_EQ <span class="ot">=</span> <span class="fu">TSEXTEND</span>(</span>
+<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a>      IR_EQ, </span>
+<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a>      <span class="at">UPTO =</span> <span class="fu">c</span>(<span class="dv">2026</span>,<span class="dv">1</span>),</span>
+<span id="cb7-25"><a href="#cb7-25" aria-hidden="true" tabindex="-1"></a>      <span class="at">EXTMODE =</span> <span class="st">'CONSTANT'</span></span>
+<span id="cb7-26"><a href="#cb7-26" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb7-27"><a href="#cb7-27" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb7-28"><a href="#cb7-28" aria-hidden="true" tabindex="-1"></a>    TOT_GAP <span class="ot">=</span> <span class="fu">TSEXTEND</span>(</span>
+<span id="cb7-29"><a href="#cb7-29" aria-hidden="true" tabindex="-1"></a>      TOT_GAP,</span>
+<span id="cb7-30"><a href="#cb7-30" aria-hidden="true" tabindex="-1"></a>      <span class="at">UPTO =</span> <span class="fu">c</span>(<span class="dv">2026</span>,<span class="dv">1</span>),</span>
+<span id="cb7-31"><a href="#cb7-31" aria-hidden="true" tabindex="-1"></a>      <span class="at">EXTMODE =</span> <span class="st">'MYCONST'</span>, </span>
+<span id="cb7-32"><a href="#cb7-32" aria-hidden="true" tabindex="-1"></a>      <span class="at">FACTOR =</span> <span class="sc">-</span><span class="fl">2.4</span></span>
+<span id="cb7-33"><a href="#cb7-33" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb7-34"><a href="#cb7-34" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb7-35"><a href="#cb7-35" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>We can convert this object into tidy format in order to make it easier to plot all the extended time series in a single panel.</p>
 <div class="cell">
-<details>
-<summary>Show the code</summary>
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">do.call</span>(ts.union, model_fit<span class="sc">$</span>modelData) <span class="sc">%&gt;%</span></span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  timetk<span class="sc">::</span><span class="fu">tk_tbl</span>() <span class="sc">%&gt;%</span> </span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="sc">-</span>index, <span class="at">names_to =</span> <span class="st">'var'</span>, <span class="at">values_to =</span> <span class="st">'value'</span>) <span class="sc">%&gt;%</span> </span>
@@ -456,15 +490,19 @@ Loaded model "model_spec":
 <span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">'black'</span>, <span class="st">'red'</span>)) <span class="sc">+</span></span>
 <span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span> var, <span class="at">scales =</span> <span class="st">'free_y'</span>) <span class="sc">+</span></span>
 <span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">'top'</span>) <span class="sc">+</span></span>
-<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>  zoo<span class="sc">::</span><span class="fu">scale_x_yearqtr</span>(<span class="at">n =</span> <span class="dv">5</span>, <span class="at">format =</span> <span class="st">'%Y'</span>) <span class="sc">+</span></span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>  zoo<span class="sc">::</span><span class="fu">scale_x_yearqtr</span>(<span class="at">n =</span> <span class="dv">3</span>, <span class="at">format =</span> <span class="st">'%Y'</span>) <span class="sc">+</span></span>
 <span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
 <span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">'Scenarios for exogenous variables'</span>,</span>
 <span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">''</span>,</span>
 <span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">''</span></span>
 <span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
 <div class="cell-output-display">
-<p><img src="multiple_equations_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid" width="672"></p>
+<div id="fig-model-scenarios" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="multiple_equations_files/figure-html/fig-model-scenarios-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption class="figure-caption">Figure&nbsp;11.1: Scenarios for exogenous variables</figcaption>
+</figure>
+</div>
 </div>
 </div>
 <p>In the last step we call the <code>SIMULATE</code> function. Again, with a few lines of code we can transform the output into tidy format to produce a prettier plot.</p>
@@ -479,36 +517,42 @@ Loaded model "model_spec":
 <span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<details>
-<summary>Show the code</summary>
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>output <span class="ot">&lt;-</span> <span class="fu">do.call</span>(ts.intersect, model_fit<span class="sc">$</span>modelData) <span class="sc">%&gt;%</span> </span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  timetk<span class="sc">::</span><span class="fu">tk_tbl</span>(<span class="at">rename_index =</span> <span class="st">'date'</span>) <span class="sc">%&gt;%</span> </span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">type =</span> <span class="st">'Observed'</span>) <span class="sc">%&gt;%</span> </span>
 <span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">bind_rows</span>(</span>
-<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">do.call</span>(ts.intersect, model_sim<span class="sc">$</span>simulation[<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>]) <span class="sc">%&gt;%</span> </span>
-<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>      timetk<span class="sc">::</span><span class="fu">tk_tbl</span>(<span class="at">rename_index =</span> <span class="st">'date'</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>      <span class="fu">mutate</span>(<span class="at">type =</span> <span class="st">'Forecast'</span>)</span>
-<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span> </span>
-<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">date =</span> zoo<span class="sc">::</span><span class="fu">as.yearqtr</span>(date))</span>
-<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>output <span class="sc">%&gt;%</span> </span>
-<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(date, YGAP, CPI_CORE, MPR, type) <span class="sc">%&gt;%</span> </span>
-<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="sc">-</span><span class="fu">c</span>(date, type), <span class="at">names_to =</span> <span class="st">'var'</span>, <span class="at">values_to =</span> <span class="st">'value'</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> date)) <span class="sc">+</span></span>
-<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">y =</span> value, <span class="at">color =</span> type, <span class="at">linetype =</span> type)) <span class="sc">+</span></span>
-<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_linetype_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">1</span>)) <span class="sc">+</span></span>
-<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a>  zoo<span class="sc">::</span><span class="fu">scale_x_yearqtr</span>(<span class="at">n =</span> <span class="dv">10</span>, <span class="at">format =</span> <span class="st">'%YQ%q'</span>) <span class="sc">+</span></span>
-<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span> var, <span class="at">scales =</span> <span class="st">'free_y'</span>, <span class="at">nrow =</span> <span class="dv">3</span>) <span class="sc">+</span></span>
-<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">'top'</span>) <span class="sc">+</span></span>
-<span id="cb10-19"><a href="#cb10-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
-<span id="cb10-20"><a href="#cb10-20" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">'Forecasts for economic variables'</span>,</span>
-<span id="cb10-21"><a href="#cb10-21" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">''</span>,</span>
-<span id="cb10-22"><a href="#cb10-22" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">''</span>,</span>
-<span id="cb10-23"><a href="#cb10-23" aria-hidden="true" tabindex="-1"></a>    <span class="at">linetype =</span> <span class="st">''</span>,</span>
-<span id="cb10-24"><a href="#cb10-24" aria-hidden="true" tabindex="-1"></a>    <span class="at">color =</span> <span class="st">''</span></span>
-<span id="cb10-25"><a href="#cb10-25" aria-hidden="true" tabindex="-1"></a>    )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">do.call</span>(</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>      ts.intersect, </span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>      model_sim<span class="sc">$</span>simulation[<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>]</span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">%&gt;%</span> </span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>      timetk<span class="sc">::</span><span class="fu">tk_tbl</span>(<span class="at">rename_index =</span> <span class="st">'date'</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>      <span class="fu">mutate</span>(<span class="at">type =</span> <span class="st">'Forecast'</span>)</span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span> </span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">date =</span> zoo<span class="sc">::</span><span class="fu">as.yearqtr</span>(date))</span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>output <span class="sc">%&gt;%</span> </span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(date, YGAP, CPI_CORE, MPR, type) <span class="sc">%&gt;%</span> </span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="sc">-</span><span class="fu">c</span>(date, type), <span class="at">names_to =</span> <span class="st">'var'</span>, <span class="at">values_to =</span> <span class="st">'value'</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> date)) <span class="sc">+</span></span>
+<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">y =</span> value, <span class="at">color =</span> type, <span class="at">linetype =</span> type)) <span class="sc">+</span></span>
+<span id="cb10-19"><a href="#cb10-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_linetype_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">1</span>)) <span class="sc">+</span></span>
+<span id="cb10-20"><a href="#cb10-20" aria-hidden="true" tabindex="-1"></a>  zoo<span class="sc">::</span><span class="fu">scale_x_yearqtr</span>(<span class="at">n =</span> <span class="dv">5</span>, <span class="at">format =</span> <span class="st">'%YQ%q'</span>) <span class="sc">+</span></span>
+<span id="cb10-21"><a href="#cb10-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span> var, <span class="at">scales =</span> <span class="st">'free_y'</span>, <span class="at">nrow =</span> <span class="dv">3</span>) <span class="sc">+</span></span>
+<span id="cb10-22"><a href="#cb10-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">'top'</span>) <span class="sc">+</span></span>
+<span id="cb10-23"><a href="#cb10-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb10-24"><a href="#cb10-24" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">'Forecasts for economic variables'</span>,</span>
+<span id="cb10-25"><a href="#cb10-25" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">''</span>,</span>
+<span id="cb10-26"><a href="#cb10-26" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">''</span>,</span>
+<span id="cb10-27"><a href="#cb10-27" aria-hidden="true" tabindex="-1"></a>    <span class="at">linetype =</span> <span class="st">''</span>,</span>
+<span id="cb10-28"><a href="#cb10-28" aria-hidden="true" tabindex="-1"></a>    <span class="at">color =</span> <span class="st">''</span></span>
+<span id="cb10-29"><a href="#cb10-29" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="multiple_equations_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid" width="672"></p>
+<div id="fig-model-forecasts" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="multiple_equations_files/figure-html/fig-model-forecasts-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption class="figure-caption">Figure&nbsp;11.2: Forecasts for economic variables</figcaption>
+</figure>
+</div>
 </div>
 </div>
 

@@ -137,7 +137,7 @@ gtag('config', 'G-6T89HT07F5', { 'anonymize_ip': true});
     <div class="pt-lg-2 mt-2 text-left sidebar-header">
     <div class="sidebar-title mb-0 py-0">
       <a href="./">R for Economic Research</a> 
-        <div class="sidebar-tools-main">
+        <div class="sidebar-tools-main tools-wide">
     <a href="https://github.com/leripio/R4ER" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
     <div class="dropdown">
       <a href="" title="Share" id="quarto-navigation-tool-dropdown-0" class="quarto-navigation-tool dropdown-toggle px-1" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Share"><i class="bi bi-share"></i></a>
@@ -162,6 +162,11 @@ gtag('config', 'G-6T89HT07F5', { 'anonymize_ip': true});
           </li>
       </ul>
     </div>
+  <a href="" class="quarto-reader-toggle quarto-navigation-tool px-1" onclick="window.quartoToggleReader(); return false;" title="Toggle reader mode">
+  <div class="quarto-reader-toggle-btn">
+  <i class="bi"></i>
+  </div>
+</a>
 </div>
     </div>
       </div>
@@ -360,17 +365,22 @@ gtag('config', 'G-6T89HT07F5', { 'anonymize_ip': true});
 </header>
 
 <p>Seasonality is commonly defined as the expected fluctuation in time series data that occurs within a regular frequency not exceeding a one-year-period. For instance, temperatures are higher in the summer months and lower in the winter months. These fluctuations often create difficulties for the correct identification of trends in data. For example, it doesn’t help to know that the average temperature increased in July compared to June. The relevant information is how much did the average temperature exceed the historical pattern for this period. Therefore, in most applications with time series it’s mandatory to remove the seasonal component before carrying out any further analysis.</p>
-<p>There are some methods available for seasonal adjustment, <a href="https://www.census.gov/data/software/x13as.html">X-13-ARIMA</a> from the US Census Bureau being the most used. Roughly speaking, it makes use of a standard ARIMA model with external regressors accounting for outliers, permanent or transitory shifts, holidays and so on. The <a href="https://www.census.gov/data/software/x13as/seasonal-adjustment-questions-answers.html">Seasonal Adjustment Q&amp;A</a> section of the Census website provides details on how the tool works, as well as useful information on the practice of seasonal adjustment. It’s worth giving it a read.</p>
+<p>There are some methods available for seasonal adjustment, X-13-ARIMA from the US Census Bureau being the most used. Roughly speaking, it makes use of a standard ARIMA model with external regressors accounting for outliers, permanent or transitory shifts, holidays and so on. The Seasonal Adjustment Q&amp;A section of the Census website (https://www.census.gov/data/software/x13as/seasonal-adjustment-questions-answers.html) provides details on how the tool works, as well as useful information on the practice of seasonal adjustment. It’s worth giving it a read.</p>
 <p>In the following sections we’ll see how to identify and remove the seasonal pattern from Brazilian Retail Sales data (PMC provided by IBGE, the Brazilian official bureau of statistics) using X-13-ARIMA.</p>
 <section id="spotting-a-seasonal-pattern" class="level3" data-number="4.0.1">
 <h3 data-number="4.0.1" class="anchored" data-anchor-id="spotting-a-seasonal-pattern"><span class="header-section-number">4.0.1</span> Spotting a seasonal pattern</h3>
 <p>It’s very common for time series to show a seasonal pattern strong enough that it’s possible to identify it simply by visual inspection. The data on Brazilian Retail Sales is an example of this, as we can clearly see the regularly spaced peaks throughout the sample.</p>
 <div class="cell">
 <div class="cell-output-display">
-<p><img src="ds_seasonality_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid" width="672"></p>
+<div id="fig-pmc-nsa" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="ds_seasonality_files/figure-html/fig-pmc-nsa-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption class="figure-caption">Figure&nbsp;4.1: Ratil sales in Brazil - Volume Index (2014 = 100)</figcaption>
+</figure>
 </div>
 </div>
-<p>Sometimes, however, the mix of trends and random noise may hinder our ability to spot the seasonal pattern. In these cases, we can resort to some tools. For example, the <code>ggmonthplot</code> function from the <code>forecast</code> package is a nice shortcut to build a plot where the data are grouped by period and so we can get a better sense of whether values are typically higher or lower for an specific period.</p>
+</div>
+<p>Sometimes, however, the mix of trends and random noise may hinder our ability to spot the seasonal pattern. In these cases, we can resort to some tools. For example, the <code>ggmonthplot</code> function from the <code>forecast</code> package is a nice shortcut to build a plot where the data (a <code>ts</code> object) are grouped by period and so we can get a better sense of whether the values are typically higher or lower for an specific period.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>pmc_ts_nsa <span class="sc">%&gt;%</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggmonthplot</span>() <span class="sc">+</span></span>
@@ -380,7 +390,12 @@ gtag('config', 'G-6T89HT07F5', { 'anonymize_ip': true});
 <span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">'Index (2014 = 100)'</span></span>
 <span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="ds_seasonality_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid" width="672"></p>
+<div id="fig-pmc-nsa-ggmonthplot" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="ds_seasonality_files/figure-html/fig-pmc-nsa-ggmonthplot-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption class="figure-caption">Figure&nbsp;4.2: Monthplot of the Retail Sales in Brazil (NSA)</figcaption>
+</figure>
+</div>
 </div>
 </div>
 <p>As the graph makes clear, we can expect values on December to be, on average, higher than on any other month. This is obviously related to year-end sales, as you might suspect.</p>
@@ -390,19 +405,26 @@ gtag('config', 'G-6T89HT07F5', { 'anonymize_ip': true});
 <p>X-13-ARIMA is available for R users through the <code>seasonal</code> package. In order to make it as simple as possible, the function <code>seas</code> can automatically select the model that fits the data best. Therefore, we can perform seasonal adjustment without any specific knowledge. Notice that the <code>seas</code> function will return the model selected for seasonal adjustment. We should next call the <code>final</code> function to get the seasonally adjusted values.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(seasonal)</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>pmc_sa_autox13 <span class="ot">&lt;-</span> <span class="fu">seas</span>(pmc_ts_nsa)</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>pmc_sa_autox13 <span class="sc">%&gt;%</span> </span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">final</span>() <span class="sc">%&gt;%</span> </span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">autoplot</span>() <span class="sc">+</span></span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">autolayer</span>(pmc_ts_nsa, <span class="at">series =</span> <span class="st">'Retail NSA'</span>) <span class="sc">+</span></span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a> <span class="fu">labs</span>(</span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">'Retail sales in Brazil - Volume Index (2014 = 100)'</span>,</span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="st">'Seasonally-Adjusted'</span>,</span>
-<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">''</span>,</span>
-<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">'Index (2014 = 100)'</span></span>
-<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>pmc_sa_autox13 <span class="ot">&lt;-</span> <span class="fu">seas</span>(pmc_ts_nsa)</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>pmc_sa_autox13 <span class="sc">%&gt;%</span> </span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">final</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">autoplot</span>() <span class="sc">+</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">autolayer</span>(pmc_ts_nsa, <span class="at">series =</span> <span class="st">'Retail NSA'</span>) <span class="sc">+</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">'Retail sales in Brazil - Volume Index (2014 = 100)'</span>,</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="st">'Seasonally-Adjusted'</span>,</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">''</span>,</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">'Index (2014 = 100)'</span></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="ds_seasonality_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid" width="672"></p>
+<div id="fig-pmc-sa" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="ds_seasonality_files/figure-html/fig-pmc-sa-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption class="figure-caption">Figure&nbsp;4.3: Retail Sales in Brazil - Seasonally-adjusted (SA).</figcaption>
+</figure>
+</div>
 </div>
 </div>
 <p>It did a good job of getting rid of those peaks in December – and possibly other undesirable hidden stuff. We can use the <code>ggmonthplot</code> function we’ve seem in the previous section to check that there’s no seasonality left in the data.</p>
@@ -417,15 +439,21 @@ gtag('config', 'G-6T89HT07F5', { 'anonymize_ip': true});
 <span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">'Index (2014 = 100)'</span></span>
 <span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="ds_seasonality_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid" width="672"></p>
+<div id="fig-pmc-sa-ggmonthplot" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="ds_seasonality_files/figure-html/fig-pmc-sa-ggmonthplot-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption class="figure-caption">Figure&nbsp;4.4: Monthplot of the Retail Sales in Brazil (SA)</figcaption>
+</figure>
+</div>
 </div>
 </div>
 <p>It looks pretty good! Remember that no seasonal treatment is perfect and the goal is always to have no apparent seasonality in the data. In this case, we could safely make meaningful comparisons between periods. To finish, it’s worth mentioning that we can assess relevant information about the selected model using standard methods for <code>lm</code> objects. For example, information on the estimated parameters are available through the <code>summary</code> function, while the <code>checkresiduals</code> function from the <code>forecast</code> package can be used to check the properties of the residuals (or directly perform any test based on model residuals using the <code>residuals</code> function).</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>pmc_sa_autox13 <span class="sc">%&gt;%</span> </span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summary</span>()</span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>pmc_sa_autox13 <span class="sc">%&gt;%</span> </span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  forecast<span class="sc">::</span><span class="fu">checkresiduals</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>pmc_sa_autox13 <span class="sc">%&gt;%</span> </span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  forecast<span class="sc">::</span><span class="fu">checkresiduals</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="moving-to-a-custom-specification" class="level3" data-number="4.0.3">
@@ -433,26 +461,13 @@ gtag('config', 'G-6T89HT07F5', { 'anonymize_ip': true});
 <p>Sometimes we just can’t rely on the automatic model selection. Either because we would like to incorporate additional features not available in the function – special moving holidays is a common issue – or because we need to replicate the seasonal adjustment provided by the source or any other third-party.</p>
 <p>For instance, IBGE releases its own seasonally-adjusted retail sales data. So if we were to analyze or forecast seasonally-adjusted data using IBGE releases as our target, we would have to invariably adopt its specification. Let’s first compare the automatic seasonal adjustment we computed in the previous section with the official seasonally-adjusted series provided by IBGE.</p>
 <div class="cell">
-<details>
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>pmc_sa_ibge <span class="ot">&lt;-</span> </span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  pmc_tidy <span class="sc">%&gt;%</span> </span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">filter</span>(var <span class="sc">==</span> <span class="st">'retail_sa'</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">pull</span>(value) <span class="sc">%&gt;%</span> </span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ts</span>(<span class="at">start =</span> <span class="fu">c</span>(<span class="dv">2000</span>,<span class="dv">1</span>), <span class="at">frequency =</span> <span class="dv">12</span>)</span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>pmc_sa_autox13 <span class="sc">%&gt;%</span> </span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">final</span>() <span class="sc">%&gt;%</span> </span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">autoplot</span>() <span class="sc">+</span></span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">autolayer</span>(pmc_sa_ibge, <span class="at">series =</span> <span class="st">'Retail Sales SA (official)'</span>) <span class="sc">+</span></span>
-<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a> <span class="fu">labs</span>(</span>
-<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">'Retail sales in Brazil - Volume Index (2014 = 100)'</span>,</span>
-<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="st">'Seasonally-Adjusted'</span>,</span>
-<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">''</span>,</span>
-<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">'Index (2014 = 100)'</span></span>
-<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
 <div class="cell-output-display">
-<p><img src="ds_seasonality_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid" width="672"></p>
+<div id="fig-pmc-sa-ibge" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="ds_seasonality_files/figure-html/fig-pmc-sa-ibge-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption class="figure-caption">Figure&nbsp;4.5: Retail sales in Brazil (SA) - Seasonally-adjusted by source vs.&nbsp;standard X13</figcaption>
+</figure>
+</div>
 </div>
 </div>
 <p>We can see that for most of the sample our automatic seasonal adjustment follows closely the official’s, but it clearly goes off track right after the COVID shock in early 2000’s. Fortunately, IBGE describes the model specification it uses for the seasonal adjustment of this series in a technical note. Some relevant information are:</p>
@@ -463,49 +478,64 @@ gtag('config', 'G-6T89HT07F5', { 'anonymize_ip': true});
 </ol>
 <p>How can we add these features to the seasonal adjustment model? Starting with the moving holidays, we need to create a vector with the dates of the holidays. However, for some holidays it might be well that their effect may extend beyond the day on which they occur. Carnival in Brazil is a good example. Even though the holiday happens on a Tuesday, the celebration starts on Monday and ends on Wednesday. Hence, it’s very important to include these two extra days in the input vector.</p>
 <p>The <code>genhol</code> function makes this task much simpler as it automatically extends our date vector by including a number of earlier and/or later dates defined by the offsetting parameters <code>start</code> and <code>end</code>. Since Carnival and Corpus Christi occur, respectively, 47 and 60 days after Easter we can build the associated vectors from the latter – the <code>seasonal</code> package has built-in dates for Easter inside the <code>easter</code> vector. Otherwise, we would have to build them by ourselves (or import it from somewhere).</p>
-<p>Level shifts and temporary changes can easily be incorporated using textual shortcuts in the <code>regression.variables</code> parameter. For level shifts we use <strong>lsYEAR.MONTH</strong>, whereas for transitory changes we use <strong>tcYEAR.MONTH</strong>. More information on the parameters can be found in the <a href="https://www2.census.gov/software/x-13arima-seats/x-13-data/documentation/docx13as.pdf">X-13-ARIMA Reference Manual</a>.</p>
+<p>Level shifts and temporary changes can easily be incorporated using textual shortcuts in the <code>regression.variables</code> parameter. For level shifts we use <strong>lsYEAR.MONTH</strong>, whereas for transitory changes we use <strong>tcYEAR.MONTH</strong>. More information on the parameters can be found in the X-13-ARIMA Reference Manual (https://www2.census.gov/software/x-13arima-seats/x-13-data/documentation/docx13as.pdf).</p>
 <p>Below we can see the full specification for the custom model intended to replicate IBGE’s along with the resulting plot.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lubridate)</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>carnival         <span class="ot">&lt;-</span> easter <span class="sc">%m-%</span> <span class="fu">days</span>(<span class="dv">47</span>)</span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>corpus_christi   <span class="ot">&lt;-</span> easter <span class="sc">%m+%</span> <span class="fu">days</span>(<span class="dv">60</span>)</span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>carnival_holiday <span class="ot">&lt;-</span> seasonal<span class="sc">::</span><span class="fu">genhol</span>(</span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>  carnival, </span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">start =</span> <span class="sc">-</span><span class="dv">1</span>, </span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">end =</span> <span class="dv">1</span>, </span>
-<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">frequency =</span> <span class="dv">12</span>, </span>
-<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">center =</span> <span class="st">'calendar'</span></span>
-<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>corpus_christi_holiday <span class="ot">&lt;-</span> seasonal<span class="sc">::</span><span class="fu">genhol</span>(</span>
-<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>  corpus_christi,</span>
-<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">frequency =</span> <span class="dv">12</span>, </span>
-<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>  <span class="at">center =</span> <span class="st">'calendar'</span></span>
-<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>pmc_sa_customx13 <span class="ot">&lt;-</span> <span class="fu">seas</span>(</span>
-<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>  <span class="at">x =</span> pmc_ts_nsa,</span>
-<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>  <span class="at">regression.variables =</span> <span class="fu">c</span>(</span>
-<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a>    <span class="st">"td"</span>, <span class="st">"easter[1]"</span>, <span class="st">"ls2020.apr"</span>, <span class="st">"tc2020.apr"</span>, <span class="st">"ls2020.dec"</span></span>
-<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a>  ),</span>
-<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a>  <span class="at">xreg =</span> <span class="fu">ts.union</span>(carnival_holiday, corpus_christi_holiday), </span>
-<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a>  <span class="at">regression.usertype =</span> <span class="st">"holiday"</span>,</span>
-<span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a>  <span class="at">arima.model =</span> <span class="st">"(0 1 1)(0 1 1)"</span>, </span>
-<span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a>  <span class="at">regression.aictest =</span> <span class="cn">NULL</span>,</span>
-<span id="cb6-25"><a href="#cb6-25" aria-hidden="true" tabindex="-1"></a>  <span class="at">outlier =</span> <span class="cn">NULL</span>, </span>
-<span id="cb6-26"><a href="#cb6-26" aria-hidden="true" tabindex="-1"></a>  <span class="at">transform.function =</span> <span class="st">"log"</span>, </span>
-<span id="cb6-27"><a href="#cb6-27" aria-hidden="true" tabindex="-1"></a>  <span class="at">x11 =</span> <span class="st">""</span></span>
-<span id="cb6-28"><a href="#cb6-28" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb6-29"><a href="#cb6-29" aria-hidden="true" tabindex="-1"></a>pmc_sa_customx13 <span class="sc">%&gt;%</span> </span>
-<span id="cb6-30"><a href="#cb6-30" aria-hidden="true" tabindex="-1"></a>  <span class="fu">final</span>() <span class="sc">%&gt;%</span> </span>
-<span id="cb6-31"><a href="#cb6-31" aria-hidden="true" tabindex="-1"></a>  <span class="fu">autoplot</span>() <span class="sc">+</span></span>
-<span id="cb6-32"><a href="#cb6-32" aria-hidden="true" tabindex="-1"></a>  <span class="fu">autolayer</span>(pmc_sa_ibge, <span class="at">series =</span> <span class="st">'Retail SA (official)'</span>) <span class="sc">+</span></span>
-<span id="cb6-33"><a href="#cb6-33" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
-<span id="cb6-34"><a href="#cb6-34" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">'Retail sales in Brazil - Volume Index (2014 = 100)'</span>,</span>
-<span id="cb6-35"><a href="#cb6-35" aria-hidden="true" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="st">'Seasonally-Adjusted'</span>,</span>
-<span id="cb6-36"><a href="#cb6-36" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">''</span>,</span>
-<span id="cb6-37"><a href="#cb6-37" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">'Index (2014 = 100)'</span></span>
-<span id="cb6-38"><a href="#cb6-38" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lubridate)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(seasonal)</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>carnival         <span class="ot">&lt;-</span> easter <span class="sc">%m-%</span> <span class="fu">days</span>(<span class="dv">47</span>)</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>corpus_christi   <span class="ot">&lt;-</span> easter <span class="sc">%m+%</span> <span class="fu">days</span>(<span class="dv">60</span>)</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>carnival_holiday <span class="ot">&lt;-</span> <span class="fu">genhol</span>(</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>  carnival, </span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">start =</span> <span class="sc">-</span><span class="dv">1</span>, </span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">end =</span> <span class="dv">1</span>, </span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">frequency =</span> <span class="dv">12</span>, </span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">center =</span> <span class="st">'calendar'</span></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>corpus_christi_holiday <span class="ot">&lt;-</span> <span class="fu">genhol</span>(</span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>  corpus_christi,</span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>  <span class="at">frequency =</span> <span class="dv">12</span>, </span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>  <span class="at">center =</span> <span class="st">'calendar'</span></span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a>pmc_sa_customx13 <span class="ot">&lt;-</span> <span class="fu">seas</span>(</span>
+<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a>  <span class="at">x =</span> pmc_ts_nsa,</span>
+<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a>  <span class="at">regression.variables =</span> <span class="fu">c</span>(</span>
+<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a>    <span class="st">"td"</span>, </span>
+<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a>    <span class="st">"easter[1]"</span>, </span>
+<span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a>    <span class="st">"ls2020.apr"</span>, </span>
+<span id="cb5-27"><a href="#cb5-27" aria-hidden="true" tabindex="-1"></a>    <span class="st">"tc2020.apr"</span>, </span>
+<span id="cb5-28"><a href="#cb5-28" aria-hidden="true" tabindex="-1"></a>    <span class="st">"ls2020.dec"</span></span>
+<span id="cb5-29"><a href="#cb5-29" aria-hidden="true" tabindex="-1"></a>  ),</span>
+<span id="cb5-30"><a href="#cb5-30" aria-hidden="true" tabindex="-1"></a>  <span class="at">xreg =</span> <span class="fu">ts.union</span>(carnival_holiday, corpus_christi_holiday), </span>
+<span id="cb5-31"><a href="#cb5-31" aria-hidden="true" tabindex="-1"></a>  <span class="at">regression.usertype =</span> <span class="st">"holiday"</span>,</span>
+<span id="cb5-32"><a href="#cb5-32" aria-hidden="true" tabindex="-1"></a>  <span class="at">arima.model =</span> <span class="st">"(0 1 1)(0 1 1)"</span>, </span>
+<span id="cb5-33"><a href="#cb5-33" aria-hidden="true" tabindex="-1"></a>  <span class="at">regression.aictest =</span> <span class="cn">NULL</span>,</span>
+<span id="cb5-34"><a href="#cb5-34" aria-hidden="true" tabindex="-1"></a>  <span class="at">outlier =</span> <span class="cn">NULL</span>, </span>
+<span id="cb5-35"><a href="#cb5-35" aria-hidden="true" tabindex="-1"></a>  <span class="at">transform.function =</span> <span class="st">"log"</span>, </span>
+<span id="cb5-36"><a href="#cb5-36" aria-hidden="true" tabindex="-1"></a>  <span class="at">x11 =</span> <span class="st">""</span></span>
+<span id="cb5-37"><a href="#cb5-37" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb5-38"><a href="#cb5-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-39"><a href="#cb5-39" aria-hidden="true" tabindex="-1"></a>pmc_sa_customx13 <span class="sc">%&gt;%</span> </span>
+<span id="cb5-40"><a href="#cb5-40" aria-hidden="true" tabindex="-1"></a>  <span class="fu">final</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb5-41"><a href="#cb5-41" aria-hidden="true" tabindex="-1"></a>  <span class="fu">autoplot</span>() <span class="sc">+</span></span>
+<span id="cb5-42"><a href="#cb5-42" aria-hidden="true" tabindex="-1"></a>  <span class="fu">autolayer</span>(pmc_sa_ibge, <span class="at">series =</span> <span class="st">'Retail SA (official)'</span>) <span class="sc">+</span></span>
+<span id="cb5-43"><a href="#cb5-43" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb5-44"><a href="#cb5-44" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">'Retail sales in Brazil - Volume Index (2014 = 100)'</span>,</span>
+<span id="cb5-45"><a href="#cb5-45" aria-hidden="true" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="st">'Seasonally-Adjusted'</span>,</span>
+<span id="cb5-46"><a href="#cb5-46" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">''</span>,</span>
+<span id="cb5-47"><a href="#cb5-47" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">'Index (2014 = 100)'</span></span>
+<span id="cb5-48"><a href="#cb5-48" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="ds_seasonality_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid" width="672"></p>
+<div id="fig-pmc-sa-custom" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="ds_seasonality_files/figure-html/fig-pmc-sa-custom-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption class="figure-caption">Figure&nbsp;4.6: Retail sales in Brazil (SA) - Seasonally-adjusted by source vs.&nbsp;custom X-13</figcaption>
+</figure>
+</div>
 </div>
 </div>
 <p>The new specification produced an almost perfect match with the official seasonally-adjusted data, specially for the post-COVID period. Some deviations are arguably due to slight differences in the holiday vector, but for now we’ll consider the goal achieved.</p>
